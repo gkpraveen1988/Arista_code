@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+ #mask{
+    
+        position:fixed;background-color:#eeeeee;opacity:0.9;top:0px;left:0px;z-index: 9999999;
+    }  
+    
+    #loderImg{
+       display: block;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 99999999999;
+        margin-top: 250px;;
+    }
+</style>
+</head>
+<body>
+<div id='mask' style=" text-align: center;margin-left:auto;margin-right:auto;display:block;"><img src="../../app/client/image/loader_blue.gif" id="loderImg" width=80 height=80/>
+<span style="color:#007069;margin-left:auto;margin-right:auto;display:block; text-align: center;">Data loading....</span></div> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript" src="src/test.js"></script>
+<script>
+$(function () { 
+    screenWidth = window.innerWidth;
+    screenHeight = window.innerHeight;
+    $("#mask").css("width", screenWidth);
+    $("#mask").css("height",screenHeight);
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      var plotUI = DisplayCurrentTime();
+      $("#mask").hide();
+      localStorage.setItem('plotinUI',plotUI);
+      localStorage.setItem('response', xhttp.responseText);
+       $('<iframe />');
+            $('<iframe src="./testindex.html" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe>').appendTo('body');
+    }
+  };
+  var postRequest= DisplayCurrentTime();
+  localStorage.setItem('ajaxreq', postRequest);
+  xhttp.open("POST", "http://127.0.0.1:7777/", true);
+  xhttp.send("Fetch=firstDropDownValue&value=");
+});
+
+
+
+</script>
+
+</body>
+</html>

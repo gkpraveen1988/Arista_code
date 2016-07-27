@@ -1,0 +1,152 @@
+ <div class="wrapper">
+      <header class="main-header">
+        <a href="#" class="logo">
+        <span class="logo-lg"><b>ARISTA</b></span>
+        </a>
+        <nav class="navbar navbar-static-top" role="navigation">
+          <div class="headwe-text" style ="color:white;margin-top:15px;margin-left:-120px;">
+            <h4>
+            <b style="margin-left: -128px;">ARISTA BENCHMARK</b>
+            <h4>
+          </div>
+        </nav>
+      </header>
+      <div class="content-wrapper">
+        <section class="content" style="margin-top: -9px;">
+          <div class="box box-danger">
+            <div class="box-body" >
+              <div class="row">
+                <div class="col-md-1"  style="font-size: 11px;margin-top: 8px;">Benchmark ID</div>
+                <div class="col-md-4">
+                  <div class="form-group" id = "drop1">
+                    <select class="form-control select2" id="drop1Select" style="width: 100%;"  onchange="ajaxCall('ids',value)">
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group" id = "drop2">
+                    <select class="form-control select2 "  style="width: 100%;" id="selectDrop2" disabled="true" onchange="getData('true',true)" required>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box box-default" style="margin-top: -15px;margin-bottom: 5px;">
+            <div class="box-body" style="padding: 3px;">
+              <div class="row" bgcolor="#FF0000">
+                <div class="col-md-2"  style="">
+                  <div class="form-group" id ="dateForm">
+                    <label>WHEN</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right dis"  disabled="true" id="reservation" >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="col-md-12">
+                    <div class="form-group" id="dutForm">
+                      <label class="colLabel">
+                      <input type="radio" name="colorChk" value="dut" checked>
+                      <img src="../../../app/client/image/colorTiles.png" height="20" width="20">
+                      </label>
+                      <label>WHERE</label>
+                      <select  class="form-control select2 dis" id="dutDrop" multiple="multiple" disabled="true" data-placeholder="Select Duts(Default All)" style="width: 100%;" onchange="changeColor()">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="col-md-10">
+                    <div class="form-group" id="projectForm">
+                      <label class="colLabel">
+                      <input type="radio" name="colorChk" value="project" checked> 
+                      <img src="../../../app/client/image/colorTiles.png" height="20" width="20">
+                      </label>
+                      <label>PROJECT</label>
+                      <select class="form-control select2 dis" id="projectDrop" multiple="multiple" disabled="true" data-placeholder="Select Projects(Default All)" style="width: 100%;" onchange="changeColor()">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="col-md-12">
+                    <div class="form-group" id = "resultDrop">
+                      <label>RESULT THRESHOLD</label>
+                      <select class="form-control select2 dis" disabled="true" data-placeholder="Select Range"id ="resultDropSelect"style="width: 100%;">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group" id="sizeForm">
+                    <label>SIZE</label>
+                    <select class="form-control select2 dis" id="sizeDrop" disabled="true" style="width: 100%;">
+                      <option >20</option>
+                      <option selected="selected">50</option>
+                      <option>100</option>
+                      <option>200</option>
+                      <option>500</option>
+                      <option>1000</option>
+                      <option>ALL</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-1"><button class="btn btn-block btn-success dis" id="filterGo" disabled="true"  onclick="" style = "margin-top: 25px;">GO</button></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <section class="col-lg-12 connectedSortable">
+              <!-- Custom tabs (Charts with tabs)-->
+              <div class="nav-tabs-custom">
+                <!-- Tabs within a box -->
+                <ul class="nav nav-tabs pull-right">
+                  <li class="active"><a href="#graph" data-toggle="tab">GRAPH</a></li>
+                  <li><a href="#table" data-toggle="tab">TABLE</a></li>
+                  <li class="pull-left header">
+                    <i class="fa fa-inbox"></i><span class='descSize'>DESCRIPTION : </span><span class='descSize' id = "desc"></span> 
+                  </li>
+                  </br></br>
+                  <li class="pull-right " style="margin-right:-11%">
+                    LAST UPDATE TIME : <span id="lastTime"></span><i class="fa fa-refresh" id="refresh" style="margin-left:5px"></i>
+                  </li>
+                </ul>
+                <div class="tab-content no-padding" style="">
+                  <div class="chart tab-pane active" id="graph" style="position: relative; height: 350px;">
+                  </div>
+                  <div class="chart tab-pane" id="table" style="position: relative; height: 390px   ;overflow-y: scroll;">
+                    <span style="">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>When</th>
+                          <th>Where</th>
+                          <th>Project</th>
+                          <th>Result</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tableTbody">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Copyright &copy; 2016-2017 <a href="http://arista.com"></a>.</strong> All rights reserved.
+      </footer>
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <div id="mask" >
+      <img src="../../../app/client/image/loader_blue.gif" alt="">
+    </div>
