@@ -1,0 +1,2 @@
+*/10 * * * * root ./CronScript.sh >> /var/log/Benchmark_Dashboard.log 2>&1
+# one line at the end should be there
