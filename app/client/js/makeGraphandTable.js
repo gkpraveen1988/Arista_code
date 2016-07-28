@@ -374,12 +374,20 @@ function drawBars(data) {
 			return y(d.number);
 		},
 		width : function (d) {
-			return x.rangeBand() - x.rangeBand() / 10;
+            
+            var width=  x.rangeBand() - x.rangeBand() / 10;
+            
+            if(width>70){
+            
+                width = 25;
+            }
+			return width;
 		},
 		height : function (d) {
 			return height - y(d.number);
 		}
 	})
+    
 	.style("fill", function (d, i) {
 
 		//"rgb(124, 181, 236)";
