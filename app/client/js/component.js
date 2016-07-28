@@ -11,6 +11,10 @@ var uniqProjectArry;
 var uniqDutArry;
 var refreshClick = false;
 var uniqResultArray;
+var colorObj = {};
+	var color = d3.scale.category20();
+
+
 $(function () {
 
 	var globalMainData;
@@ -113,12 +117,13 @@ function ajaxCall(input1, input2) {
 			if (input1 == "moreData") {
 				//alert(1);
 				globalMainData = clone(data);
-				addUniqValuesToDropDown(clone(data))
+                
+				addUniqValuesToDropDown(clone(data),"moreData")
 
 				processDatefilter(clone(data));
 			} else {
 
-				addUniqValuesToDropDown(clone(data));
+				addUniqValuesToDropDown(clone(data),"lessData");
 			}
 
 		} else if ((Object.keys(data[0]))[0] == "description") {
@@ -175,6 +180,10 @@ function ajaxCall(input1, input2) {
 	})
 	.fail(function (e) {
 		console.log(e.responseText);
+        
+        alert("connection erroe !!!! please reload the page.");
+        
+        $("#mask").hide();
 	});
 	setTimeout(function () {
 
@@ -188,7 +197,7 @@ function ajaxCall(input1, input2) {
 
 }
 
-function addUniqValuesToDropDown(data) {
+function addUniqValuesToDropDown(data,dataRange) {
 	
 
 	
@@ -221,13 +230,15 @@ function addUniqValuesToDropDown(data) {
 		    console.log("uniqDutArry"+JSON.stringify(uniqDutArry));
 			
 			console.log("uniqResultArray"+JSON.stringify(uniqResultArray));
+            
+            
 		
 
 			if (refreshClick == false) {
 
 				
-				$('#reservation').val("");
-				addUniqDutToDropDown(uniqDutArry);
+				//$('#reservation').val("");
+				addUniqDutToDropDown(uniqDutArry,dataRange);
 				addUniqProjectToDropDown(uniqProjectArry);
 				addResultValuesToDropDown(uniqResultArray);
 				placeArrays(mainArray, data);
@@ -371,16 +382,53 @@ function processProjectFilter(inputData) {
 
 			if (i == ProjectLength - 1) {
 				console.log(filterData.length);
-				placeArrays([], filterData);
+				//placeArrays([], filterData);
+                processResultFilter(filterData);
 
 			}
 
 		});
 
 	} else {
-		placeArrays([], clone(inputData));
+		//placeArrays([], clone(inputData));
+        processResultFilter(clone(inputData));
 
 	}
+}
+
+function processResultFilter(inputData){
+    
+
+var threshoslValu = $('#resultDropSelect').val();
+    
+		if (threshoslValu != undefined && threshoslValu != "ALL") {
+			splittedValue = threshoslValu.split("-");
+			leftValue = (splittedValue[0]).trim();
+			rightValue = (splittedValue[1]).trim();
+			leftValue = parseFloat(leftValue);
+			rightValue = parseFloat(rightValue);
+		
+            var resultFilteredData = inputData.filter(function(d,i){
+                    	mainValue = parseFloat(d.result);
+			            mainValue = Math.abs(mainValue);
+                return (mainValue >leftValue && mainValue <= rightValue)
+		
+            })
+            
+            
+            placeArrays([],resultFilteredData);
+
+			
+		} else {
+		
+
+			placeArrays([],inputData);
+
+		}
+
+
+
+
 }
 
 function getFilterData(inputData, inputDateRange) {

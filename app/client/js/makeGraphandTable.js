@@ -25,7 +25,13 @@ function placeArrays(valuesArray, dataArray) {
 	}
 
 	$("#table").html("");
+    
+    
+    
 	filltable(clone(dataArray));
+    
+    
+    
 	$("#example1").DataTable({
 
 		"order" : [[0, "asc"]],
@@ -47,8 +53,7 @@ $("#refresh").on("click", function () {
 
 });
 var Grouptip;
-var colorObj = {};
-var color;var tip;
+var tip;
 function drawBars(data) {
 
 	d3.selectAll(".chartGroup").remove();
@@ -81,22 +86,38 @@ function drawBars(data) {
 	width = graphContainerWidth - margin.left - margin.right - 30,
 	height = graphContainerHeight - margin.top - margin.bottom - 50,
 	offset = 10;
-	color = d3.scale.category20();
 
-	colorObj = {};
+
+	//colorObj = {};
+    
+    
+   // if((Object.keys(colorObj)).length==0);
+    
+    
 
 	radioValu = $("input[name='colorChk']:checked").val();
 
 	if (radioValu == "project") {
 
 		uniqProjectArry.forEach(function (d, i) {
-			colorObj[d] = color(i);
+            
+            if(!colorObj[d]){
+                colorObj[d] = color(i);
+            
+            }
+			
 
 		})
 
 	} else {
 		uniqDutArry.forEach(function (d, i) {
-			colorObj[d] = color(i);
+            
+             if(!colorObj[d]){
+                colorObj[d] = color(i);
+            
+            }
+            
+           
 
 		})
 
@@ -169,14 +190,31 @@ function drawBars(data) {
 	});
 
 	var maxAxisValue = Math.max.apply(null, resultArry)
+    var minAxisValue = Math.min.apply(null, resultArry);
+    
+    
+    if(minAxisValue>0){
+        minAxisValue=0;
+    
+    }else{
+    
+        minAxisValue=minAxisValue;
+    
+    }
+    
+   
+  
+
+  //  console.log("drawBar"+minAxisValue);
+  
 
 		var y = d3.scale.linear()
-		.domain([0, maxAxisValue])
+		.domain([minAxisValue, maxAxisValue])
 		.range([height, 0]);
 	xAxis = d3.svg.axis()
 		.scale(x)
 		.tickValues([])
-		.outerTickSize(offset)
+		//.outerTickSize(offset)
 		.orient("bottom");
 	yAxis = d3.svg.axis()
 		.scale(y)
@@ -354,7 +392,7 @@ function drawBars(data) {
 
 
 	})
-	////
+/*	////
 	.style("stroke-width", function (d, i) {
 
 		var threshoslValu = $('#resultDropSelect').val();
@@ -404,8 +442,11 @@ function drawBars(data) {
 			// return "rgb(124, 181, 236)";
 
 		}
+        
+        
+        
 
-	})
+	})*/
 	.on('mouseover', function (d, i) {
 
 		d3.select(this).style("fill", "orange");
@@ -520,17 +561,54 @@ function createNullElementsArray(fullDatesArray, inputData) {
 }
 
 function dataForAllDates(NullElementsArray, inData) {
+    
+    
+    
+    var resultArry=[];
+    inData.forEach(function (d, i) {
+
+		
+		resultArry.push(d.result);
+
+	});
+
+    
+      var minAxisValue = Math.min.apply(null, resultArry);
+  
+    
+    if(minAxisValue>0){
+        minAxisValue=0;
+    
+    }else{
+    
+        minAxisValue=minAxisValue-5;
+    
+    }
+    
+    
+     console.log("data"+minAxisValue);
+    
 	requiredData = clone(inData[0]);
 	var FINALARRAY = [];
 	NullElementsArray.map(function (d, i) {
 		var objectNULL = {};
 		objectNULL["benchmark"] = requiredData.benchmark;
-		objectNULL["changeNum"] = "null";
+	/*	objectNULL["changeNum"] = "null";
 		objectNULL["client"] = "null";
 		objectNULL["dut"] = "null";
 		objectNULL["project"] = "null";
-		objectNULL["release"] = "null";
-		objectNULL["result"] = 0;
+		objectNULL["release"] = "null";*/
+        
+        
+        	objectNULL["changeNum"] = null;
+		objectNULL["client"] = null;
+		objectNULL["dut"] = null;
+		objectNULL["project"] = null;
+		objectNULL["release"] = null;
+        
+        
+        
+		objectNULL["result"] = minAxisValue;
 		objectNULL["testTime"] = d + "T00:00:00";
 		FINALARRAY.push(objectNULL);
 		if (i == (NullElementsArray.length - 1)) {

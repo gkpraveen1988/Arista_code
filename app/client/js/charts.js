@@ -35,10 +35,7 @@ var noofdatapass = 0;
 
 function addUniqProjectToDropDown(dropData) {
 
-	$("#projectForm .select2-selection__choice__remove").each(function () {
-		$(this).trigger("click");
-	});
-	$("#projectForm .select2-dropdown").trigger('click');
+
 
 	$("#projectDrop").html("");
 
@@ -56,12 +53,16 @@ function addUniqProjectToDropDown(dropData) {
 
 }
 
-function addUniqDutToDropDown(dropData) {
-
-	$("#dutForm .select2-selection__choice__remove").each(function () {
-		$(this).trigger("click");
+function addUniqDutToDropDown(dropData,dataRange) {
+    
+    
+     /* $("#dutForm .select2-selection__choice__remove").each(function () {
+		      $(this).trigger("click");
 	});
-	$("#dutForm .select2-dropdown").trigger('click');
+	  $("#dutForm .select2-dropdown").trigger('click');*/
+    
+   
+	
 
 	$("#dutDrop").html("");
 
@@ -79,17 +80,21 @@ function addUniqDutToDropDown(dropData) {
 
 function addResultValuesToDropDown(inputResultDropData) {
 
-    $("#select2-resultDropSelect-container").html("");
+    $("#select2-resultDropSelect-container").html("ALL");
 
 	//$('#resultDropSelect').attr("val", "");
 	var resultDropData = [];
 	inputResultDropData.map(function (d, i) {
-		d = Math.abs(d);
-		resultDropData.push(d);
+		//    d = Math.abs(d);
+		resultDropData.push(parseFloat(d));
 	})
 	
 	var resultDropDownArray = [];
-	resultDropData.sort();
+	resultDropData.sort(function(a,b) { return a - b;});
+  
+    
+    
+    
 	if (resultDropData.length > 1) {
 		var minValue = resultDropData[0];
 		var maxValue = resultDropData[resultDropData.length - 1];
@@ -160,9 +165,74 @@ function getData(inputFlag, boolan) {
 	}
 
 	$("#mask").show();
+    
+$('#reservation').val("");
+    if(refreshClick==false){
+     
+           // $("#dutForm .select2-search__field").trigger('click');
+         
+    
+           $("#select2-sizeDrop-container").html(50);
+        $("#select2-sizeDrop-container").attr("title",50);
+        
+        
+        
+        var projectSelected=0;
+        var dutSelected=0;
+        
+        
+        
+        
+       $("#dutForm .select2-selection__choice").each(function () {
+           
+             dutSelected++;
+            $("#dutForm .select2-selection__choice__remove").trigger("click");
+           // $("#dutForm .select2-search__field").trigger('click');
+        });   
+    
+    
+        $("#projectForm .select2-selection__choice").each(function () {
+            
+            projectSelected++;
+             $("#projectForm .select2-selection__choice__remove").trigger("click");
+            
+            
+            // $("#projectForm .select2-search__field").trigger('click')
+        });
+        
+        
+        
+        
+        
+        if(projectSelected!=0){
+        
+          $("#projectForm").find(".select2-search__field").trigger('click');
+        }
+        
+        if(dutSelected!=0){
+        
+           $("#dutForm").find(".select2-search__field").trigger('click');
+        }
+
+        
+       // $(".main-header").trigger("click");
+        
+     
+    
+    }
+    
+    
+    
+    
+  
+   //  $("#dutForm .select2-search__field").trigger('click');
+   //  $("#projectForm .select2-search__field").trigger('click')
+    
+    
 
 	if (inputFlag == "false") {
-
+        
+     
 		DropDownFlag = "false";
 		var selectBox = document.getElementById("drop1Select");
 		var selectedValue = selectBox.options[selectBox.selectedIndex].value;
@@ -176,10 +246,14 @@ function getData(inputFlag, boolan) {
 		ajaxCall('description', selectedValue);
 
 	}
-
+    
+  
 	recordsNumber = parseInt($("#select2-sizeDrop-container").attr("title"));
-
-	if (recordsNumber > 50) {
+    
+    
+    setTimeout(function(){
+    
+        if (recordsNumber > 50) {
 		var value = recordsNumber + "-" + selectedValue;
 		ajaxCall("moreData", value)
 	} else {
@@ -187,7 +261,17 @@ function getData(inputFlag, boolan) {
 		ajaxCall('data', selectedValue);
 
 	}
+        
+        
+        $("#mask").hide();
 
+        
+    },300)
+    
+    
+
+
+	
 }
 
 function nextRequiredDate(date) {
