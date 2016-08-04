@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app\client\js\makeGraphandTable.js - BENCHMARK DASHBOARD DOCUMENTATION</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="BENCHMARK DASHBOARD DOCUMENTATION" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: ARISTA BENCHMARK DASHBOARD</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/functionsForcronTenMinutes.js.html">functionsForcronTenMinutes.js</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/component.js.html">component.js</a></li>
+                                <li><a href="../classes/makeGrahandTable.js.html">makeGrahandTable.js</a></li>
+                                <li><a href="../classes/benchmarkDashboard_Process.js.html">benchmarkDashboard_Process.js</a></li>
+                                <li><a href="../classes/common.js.html">common.js</a></li>
+                                <li><a href="../classes/dbConfig.js.html">dbConfig.js</a></li>
+                                <li><a href="../classes/dbConnect.js.html">dbConnect.js</a></li>
+                                <li><a href="../classes/charts.js.html">charts.js</a></li>
+                                <li><a href="../classes/functionsForcronTime12.js.html">functionsForcronTime12.js</a></li>
+                                <li><a href="../classes/functionsFordbConnect.js.html">functionsFordbConnect.js</a></li>
+                                <li><a href="../classes/getAllData.js.html">getAllData.js</a></li>
+                                <li><a href="../classes/queries.js.html">queries.js</a></li>
+                                <li><a href="../classes/server.js.html">server.js</a></li>
+                                <li><a href="../classes/status.js.html">status.js</a></li>
+                                <li><a href="../classes/url.js.html">url.js</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/client.html">client</a></li>
+                                <li><a href="../modules/server.html">server</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app\client\js\makeGraphandTable.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Contains all the files for client side scripting.
+ *
+ * @module client
+ */
+ /**
+ * All the Functions related to plotting graphs and table goes here
+ *
+ * @class makeGrahandTable.js
+ * @constructor
+ */
+
+var global_data;
+
+/**
+ * In this Function, the data is created as rows,filled into the table/(navigation pane).
+ * @function getData()
+ *
+ * @param  {String}  : inputFlag
+ * @param  {String}  : boolan
+ * @return {} null
+ **/
+
+
+function filltable(tdata) {
+
+		var html = &#x27;&#x27;;
+
+		$.each(tdata, function (i, d) {
+			html += &#x27;&lt;tr&gt;&lt;td&gt;&#x27; + d.testTime + &#x27;&lt;/td&gt;&#x27; + &#x27;&lt;td&gt;&#x27; + d.dut + &#x27;&lt;/td&gt;&#x27; + &#x27;&lt;td&gt;&#x27; + d.project + &#x27;&lt;/td&gt;&#x27; + &#x27;&lt;td&gt;&#x27; + d.result + &#x27;&lt;/td&gt;&#x27; + &#x27;&lt;/tr&gt;&#x27;;
+		});
+
+		var table = &#x27;&lt;table id=&quot;example1&quot; class=&quot;table table-bordered table-striped&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;When&lt;/th&gt;&lt;th&gt;Where&lt;/th&gt;&lt;th&gt;Project&lt;/th&gt;&lt;th&gt;Result&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody id=&quot;tableTbody&quot;&gt;&#x27; + html + &#x27;&lt;/tbody&gt;&lt;/table&gt;&#x27;;
+
+		$(&quot;#table&quot;).html(table);
+
+
+}
+
+/**
+ * In this Function,
+ * @function getData()
+ *
+ * @param  {String}  : inputFlag
+ * @param  {String}  : boolan
+ * @return {} null
+ **/
+
+
+function placeArrays(valuesArray, dataArray) {
+	global_data = clone(dataArray);
+
+	if (dataArray.length != 0) {
+        console.log(&quot;to createDatesArray() function&quot;);
+		createDatesArray(clone(dataArray));
+	} else {
+		drawBars(dataArray);
+	}
+
+	$(&quot;#table&quot;).html(&quot;&quot;);
+	filltable(clone(dataArray));
+	$(&quot;#example1&quot;).DataTable({
+
+		&quot;order&quot; : [[0, &quot;asc&quot;]],
+		&quot;paging&quot; : false
+	});
+
+	setTimeout(function () {
+
+		$(&quot;#mask&quot;).hide();
+
+	}, 100);
+
+}
+$(&quot;#refresh&quot;).on(&quot;click&quot;, function () {
+
+	getData(DropDownFlag, false);
+
+	$(&quot;#filterGo&quot;).trigger(&quot;click&quot;);
+
+});
+var Grouptip;
+var tip;
+
+/**
+ * This is the main function where graphs are plotted inside svg.
+ * @function getData()
+ *
+ * @param  {String}  : inputFlag
+ * @param  {String}  : boolan
+ * @return {} null
+ **/
+
+
+function drawBars(data) {
+
+	d3.selectAll(&quot;.chartGroup&quot;).remove();
+	if (d3.select(&quot;svg&quot;)) {
+
+		d3.select(&quot;svg&quot;).remove();
+	}
+
+	if (tip != undefined) {
+		tip.hide();
+
+	}
+	if (Grouptip != undefined) {
+		Grouptip.hide();
+
+	}
+
+	var graphContainerWidth = $(&quot;#graph&quot;).width();
+	var graphContainerHeight = $(&quot;#graph&quot;).height();
+
+	console.log(uniqProjectArry);
+	//var uniqDutArry;
+
+	var margin = {
+		top : 10,
+		right : 30,
+		bottom : 30,
+		left : 50
+	},
+	width = graphContainerWidth - margin.left - margin.right - 30,
+	height = graphContainerHeight - margin.top - margin.bottom - 50,
+	offset = 10;
+
+
+	//colorObj = {};
+    
+    
+   // if((Object.keys(colorObj)).length==0);
+    
+    
+
+	radioValu = $(&quot;input[name=&#x27;colorChk&#x27;]:checked&quot;).val();
+
+	if (radioValu == &quot;project&quot;) {
+
+		uniqProjectArry.forEach(function (d, i) {
+            
+            if(!colorObj[d]){
+               // colorObj[d] = d3.rgb(color(i)).brighter(2).toString();
+            colorObj[d] =color(i);
+            }
+			
+
+		})
+
+	} else {
+		uniqDutArry.forEach(function (d, i) {
+            
+            
+             if(!colorObj[d]){
+                colorObj[d] = color(i);
+            
+            }
+            
+           
+
+		})
+
+	}
+
+	var resultArry = [];
+	data.forEach(function (d, i) {
+
+		var testTimeGr = (d.testTime).slice(0, 10);
+		d[&quot;group&quot;] = testTimeGr;
+		d[&quot;name&quot;] = d.testTime;
+		d[&quot;number&quot;] = d.result;
+		resultArry.push(d.result);
+
+		return d;
+
+	});
+
+	var chartData = clone(data);
+
+	var x = d3.scale.ordinal()
+		.domain(chartData.map(function (d) {
+				return d.name;
+			}))
+		.rangeBands([0, width]);
+
+	function make_y_axis() {
+		return d3.svg.axis()
+		.scale(y)
+		.orient(&quot;left&quot;)
+		.ticks(5)
+	}
+
+	tip = d3.tip()
+		.attr(&#x27;class&#x27;, &#x27;d3-tip&#x27;)
+		.offset([-10, 0])
+		.html(function (d) {
+
+			return &quot;&lt;strong&gt;WHEN : &lt;span style=&#x27;color:red&#x27;&gt;&quot; + d.testTime + &quot;&lt;/span&gt;&lt;/strong&gt;&lt;/br&gt;&lt;strong&gt;WHERE : &lt;span style=&#x27;color:red&#x27;&gt;&quot; + d.dut + &quot;&lt;/span&gt;&lt;/strong&gt;&lt;/br&gt;&lt;strong&gt;PROJECT : &lt;span style=&#x27;color:red&#x27;&gt;&quot; + d.project + &quot;&lt;/span&gt;&lt;/strong&gt;&lt;/br&gt;&lt;strong&gt;RESULT :&lt;span style=&#x27;color:red&#x27;&gt;&quot; + d.result + &quot;&lt;/span&gt;&lt;/strong&gt; &quot;;
+		})
+
+		Grouptip = d3.tip()
+		.attr(&#x27;class&#x27;, &#x27;d3-tip&#x27;)
+		.offset([-10, 0])
+		.html(function (d) {
+
+			return &quot;&lt;strong&gt;DATE : &lt;span style=&#x27;color:red&#x27;&gt;&quot; + d.group + &quot;&lt;/span&gt;&lt;/strong&gt;&quot;;
+		})
+
+		var chartGroups = [];
+	chartData.forEach(function (d, i, array) {
+		if (i === 0)
+			d.first = true;
+		else if (d.group !== array[i - 1].group)
+			d.first = true;
+		if (i === array.length - 1)
+			d.last = true;
+		else if (d.group !== array[i + 1].group)
+			d.last = true;
+		if (d.first)
+			chartGroups.push({
+				group : d.group,
+				start : i === 0 ? x(d.name) : ((x(d.name) + x(array[i - 1].name)) / 2)
+			});
+		if (d.last)
+			chartGroups[chartGroups.length - 1].end =
+				i === array.length - 1 ? x(d.name) : ((x(d.name) + x(array[i + 1].name)) / 2);
+	});
+
+	var maxAxisValue = Math.max.apply(null, resultArry)
+    var minAxisValue = Math.min.apply(null, resultArry);
+    
+    
+    if(minAxisValue&gt;0){
+        minAxisValue=0;
+    
+    }else{
+    
+        minAxisValue=minAxisValue;
+    
+    }
+  
+
+		var y = d3.scale.linear()
+		.domain([minAxisValue, maxAxisValue])
+		.range([height, 0]);
+	xAxis = d3.svg.axis()
+		.scale(x)
+		.tickValues([])
+		//.outerTickSize(offset)
+		.orient(&quot;bottom&quot;);
+	yAxis = d3.svg.axis()
+		.scale(y)
+		.orient(&quot;left&quot;)
+		.tickFormat(d3.format(&quot;s&quot;));
+
+	var svg = d3.select(&quot;#graph&quot;)
+		.append(&quot;svg&quot;)
+		.attr(&quot;width&quot;, width + margin.left + margin.right)
+		.attr(&quot;height&quot;, height + margin.top + margin.bottom + 80)
+		.append(&quot;g&quot;)
+		.attr(&quot;transform&quot;, &quot;translate(&quot; + margin.left + &quot;,&quot; + (margin.top + 10) + &quot;)&quot;);
+
+	svg.call(tip);
+	svg.call(Grouptip);
+	svg.append(&quot;g&quot;)
+	.attr(&quot;class&quot;, &quot;x axis&quot;)
+	.attr(&quot;transform&quot;, &quot;translate(0,&quot; + height + &quot;)&quot;)
+	.call(xAxis);
+
+	svg.append(&quot;g&quot;)
+	.attr(&quot;class&quot;, &quot;y axis&quot;)
+	.call(yAxis);
+
+	/*svg.append(&quot;g&quot;)
+	.attr(&quot;class&quot;, &quot;grid&quot;)
+	.call(make_y_axis()
+		.tickSize(-width, 0, 0)
+		.tickFormat(&quot;&quot;))
+*/
+	svg.append(&quot;text&quot;)
+	.attr(&quot;transform&quot;, &quot;rotate(-90)&quot;)
+	.attr(&quot;y&quot;, function () {
+		return (-40);
+	})
+	.attr(&quot;x&quot;, 0 - (height / 4) + 30)
+	.attr(&quot;dy&quot;, &quot;1em&quot;)
+	.style(&quot;text-anchor&quot;, &quot;middle&quot;)
+	.style(&quot;color&quot;, &quot;rgb(124, 181, 236)&quot;)
+	.style(&quot;font-weight&quot;, &quot;bold&quot;)
+	.text(&quot;Result&quot;);
+
+	svg.append(&quot;text&quot;)
+	.attr(&quot;text-anchor&quot;, &quot;middle&quot;) // this makes it easy to centre the text as the transform is applied to the anchor
+	.attr(&quot;transform&quot;, &quot;translate(&quot; + (width / 2) + &quot;,&quot; + (height + 40) + &quot;)&quot;)
+	.style(&quot;font-size&quot;, &quot;14px&quot;)
+	.style(&quot;font-weight&quot;, &quot;bold&quot;)
+	.style(&quot;fill&quot;, &quot;blue&quot;) // centre below axis
+	.text(function () {
+
+		var text = &quot;Total no. of Benchmark = &quot; + global_data.length + &quot;,Total no. of Days = &quot; + chartGroups.length;
+
+		return text;
+
+	});
+	var groups = svg.selectAll(&quot;g.chartGroup&quot;)
+		.data(chartGroups)
+		.enter().append(&quot;g&quot;)
+		.attr(&quot;class&quot;, &quot;chartGroup&quot;)
+		.attr(&quot;transform&quot;, &quot;translate(&quot; + 0 + &quot;,&quot; + (height + offset) + &quot;)&quot;);
+
+	groups.append(&quot;rect&quot;)
+	.attr(&quot;height&quot;, height)
+	.attr(&quot;width&quot;, function (d, i) {
+
+		var groupValues = chartData.filter(function (o, j) {
+
+				return d.group == o.group;
+			})
+
+			if (i == 0) {
+
+				grouplength = (x.rangeBand()) * groupValues.length;
+			} else {
+				grouplength = d.end - d.start;
+
+			}
+
+			return grouplength;
+	})
+	.attr(&quot;x&quot;, function (d, i) {
+		if (i == 0) {
+			return d.start;
+
+		} else {
+
+			return d.start + x.rangeBand() / 2;
+		}
+
+	})
+	.attr(&quot;y&quot;, function (d, i) {
+		return -height - 10;
+	})
+	.style(&quot;fill&quot;, &quot;rgb(124, 181, 236)&quot;)
+	.style(&quot;opacity&quot;, 0)
+	.style(&quot;cursor&quot;, &quot;pointer&quot;)
+	.on(&quot;mouseover&quot;, function (d) {
+
+		d3.select(this).style(&quot;opacity&quot;, 0.6);
+		Grouptip.show(d);
+		tip.hide()
+	})
+	.on(&quot;mouseout&quot;, function (d) {
+
+		d3.select(this).style(&quot;opacity&quot;, 0);
+		Grouptip.hide(d);
+	})
+
+	groups.append(&quot;text&quot;)
+	.attr({
+		x : function (d) {
+			return ((d.start + d.end + x.rangeBand() / 2) / 2) + 20;
+		},
+		dy : &quot;1em&quot;,
+		&quot;text-anchor&quot; : &quot;middle&quot;
+	})
+	.style(&quot;display&quot;, function (d, i) {
+
+		if (i != 0 &amp;&amp; i != chartGroups.length - 1) {
+
+			return &quot;none&quot;;
+		} else {
+
+			return &quot;block&quot;;
+		}
+	})
+	.text(function (d) {
+		return d.group;
+	});
+
+	groups.append(&quot;path&quot;)
+	.attr(&quot;d&quot;, function (d, i) {
+		var t = d3.select(this.parentNode).select(&quot;text&quot;).node().getBBox(),
+		ttop = [t.x + t.width / 2, t.y];
+		// console.log(d, t, ttop);
+		if (i == 0) {
+			return &quot;M0&quot; + &quot;,0&quot; + &quot;V&quot; + -offset;
+		} else {
+			return &quot;M&quot; + (d.start + x.rangeBand() / 2) + &quot;,0&quot; + &quot;V&quot; + -offset;
+		}
+
+	})
+	.style(&quot;stroke&quot;, &quot;blue&quot;)
+	.style(&quot;stroke-width&quot;, 3);
+
+	svg.selectAll(&quot;bar.each&quot;)
+	.data(chartData)
+	.enter().append(&quot;rect&quot;)
+	.attr({
+		&quot;class&quot; : &quot;each&quot;,
+		x : function (d) {
+			return x(d.name);
+		},
+		y : function (d) {
+			return y(d.number);
+		},
+		width : function (d) {
+            
+            var width=  x.rangeBand() - x.rangeBand() / 10;
+            
+            if(width&gt;70){
+            
+                width = 25;
+            }
+			return width;
+		},
+		height : function (d) {
+			return height - y(d.number);
+		}
+	})
+    
+	.style(&quot;fill&quot;, function (d, i) {
+
+		//&quot;rgb(124, 181, 236)&quot;;
+
+		var radioValu = $(&quot;input[name=&#x27;colorChk&#x27;]:checked&quot;).val();
+
+		return colorObj[d[radioValu]];
+
+		//return color(d[radioValu]);
+
+
+	})
+    .style(&quot;fill-opacity&quot;,0.6)
+
+	.on(&#x27;mouseover&#x27;, function (d, i) {
+
+		//d3.select(this).style(&quot;fill&quot;, &quot;orange&quot;);
+        d3.select(this).style(&quot;stroke-width&quot;, 2)
+        .style(&quot;stroke&quot;, &quot;black&quot;);
+		tip.show(d);
+	})
+	.on(&#x27;mouseout&#x27;, function (d, i) {
+
+		var radioValu = $(&quot;input[name=&#x27;colorChk&#x27;]:checked&quot;).val();
+
+		//d3.select(this).style(&quot;fill&quot;, colorObj[d[radioValu]]);
+        d3.select(this).style(&quot;fill&quot;, colorObj[d[radioValu]])
+        .style(&quot;stroke&quot;,&quot;none&quot;);     
+		tip.hide(d)
+
+	});
+    
+    drawLines(svg,x,y,width,minAxisValue);
+    
+	var groups = svg.selectAll(&quot;g.chartGroup&quot;)
+		.data(chartGroups)
+		.enter().append(&quot;g&quot;)
+		.attr(&quot;class&quot;, &quot;chartGroup&quot;)
+		.attr(&quot;transform&quot;, &quot;translate(&quot; + 0 + &quot;,&quot; + (height + offset) + &quot;)&quot;);
+	groups.append(&quot;text&quot;)
+	.attr({
+		x : function (d) {
+			return ((d.start + d.end + x.rangeBand() / 2) / 2) + 20;
+		},
+		dy : &quot;1em&quot;,
+		&quot;text-anchor&quot; : &quot;middle&quot;
+	})
+	.style(&quot;display&quot;, function (d, i) {
+
+		if (i != 0 &amp;&amp; i != chartGroups.length - 1) {
+
+			console.log(i);
+
+			return &quot;none&quot;;
+		} else {
+
+			return &quot;block&quot;;
+		}
+	})
+	.text(function (d) {
+		return d.group;
+	});
+
+	groups.append(&quot;path&quot;)
+	.attr(&quot;d&quot;, function (d, i) {
+		var t = d3.select(this.parentNode).select(&quot;text&quot;).node().getBBox(),
+		ttop = [t.x + t.width / 2, t.y];
+		// console.log(d, t, ttop);
+		if (i == 0) {
+			return &quot;M0&quot; + &quot;,0&quot; + &quot;V&quot; + -offset;
+		} else {
+			return &quot;M&quot; + (d.start + x.rangeBand() / 2) + &quot;,0&quot; + &quot;V&quot; + -offset;
+		}
+
+	})
+	.style(&quot;stroke&quot;, &quot;blue&quot;)
+	.style(&quot;stroke-width&quot;, 3);
+    drawLegends();
+}
+
+/**
+ * An array which contains all the unique dates,in YYYY-MM-DD format is created out of the input data.
+ * @function getData()
+ *
+ * @param  {Array}  : inputData
+ * @return {} null
+ **/
+
+
+
+function createDatesArray(inputData) {
+
+	data = clone(inputData);
+	var rawdatesArray = [];
+	var datesArray = [];
+	rawdatesArray.push((data[0].testTime).slice(0, 10));
+	rawdatesArray.push((data[data.length - 1].testTime).slice(0, 10));
+	rawdatesArray.sort();
+	if (rawdatesArray[0] == rawdatesArray[1]) {
+		oneDay = (rawdatesArray[0]).split(&quot;-&quot;);
+		oneDay = new Date(parseInt(oneDay[0]), parseInt(oneDay[1] - 1), parseInt(oneDay[2]));
+		datesArray.push(nextRequiredDate(oneDay));
+		createNullElementsArray(datesArray, inputData);
+	} else {
+		var startDay = rawdatesArray[1];
+		startDay = startDay.split(&quot;-&quot;);
+		startDay = new Date(parseInt(startDay[0]), parseInt(startDay[1] - 1), parseInt(startDay[2]));
+		var endDay = rawdatesArray[0];
+		endDay = endDay.split(&quot;-&quot;);
+		endDay = new Date(parseInt(endDay[0]), parseInt(endDay[1] - 1), parseInt(endDay[2]));
+		datesArray.push(nextRequiredDate(endDay));
+		do {
+			nextday = endDay;
+			nextday.setDate(endDay.getDate() + 1);
+			day = nextday;
+			day = nextRequiredDate(day);
+			datesArray.push(day);
+			endDay = nextday;
+
+		} while (day != rawdatesArray[1])
+
+		//dataForAllDates (datesArray,inputData);
+            console.log(datesArray);
+		createNullElementsArray(datesArray, inputData);
+
+	}
+}
+
+/**
+ * this Function creates an array which contains those Dates when,
+ * benchmark has no records on that particular date
+ * @function createNullElementsArray()
+ *
+ * @param  {Array}  : fullDatesArray
+ * @param  {Array}  : inputData
+ * @return {} null
+ **/
+
+
+function createNullElementsArray(fullDatesArray, inputData) {
+	var inData = clone(inputData);
+	var dArr = [];
+	inData.map(function (d, i) {
+		var date = (d.testTime).slice(0, 10);
+		if (dArr.indexOf(date) &lt; 0)
+			dArr.push(date);
+	});
+	NullElementsArray = fullDatesArray.filter(function (el) {
+			return dArr.indexOf(el) &lt; 0;
+		});
+	console.log(NullElementsArray);
+	dataForAllDates(NullElementsArray, inputData);
+}
+
+/**
+ * In this Function, an array of data/records for all the dates in the range with null data
+ * on particular date,benchmark has no records is also included.
+ * @function dataForAllDates()
+ *
+ * @param  {Array}  : NullElementsArray
+ * @param  {Array}  : inData
+ * @return {} null
+ **/
+
+function dataForAllDates(NullElementsArray, inData) {
+	var resultArry = [];
+	inData.forEach(function (d, i) {
+
+		resultArry.push(d.result);
+
+	});
+	var minAxisValue = Math.min.apply(null, resultArry);
+	if (minAxisValue &gt; 0) {
+		minAxisValue = 0;
+	} else {
+		minAxisValue = minAxisValue - 5;
+	}
+	console.log(&quot;data&quot; + minAxisValue);
+	requiredData = clone(inData[0]);
+	var FINALARRAY = [];
+	NullElementsArray.map(function (d, i) {
+		var objectNULL = {};
+		objectNULL[&quot;benchmark&quot;] = requiredData.benchmark;
+		objectNULL[&quot;changeNum&quot;] = null;
+		objectNULL[&quot;client&quot;] = null;
+		objectNULL[&quot;dut&quot;] = null;
+		objectNULL[&quot;project&quot;] = null;
+		objectNULL[&quot;release&quot;] = null;
+		objectNULL[&quot;result&quot;] = minAxisValue;
+		objectNULL[&quot;testTime&quot;] = d + &quot;T00:00:00&quot;;
+		FINALARRAY.push(objectNULL);
+		if (i == (NullElementsArray.length - 1)) {
+			inData = FINALARRAY.concat(inData);
+			inData.sort(function (a, b) {
+				if (a.testTime &gt; b.testTime) {
+					return 1;
+				}
+				if (a.testTime &lt; b.testTime) {
+					return -1;
+				}
+				return 0;
+			});
+
+		}
+	});
+	setTimeout(function () {
+		console.log(inData);
+		drawBars(inData);
+	}, 100);
+
+}
+
+
+/**
+ * plots the Legends near to the axis mentioning the RESULT THRESHOLD values.
+ *
+ *
+ * @function drawLegends()
+ * @param  {} null
+ **/
+
+function drawLegends() {
+    svg = d3.select(&quot;svg&quot;);
+    width = $(&quot;#graph&quot;).width();  
+    
+   
+    
+  Name = &quot;a&quot;;
+  var legend1 = svg.selectAll(&quot;.legend&quot;)
+                    .data([{&quot;text&quot;:&quot;Mean+σ&quot;,&quot;color&quot;:&quot;green&quot;},{&quot;text&quot;:&quot;Mean&quot;,&quot;color&quot;:&quot;blue&quot;},{&quot;text&quot;:&quot;Mean-σ&quot;,&quot;color&quot;:&quot;red&quot;}])
+                    .enter().append(&quot;g&quot;)
+                    .attr(&quot;class&quot;, &quot;legend&quot;)
+                    .attr(&quot;transform&quot;, function(d, i) { return &quot;translate(&quot; +(( i *(-100))-width/1.4 )+ &quot;,0)&quot;; });
+                    //.attr(&quot;transform&quot;,&quot;translate(-950,0)&quot;);
+  legend1.append(&quot;line&quot;)
+      .attr(&quot;x1&quot;, width - 28)
+      .attr(&quot;x2&quot;, width)
+      .attr(&quot;y1&quot;, 10)
+      .attr(&quot;y2&quot;, 10)
+      .style(&quot;stroke-dasharray&quot;,function(d,i){
+                                    if(d.text!=&quot;Mean&quot;){
+                                            return &quot;5,5&quot;
+                                    }else{
+                                    
+                                        return &quot;0,0&quot;
+                                    }
+        })
+      //.style(&quot;stroke&quot;,&quot;5,5&quot;)
+      .style(&quot;stroke&quot;, function(d,i){return d.color;});
+  legend1.append(&quot;text&quot;)
+      .attr(&quot;x&quot;, width - 44)
+      .attr(&quot;y&quot;, 9)
+      .attr(&quot;dy&quot;, &quot;.35em&quot;)
+      .style(&quot;text-anchor&quot;, &quot;end&quot;)
+      .text(function(d,i){return d.text});
+
+  Name = &quot;b&quot;;
+  var legend2 = svg.selectAll(&quot;.legend&quot;)
+                    .data(Name.slice())
+                    .enter().append(&quot;g&quot;)
+                    .attr(&quot;class&quot;, &quot;legend&quot;)
+                    //.attr(&quot;transform&quot;, function(d, i) { return &quot;translate(&quot; + i * 5 + &quot;,0)&quot;; });
+                    .attr(&quot;transform&quot;,&quot;translate(-750,0)&quot;);
+  legend2.append(&quot;line&quot;)
+      .attr(&quot;x1&quot;, width - 28)
+      .attr(&quot;x2&quot;, width)
+      .attr(&quot;y1&quot;, 10)
+      .attr(&quot;y2&quot;, 10)
+      //.style(&quot;stroke-dasharray&quot;,&quot;5,5&quot;)
+      .style(&quot;stroke&quot;,&quot;5,5&quot;)
+      .style(&quot;stroke&quot;, &quot;blue&quot;);
+  legend2.append(&quot;text&quot;)
+      .attr(&quot;x&quot;, width - 44)
+      .attr(&quot;y&quot;, 9)
+      .attr(&quot;dy&quot;, &quot;.35em&quot;)
+      .style(&quot;text-anchor&quot;, &quot;end&quot;)
+      .text(&quot;Mean&quot;);
+    
+    
+  Name = &quot;c&quot;;
+  var legend3 = svg.selectAll(&quot;.legend&quot;)
+                    .data(Name.slice())
+                    .enter().append(&quot;g&quot;)
+                    .attr(&quot;class&quot;, &quot;legend&quot;)
+                    //.attr(&quot;transform&quot;, function(d, i) { return &quot;translate(&quot; + i * 5 + &quot;,0)&quot;; });
+                    .attr(&quot;transform&quot;,&quot;translate(-550,0)&quot;);
+  legend3.append(&quot;line&quot;)
+      .attr(&quot;x1&quot;, width - 28)
+      .attr(&quot;x2&quot;, width)
+      .attr(&quot;y1&quot;, 10)
+      .attr(&quot;y2&quot;, 10)
+      .style(&quot;stroke-dasharray&quot;,&quot;5,5&quot;)
+      //.style(&quot;stroke&quot;,&quot;5,5&quot;)
+      .style(&quot;stroke&quot;, &quot;red&quot;);
+  legend3.append(&quot;text&quot;)
+      .attr(&quot;x&quot;, width - 44)
+      .attr(&quot;y&quot;, 9)
+      .attr(&quot;dy&quot;, &quot;.35em&quot;)
+      .style(&quot;text-anchor&quot;, &quot;end&quot;)
+      .text(&quot;Mean-σ&quot;);    
+    
+    
+} 
+
+
+/**
+ * The lines for Mean, Mean+σ and Mean-σ are plotted,
+ * and values are appended as text to the respective lines
+ * @function getData()
+ *
+ * @param  {String}  : inputFlag
+ * @param  {String}  : boolan
+ * @return {} null
+ **/
+
+    
+    function drawLines(svg,x,y,width,minAxisValue){
+    
+     if(global_data.length!=0){ 
+    //if(Mean_minus_SD&gt;minAxisValue)
+    var deviationlines=svg.append(&quot;g&quot;)
+                            .attr(&quot;class&quot;,&quot;deviationlines&quot;)
+        
+    
+    deviationlines.append(&quot;line&quot;)
+    .attr(&quot;class&quot;,&quot;meanLine&quot;)
+    .style(&quot;stroke&quot;, &quot;blue&quot;)  
+    .attr(&quot;x1&quot;, function(){ 
+                  
+                    return x(global_data[0].testTime);
+    })    
+    .attr(&quot;y1&quot;, function(){
+                    return y(dataMean);
+    })     
+    .attr(&quot;x2&quot;, function(){
+                  
+                    return x(global_data[global_data.length-1].testTime)+x.rangeBand();
+    })    
+    .attr(&quot;y2&quot;, function(){
+                    return y(dataMean);        
+    });
+         	
+         svg.append(&quot;text&quot;)
+		.attr(&quot;transform&quot;, &quot;translate(&quot; + (width+3) + &quot;,&quot; + y(dataMean) + &quot;)&quot;)
+		.attr(&quot;dy&quot;, &quot;.35em&quot;)
+		.attr(&quot;text-anchor&quot;, &quot;start&quot;)
+		.style(&quot;fill&quot;, &quot;blue&quot;)
+		.text(dataMean.toFixed(6));
+         
+ 
+    deviationlines.append(&quot;line&quot;)
+    .attr(&quot;class&quot;,&quot;meanPlusStaLine&quot;)
+    .style(&quot;stroke-dasharray&quot;, (&quot;3, 3&quot;))
+    .style(&quot;stroke&quot;, &quot;green&quot;)  
+    .attr(&quot;x1&quot;, function(){ 
+                  
+                    return x(global_data[0].testTime);
+    })    
+    .attr(&quot;y1&quot;, function(){
+                    return y(Mean_plus_SD);
+    })     
+    .attr(&quot;x2&quot;, function(){
+                  
+                    return x(global_data[global_data.length-1].testTime)+x.rangeBand();
+    })    
+    .attr(&quot;y2&quot;, function(){
+                    return y(Mean_plus_SD);        
+    }); 
+    
+    
+         svg.append(&quot;text&quot;)
+		.attr(&quot;transform&quot;, &quot;translate(&quot; + (width+3) + &quot;,&quot; + y(Mean_plus_SD) + &quot;)&quot;)
+		.attr(&quot;dy&quot;, &quot;.35em&quot;)
+		.attr(&quot;text-anchor&quot;, &quot;start&quot;)
+		.style(&quot;fill&quot;, &quot;green&quot;)
+		.text(Mean_plus_SD.toFixed(6));
+
+  
+ if(Mean_minus_SD&gt;minAxisValue)
+ {
+    deviationlines.append(&quot;line&quot;)
+    .attr(&quot;class&quot;,&quot;meanNegStaLine&quot;)
+    .style(&quot;stroke&quot;, &quot;red&quot;) 
+    .style(&quot;stroke-dasharray&quot;, (&quot;3, 3&quot;))
+    .attr(&quot;x1&quot;, function(){ 
+                  
+                    return x(global_data[0].testTime);
+    })    
+    .attr(&quot;y1&quot;, function(){
+                    return y(Mean_minus_SD);
+    })     
+    .attr(&quot;x2&quot;, function(){
+                  
+                    return x(global_data[global_data.length-1].testTime)+x.rangeBand();
+    })    
+    .attr(&quot;y2&quot;, function(){
+                    return y(Mean_minus_SD);        
+    }); 
+         
+         
+
+
+         svg.append(&quot;text&quot;)
+		.attr(&quot;transform&quot;, &quot;translate(&quot; + (width+3) + &quot;,&quot; + y(Mean_minus_SD) + &quot;)&quot;)
+		.attr(&quot;dy&quot;, &quot;.35em&quot;)
+		.attr(&quot;text-anchor&quot;, &quot;start&quot;)
+		.style(&quot;fill&quot;, &quot;red&quot;)
+		.text(Mean_minus_SD.toFixed(6));         
+
+ }
+     }
+    }
+
+
+
+
+
+
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

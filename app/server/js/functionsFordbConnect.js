@@ -1,8 +1,22 @@
+/**
+ * Contains all the files for server side scripting.
+ *
+ * @module server
+ */
+ /**
+ * This file contains functions for connecting to benchmark Database, fetching and updating the 
+ * Info,Local_Benchmark and Local_run tables
+ * 
+ *
+ *
+ * @class functionsFordbConnect.js
+ * @constructor
+ */
 
 var dbConf = require("./dbConfig.js") ;
 var queries = require("./queries.js");
 var common = require("./common.js");
-var GetAllData = require("./GetAllData.js");
+var GetAllData = require("./getAllData.js");
 var pool  = dbConf.dbPool();
 var globalconnection;
 
@@ -12,6 +26,15 @@ var url = require('./url.js');
 var ldb;
 var thisFile = require('./functionsFordbConnect.js');
 var func  = require('./functionsFordbConnect.js');
+
+/**
+ * checks whether Database file/(.db file) is created, if not creates one
+ * with localData as database name
+ *
+ *
+ * @function DatabaseFileCheck()
+ * @return {}      : null
+**/
 
  exports.DatabaseFileCheck = function(){
      
@@ -29,6 +52,15 @@ if (!exists) {
 	thisFile.ConnectToDataBase();
 }
 }
+
+/**
+ * pushes the fetched benhcmark names and their descriptions into the Info table (localData.db)
+ *
+ *
+ * @function PushToTable_Info()
+ * @param  {Array} : data
+ * @return {}      : null
+**/ 
  
   exports.PushToTable_Info = function(data){
     var stm = "";
@@ -64,6 +96,14 @@ if (!exists) {
 
 }
 
+/**
+ * Fires query to benchmark Database and fetches all the benchmark names and their descriptions
+ * from benchmark table
+ *
+ * @function fetchDataFromTable_Benchmark()
+ * @return {}      : null
+**/   
+  
  exports.fetchDataFromTable_Benchmark = function(){
    func.usserverconnection.query(queries.BenchmarkTable("all"),function (err,result) {
        
@@ -86,6 +126,14 @@ if (!exists) {
     
 }
 
+/**
+ * A connection to the database is made and control is passed to other function
+ *
+ *
+ * @function ConnectToDataBase()
+ * @return {} : null
+**/
+ 
  exports.ConnectToDataBase = function() {
 	pool.getConnection(function (err, cursor) {
 		console.log("trying to connect... to DB");
@@ -102,7 +150,14 @@ if (!exists) {
 	});
 }
 
-
+/**
+ * fires query to benchmark database and fetches all the benchmarks which lies between
+ * current day and last 365 days from the Run table
+ *
+ *
+ * @function fetchBenchmarksFromTable_Run()
+ * @return {}      : null
+**/ 
 
  exports.fetchBenchmarksFromTable_Run = function() {
 	//var query = "select benchmark from benchmark.Run group by benchmark order by benchmark";
@@ -126,23 +181,16 @@ if (!exists) {
 
 }
 
-/*function fetchDataFromTable_Run(timeValue) {
-	//var query = 'select * from benchmark.Run where testTime >="' + timeValue + '"';
-	usserverconnection.query(queries.RunTable("testTime",timeValue,"",""), function (err, Run_recordset) {
-		if (err) {
-			console.log("error" + err);
-			return;
-		} else {
-			Run_recordset = JSON.stringify(Run_recordset);
-			Run_recordset = JSON.parse(Run_recordset);
-			var Data = common.clone(Run_recordset);
-			//PushToTable_Run(Data);
-
-		}
-	});
-
-}*/
-
+/**
+ * Creates the tables Local_Benchmark,
+ *                    Local_Run,
+ *                    Info,
+ *                    timeValue,
+ *                    checkPointTimes.
+ * @function createTables()
+ * @param {Object} ldb. ldb is database connection Object.
+ */ 
+ 
  exports.createTables = function(ldb) {
 	ldb.run(queries.createTable("Benchmark"), function (err) {
 		if (err)
@@ -195,8 +243,15 @@ if (!exists) {
 }
 
 
-
-
+/**
+ * From the fetched benchmark names, first dropdown value is derived and then pushes into 
+ * Local_Benchmark table in localData.db
+ *
+ *
+ * @function PushToTable_LocalBenchmark()
+ * @param  {Array} : Benchmark_data
+ * @return {}      : null
+**/ 
 
  exports.PushToTable_LocalBenchmark = function(Benchmark_data) {
     console.log(Benchmark_data.length+" is how many records");
@@ -240,60 +295,4 @@ if (!exists) {
 
 }
 
-/*function PushToTable_LocalRun(Run_data) {
-	var stm = "";
-	var i = 0;
-	var Local_Id;
-	Run_data.map(function (d, i) {
-		Local_Id = GlobalId + i + 1;
-		console.log("Local_Id is " + Local_Id);
-		i = i + 1;
-		benchmark = d.benchmark;
-		result = d.result;
-		dut = d.dut;
-		project = d.project;
-		release = d.release;
-		client = d.client;
-		changeNum = d.changeNum;
-		testTime = d.testTime;
-
-		if (i == (Run_data.length)) {
-			stm = stm + '("' + Local_Id + '","' + benchmark + '","' + result + '","' + dut + '","' + project + '","' + release + '","' + client + '","' + changeNum + '","' + testTime + '")';
-			var fullStm = queries.Local_RunTable("insert") + stm;
-			console.log("about to push into Local_Run table");
-			var file = "../DataBase/localData.db";
-			var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
-			var connection = new sqlite3.Database(file);
-			connection.run(fullStm, function (error) {
-				if (error)
-					console.log(error);
-				else {
-					console.log("pushed Data to Local_Run Table");
-					process.exit(1);
-				}
-			});
-
-		} else {
-
-			stm = stm + '("' + Local_Id + '","' + benchmark + '","' + result + '","' + dut + '","' + project + '","' + release + '","' + client + '","' + changeNum + '","' + testTime + '"),';
-		}
-	});
-
-}
-
-function getIdFromLocal_Run() {
-	console.log("getting the Last Id in the Local_Run Table");
-	var file = "../DataBase/localData.db";
-	var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
-	var connection = new sqlite3.Database(file);
-	connection.each(queries.Local_RunTable("maxID"), function (error, result) {
-		if (error)
-			console.log(error);
-		else {
-			GlobalId = result.key;
-			//fetchDataFromTable_Run(result.testTime);
-		}
-	});
-
-}*/
 

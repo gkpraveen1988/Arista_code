@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app\client\js\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.js - BENCHMARK DASHBOARD DOCUMENTATION</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="BENCHMARK DASHBOARD DOCUMENTATION" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: ARISTA BENCHMARK DASHBOARD</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/functionsForcronTenMinutes.js.html">functionsForcronTenMinutes.js</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/component.js.html">component.js</a></li>
+                                <li><a href="../classes/makeGrahandTable.js.html">makeGrahandTable.js</a></li>
+                                <li><a href="../classes/benchmarkDashboard_Process.js.html">benchmarkDashboard_Process.js</a></li>
+                                <li><a href="../classes/common.js.html">common.js</a></li>
+                                <li><a href="../classes/dbConfig.js.html">dbConfig.js</a></li>
+                                <li><a href="../classes/dbConnect.js.html">dbConnect.js</a></li>
+                                <li><a href="../classes/charts.js.html">charts.js</a></li>
+                                <li><a href="../classes/functionsForcronTime12.js.html">functionsForcronTime12.js</a></li>
+                                <li><a href="../classes/functionsFordbConnect.js.html">functionsFordbConnect.js</a></li>
+                                <li><a href="../classes/getAllData.js.html">getAllData.js</a></li>
+                                <li><a href="../classes/queries.js.html">queries.js</a></li>
+                                <li><a href="../classes/server.js.html">server.js</a></li>
+                                <li><a href="../classes/status.js.html">status.js</a></li>
+                                <li><a href="../classes/url.js.html">url.js</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/client.html">client</a></li>
+                                <li><a href="../modules/server.html">server</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app\client\js\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*! FixedHeader 2.1.2
+ * ©2010-2014 SpryMedia Ltd - datatables.net/license
+ */
+
+/**
+ * @summary     FixedHeader
+ * @description Fix a table&#x27;s header or footer, so it is always visible while
+ *              Scrolling
+ * @version     2.1.2
+ * @file        dataTables.fixedHeader.js
+ * @author      SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact     www.sprymedia.co.uk/contact
+ * @copyright   Copyright 2009-2014 SpryMedia Ltd.
+ *
+ * This source file is free software, available under the following license:
+ *   MIT license - http://datatables.net/license/mit
+ *
+ * This source file is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
+ *
+ * For details please refer to: http://www.datatables.net
+ */
+
+/* Global scope for FixedColumns for backwards compatibility - will be removed
+ * in future. Not documented in 1.1.x.
+ */
+
+/* Global scope for FixedColumns */
+var FixedHeader;
+
+(function(window, document, undefined) {
+
+
+var factory = function( $, DataTable ) {
+&quot;use strict&quot;;
+
+/*
+ * Function: FixedHeader
+ * Purpose:  Provide &#x27;fixed&#x27; header, footer and columns for a DataTable
+ * Returns:  object:FixedHeader - must be called with &#x27;new&#x27;
+ * Inputs:   mixed:mTable - target table
+ *  @param {object} dt DataTables instance or HTML table node. With DataTables
+ *    1.10 this can also be a jQuery collection (with just a single table in its
+ *    result set), a jQuery selector, DataTables API instance or settings
+ *    object.
+ *  @param {object} [oInit] initialisation settings, with the following
+ *    properties (each optional)
+ *    * bool:top -    fix the header (default true)
+ *    * bool:bottom - fix the footer (default false)
+ *    * int:left -    fix the left column(s) (default 0)
+ *    * int:right -   fix the right column(s) (default 0)
+ *    * int:zTop -    fixed header zIndex
+ *    * int:zBottom - fixed footer zIndex
+ *    * int:zLeft -   fixed left zIndex
+ *    * int:zRight -  fixed right zIndex
+ */
+FixedHeader = function ( mTable, oInit ) {
+	/* Sanity check - you just know it will happen */
+	if ( ! this instanceof FixedHeader )
+	{
+		alert( &quot;FixedHeader warning: FixedHeader must be initialised with the &#x27;new&#x27; keyword.&quot; );
+		return;
+	}
+
+	var that = this;
+	var oSettings = {
+		&quot;aoCache&quot;: [],
+		&quot;oSides&quot;: {
+			&quot;top&quot;: true,
+			&quot;bottom&quot;: false,
+			&quot;left&quot;: 0,
+			&quot;right&quot;: 0
+		},
+		&quot;oZIndexes&quot;: {
+			&quot;top&quot;: 104,
+			&quot;bottom&quot;: 103,
+			&quot;left&quot;: 102,
+			&quot;right&quot;: 101
+		},
+		&quot;oCloneOnDraw&quot;: {
+			&quot;top&quot;: false,
+			&quot;bottom&quot;: false,
+			&quot;left&quot;: true,
+			&quot;right&quot;: true
+		},
+		&quot;oMes&quot;: {
+			&quot;iTableWidth&quot;: 0,
+			&quot;iTableHeight&quot;: 0,
+			&quot;iTableLeft&quot;: 0,
+			&quot;iTableRight&quot;: 0, /* note this is left+width, not actually &quot;right&quot; */
+			&quot;iTableTop&quot;: 0,
+			&quot;iTableBottom&quot;: 0 /* note this is top+height, not actually &quot;bottom&quot; */
+		},
+		&quot;oOffset&quot;: {
+			&quot;top&quot;: 0
+		},
+		&quot;nTable&quot;: null,
+		&quot;bFooter&quot;: false,
+		&quot;bInitComplete&quot;: false
+	};
+
+	/*
+	 * Function: fnGetSettings
+	 * Purpose:  Get the settings for this object
+	 * Returns:  object: - settings object
+	 * Inputs:   -
+	 */
+	this.fnGetSettings = function () {
+		return oSettings;
+	};
+
+	/*
+	 * Function: fnUpdate
+	 * Purpose:  Update the positioning and copies of the fixed elements
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	this.fnUpdate = function () {
+		this._fnUpdateClones();
+		this._fnUpdatePositions();
+	};
+
+	/*
+	 * Function: fnPosition
+	 * Purpose:  Update the positioning of the fixed elements
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	this.fnPosition = function () {
+		this._fnUpdatePositions();
+	};
+
+
+	var dt = $.fn.dataTable.Api ?
+		new $.fn.dataTable.Api( mTable ).settings()[0] :
+		mTable.fnSettings();
+
+	dt._oPluginFixedHeader = this;
+
+	/* Let&#x27;s do it */
+	this.fnInit( dt, oInit );
+
+};
+
+
+/*
+ * Variable: FixedHeader
+ * Purpose:  Prototype for FixedHeader
+ * Scope:    global
+ */
+FixedHeader.prototype = {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Initialisation
+	 */
+
+	/*
+	 * Function: fnInit
+	 * Purpose:  The &quot;constructor&quot;
+	 * Returns:  -
+	 * Inputs:   {as FixedHeader function}
+	 */
+	fnInit: function ( oDtSettings, oInit )
+	{
+		var s = this.fnGetSettings();
+		var that = this;
+
+		/* Record the user definable settings */
+		this.fnInitSettings( s, oInit );
+
+		if ( oDtSettings.oScroll.sX !== &quot;&quot; || oDtSettings.oScroll.sY !== &quot;&quot; )
+		{
+			alert( &quot;FixedHeader 2 is not supported with DataTables&#x27; scrolling mode at this time&quot; );
+			return;
+		}
+
+		s.nTable = oDtSettings.nTable;
+		oDtSettings.aoDrawCallback.unshift( {
+			&quot;fn&quot;: function () {
+				FixedHeader.fnMeasure();
+				that._fnUpdateClones.call(that);
+				that._fnUpdatePositions.call(that);
+			},
+			&quot;sName&quot;: &quot;FixedHeader&quot;
+		} );
+
+		s.bFooter = ($(&#x27;&gt;tfoot&#x27;, s.nTable).length &gt; 0) ? true : false;
+
+		/* Add the &#x27;sides&#x27; that are fixed */
+		if ( s.oSides.top )
+		{
+			s.aoCache.push( that._fnCloneTable( &quot;fixedHeader&quot;, &quot;FixedHeader_Header&quot;, that._fnCloneThead ) );
+		}
+		if ( s.oSides.bottom )
+		{
+			s.aoCache.push( that._fnCloneTable( &quot;fixedFooter&quot;, &quot;FixedHeader_Footer&quot;, that._fnCloneTfoot ) );
+		}
+		if ( s.oSides.left )
+		{
+			s.aoCache.push( that._fnCloneTable( &quot;fixedLeft&quot;, &quot;FixedHeader_Left&quot;, that._fnCloneTLeft, s.oSides.left ) );
+		}
+		if ( s.oSides.right )
+		{
+			s.aoCache.push( that._fnCloneTable( &quot;fixedRight&quot;, &quot;FixedHeader_Right&quot;, that._fnCloneTRight, s.oSides.right ) );
+		}
+
+		/* Event listeners for window movement */
+		FixedHeader.afnScroll.push( function () {
+			that._fnUpdatePositions.call(that);
+		} );
+
+		$(window).resize( function () {
+			FixedHeader.fnMeasure();
+			that._fnUpdateClones.call(that);
+			that._fnUpdatePositions.call(that);
+		} );
+
+		$(s.nTable)
+			.on(&#x27;column-reorder.dt&#x27;, function () {
+				FixedHeader.fnMeasure();
+				that._fnUpdateClones( true );
+				that._fnUpdatePositions();
+			} )
+			.on(&#x27;column-visibility.dt&#x27;, function () {
+				FixedHeader.fnMeasure();
+				that._fnUpdateClones( true );
+				that._fnUpdatePositions();
+			} );
+
+		/* Get things right to start with */
+		FixedHeader.fnMeasure();
+		that._fnUpdateClones();
+		that._fnUpdatePositions();
+
+		s.bInitComplete = true;
+	},
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Support functions
+	 */
+
+	/*
+	 * Function: fnInitSettings
+	 * Purpose:  Take the user&#x27;s settings and copy them to our local store
+	 * Returns:  -
+	 * Inputs:   object:s - the local settings object
+	 *           object:oInit - the user&#x27;s settings object
+	 */
+	fnInitSettings: function ( s, oInit )
+	{
+		if ( oInit !== undefined )
+		{
+			if ( oInit.top !== undefined ) {
+				s.oSides.top = oInit.top;
+			}
+			if ( oInit.bottom !== undefined ) {
+				s.oSides.bottom = oInit.bottom;
+			}
+			if ( typeof oInit.left == &#x27;boolean&#x27; ) {
+				s.oSides.left = oInit.left ? 1 : 0;
+			}
+			else if ( oInit.left !== undefined ) {
+				s.oSides.left = oInit.left;
+			}
+			if ( typeof oInit.right == &#x27;boolean&#x27; ) {
+				s.oSides.right = oInit.right ? 1 : 0;
+			}
+			else if ( oInit.right !== undefined ) {
+				s.oSides.right = oInit.right;
+			}
+
+			if ( oInit.zTop !== undefined ) {
+				s.oZIndexes.top = oInit.zTop;
+			}
+			if ( oInit.zBottom !== undefined ) {
+				s.oZIndexes.bottom = oInit.zBottom;
+			}
+			if ( oInit.zLeft !== undefined ) {
+				s.oZIndexes.left = oInit.zLeft;
+			}
+			if ( oInit.zRight !== undefined ) {
+				s.oZIndexes.right = oInit.zRight;
+			}
+
+			if ( oInit.offsetTop !== undefined ) {
+				s.oOffset.top = oInit.offsetTop;
+			}
+			if ( oInit.alwaysCloneTop !== undefined ) {
+				s.oCloneOnDraw.top = oInit.alwaysCloneTop;
+			}
+			if ( oInit.alwaysCloneBottom !== undefined ) {
+				s.oCloneOnDraw.bottom = oInit.alwaysCloneBottom;
+			}
+			if ( oInit.alwaysCloneLeft !== undefined ) {
+				s.oCloneOnDraw.left = oInit.alwaysCloneLeft;
+			}
+			if ( oInit.alwaysCloneRight !== undefined ) {
+				s.oCloneOnDraw.right = oInit.alwaysCloneRight;
+			}
+		}
+	},
+
+	/*
+	 * Function: _fnCloneTable
+	 * Purpose:  Clone the table node and do basic initialisation
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	_fnCloneTable: function ( sType, sClass, fnClone, iCells )
+	{
+		var s = this.fnGetSettings();
+		var nCTable;
+
+		/* We know that the table _MUST_ has a DIV wrapped around it, because this is simply how
+		 * DataTables works. Therefore, we can set this to be relatively position (if it is not
+		 * alreadu absolute, and use this as the base point for the cloned header
+		 */
+		if ( $(s.nTable.parentNode).css(&#x27;position&#x27;) != &quot;absolute&quot; )
+		{
+			s.nTable.parentNode.style.position = &quot;relative&quot;;
+		}
+
+		/* Just a shallow clone will do - we only want the table node */
+		nCTable = s.nTable.cloneNode( false );
+		nCTable.removeAttribute( &#x27;id&#x27; );
+
+		var nDiv = document.createElement( &#x27;div&#x27; );
+		nDiv.style.position = &quot;absolute&quot;;
+		nDiv.style.top = &quot;0px&quot;;
+		nDiv.style.left = &quot;0px&quot;;
+		nDiv.className += &quot; FixedHeader_Cloned &quot;+sType+&quot; &quot;+sClass;
+
+		/* Set the zIndexes */
+		if ( sType == &quot;fixedHeader&quot; )
+		{
+			nDiv.style.zIndex = s.oZIndexes.top;
+		}
+		if ( sType == &quot;fixedFooter&quot; )
+		{
+			nDiv.style.zIndex = s.oZIndexes.bottom;
+		}
+		if ( sType == &quot;fixedLeft&quot; )
+		{
+			nDiv.style.zIndex = s.oZIndexes.left;
+		}
+		else if ( sType == &quot;fixedRight&quot; )
+		{
+			nDiv.style.zIndex = s.oZIndexes.right;
+		}
+
+		/* remove margins since we are going to position it absolutely */
+		nCTable.style.margin = &quot;0&quot;;
+
+		/* Insert the newly cloned table into the DOM, on top of the &quot;real&quot; header */
+		nDiv.appendChild( nCTable );
+		document.body.appendChild( nDiv );
+
+		return {
+			&quot;nNode&quot;: nCTable,
+			&quot;nWrapper&quot;: nDiv,
+			&quot;sType&quot;: sType,
+			&quot;sPosition&quot;: &quot;&quot;,
+			&quot;sTop&quot;: &quot;&quot;,
+			&quot;sLeft&quot;: &quot;&quot;,
+			&quot;fnClone&quot;: fnClone,
+			&quot;iCells&quot;: iCells
+		};
+	},
+
+	/*
+	 * Function: _fnMeasure
+	 * Purpose:  Get the current positioning of the table in the DOM
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	_fnMeasure: function ()
+	{
+		var
+			s = this.fnGetSettings(),
+			m = s.oMes,
+			jqTable = $(s.nTable),
+			oOffset = jqTable.offset(),
+			iParentScrollTop = this._fnSumScroll( s.nTable.parentNode, &#x27;scrollTop&#x27; ),
+			iParentScrollLeft = this._fnSumScroll( s.nTable.parentNode, &#x27;scrollLeft&#x27; );
+
+		m.iTableWidth = jqTable.outerWidth();
+		m.iTableHeight = jqTable.outerHeight();
+		m.iTableLeft = oOffset.left + s.nTable.parentNode.scrollLeft;
+		m.iTableTop = oOffset.top + iParentScrollTop;
+		m.iTableRight = m.iTableLeft + m.iTableWidth;
+		m.iTableRight = FixedHeader.oDoc.iWidth - m.iTableLeft - m.iTableWidth;
+		m.iTableBottom = FixedHeader.oDoc.iHeight - m.iTableTop - m.iTableHeight;
+	},
+
+	/*
+	 * Function: _fnSumScroll
+	 * Purpose:  Sum node parameters all the way to the top
+	 * Returns:  int: sum
+	 * Inputs:   node:n - node to consider
+	 *           string:side - scrollTop or scrollLeft
+	 */
+	_fnSumScroll: function ( n, side )
+	{
+		var i = n[side];
+		while ( n = n.parentNode )
+		{
+			if ( n.nodeName == &#x27;HTML&#x27; || n.nodeName == &#x27;BODY&#x27; )
+			{
+				break;
+			}
+			i = n[side];
+		}
+		return i;
+	},
+
+	/*
+	 * Function: _fnUpdatePositions
+	 * Purpose:  Loop over the fixed elements for this table and update their positions
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	_fnUpdatePositions: function ()
+	{
+		var s = this.fnGetSettings();
+		this._fnMeasure();
+
+		for ( var i=0, iLen=s.aoCache.length ; i&lt;iLen ; i++ )
+		{
+			if ( s.aoCache[i].sType == &quot;fixedHeader&quot; )
+			{
+				this._fnScrollFixedHeader( s.aoCache[i] );
+			}
+			else if ( s.aoCache[i].sType == &quot;fixedFooter&quot; )
+			{
+				this._fnScrollFixedFooter( s.aoCache[i] );
+			}
+			else if ( s.aoCache[i].sType == &quot;fixedLeft&quot; )
+			{
+				this._fnScrollHorizontalLeft( s.aoCache[i] );
+			}
+			else
+			{
+				this._fnScrollHorizontalRight( s.aoCache[i] );
+			}
+		}
+	},
+
+	/*
+	 * Function: _fnUpdateClones
+	 * Purpose:  Loop over the fixed elements for this table and call their cloning functions
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	_fnUpdateClones: function ( full )
+	{
+		var s = this.fnGetSettings();
+
+		if ( full ) {
+			// This is a little bit of a hack to force a full clone draw. When
+			// &#x60;full&#x60; is set to true, we want to reclone the source elements,
+			// regardless of the clone-on-draw settings
+			s.bInitComplete = false;
+		}
+
+		for ( var i=0, iLen=s.aoCache.length ; i&lt;iLen ; i++ )
+		{
+			s.aoCache[i].fnClone.call( this, s.aoCache[i] );
+		}
+
+		if ( full ) {
+			s.bInitComplete = true;
+		}
+	},
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Scrolling functions
+	 */
+
+	/*
+	 * Function: _fnScrollHorizontalLeft
+	 * Purpose:  Update the positioning of the scrolling elements
+	 * Returns:  -
+	 * Inputs:   object:oCache - the cached values for this fixed element
+	 */
+	_fnScrollHorizontalRight: function ( oCache )
+	{
+		var
+			s = this.fnGetSettings(),
+			oMes = s.oMes,
+			oWin = FixedHeader.oWin,
+			oDoc = FixedHeader.oDoc,
+			nTable = oCache.nWrapper,
+			iFixedWidth = $(nTable).outerWidth();
+
+		if ( oWin.iScrollRight &lt; oMes.iTableRight )
+		{
+			/* Fully right aligned */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;absolute&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, oMes.iTableTop+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, (oMes.iTableLeft+oMes.iTableWidth-iFixedWidth)+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+		else if ( oMes.iTableLeft &lt; oDoc.iWidth-oWin.iScrollRight-iFixedWidth )
+		{
+			/* Middle */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;fixed&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, (oMes.iTableTop-oWin.iScrollTop)+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, (oWin.iWidth-iFixedWidth)+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+		else
+		{
+			/* Fully left aligned */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;absolute&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, oMes.iTableTop+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, oMes.iTableLeft+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+	},
+
+	/*
+	 * Function: _fnScrollHorizontalLeft
+	 * Purpose:  Update the positioning of the scrolling elements
+	 * Returns:  -
+	 * Inputs:   object:oCache - the cached values for this fixed element
+	 */
+	_fnScrollHorizontalLeft: function ( oCache )
+	{
+		var
+			s = this.fnGetSettings(),
+			oMes = s.oMes,
+			oWin = FixedHeader.oWin,
+			oDoc = FixedHeader.oDoc,
+			nTable = oCache.nWrapper,
+			iCellWidth = $(nTable).outerWidth();
+
+		if ( oWin.iScrollLeft &lt; oMes.iTableLeft )
+		{
+			/* Fully left align */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;absolute&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, oMes.iTableTop+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, oMes.iTableLeft+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+		else if ( oWin.iScrollLeft &lt; oMes.iTableLeft+oMes.iTableWidth-iCellWidth )
+		{
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;fixed&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, (oMes.iTableTop-oWin.iScrollTop)+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, &quot;0px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+		else
+		{
+			/* Fully right align */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;absolute&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, oMes.iTableTop+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, (oMes.iTableLeft+oMes.iTableWidth-iCellWidth)+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+	},
+
+	/*
+	 * Function: _fnScrollFixedFooter
+	 * Purpose:  Update the positioning of the scrolling elements
+	 * Returns:  -
+	 * Inputs:   object:oCache - the cached values for this fixed element
+	 */
+	_fnScrollFixedFooter: function ( oCache )
+	{
+		var
+			s = this.fnGetSettings(),
+			oMes = s.oMes,
+			oWin = FixedHeader.oWin,
+			oDoc = FixedHeader.oDoc,
+			nTable = oCache.nWrapper,
+			iTheadHeight = $(&quot;thead&quot;, s.nTable).outerHeight(),
+			iCellHeight = $(nTable).outerHeight();
+
+		if ( oWin.iScrollBottom &lt; oMes.iTableBottom )
+		{
+			/* Below */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;absolute&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, (oMes.iTableTop+oMes.iTableHeight-iCellHeight)+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, oMes.iTableLeft+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+		else if ( oWin.iScrollBottom &lt; oMes.iTableBottom+oMes.iTableHeight-iCellHeight-iTheadHeight )
+		{
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;fixed&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, (oWin.iHeight-iCellHeight)+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, (oMes.iTableLeft-oWin.iScrollLeft)+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+		else
+		{
+			/* Above */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;absolute&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, (oMes.iTableTop+iCellHeight)+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, oMes.iTableLeft+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+	},
+
+	/*
+	 * Function: _fnScrollFixedHeader
+	 * Purpose:  Update the positioning of the scrolling elements
+	 * Returns:  -
+	 * Inputs:   object:oCache - the cached values for this fixed element
+	 */
+	_fnScrollFixedHeader: function ( oCache )
+	{
+		var
+			s = this.fnGetSettings(),
+			oMes = s.oMes,
+			oWin = FixedHeader.oWin,
+			oDoc = FixedHeader.oDoc,
+			nTable = oCache.nWrapper,
+			iTbodyHeight = 0,
+			anTbodies = s.nTable.getElementsByTagName(&#x27;tbody&#x27;);
+
+		for (var i = 0; i &lt; anTbodies.length; ++i) {
+			iTbodyHeight += anTbodies[i].offsetHeight;
+		}
+
+		if ( oMes.iTableTop &gt; oWin.iScrollTop + s.oOffset.top )
+		{
+			/* Above the table */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &quot;absolute&quot;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, oMes.iTableTop+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, oMes.iTableLeft+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+		else if ( oWin.iScrollTop + s.oOffset.top &gt; oMes.iTableTop+iTbodyHeight )
+		{
+			/* At the bottom of the table */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &quot;absolute&quot;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, (oMes.iTableTop+iTbodyHeight)+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, oMes.iTableLeft+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+		else
+		{
+			/* In the middle of the table */
+			this._fnUpdateCache( oCache, &#x27;sPosition&#x27;, &#x27;fixed&#x27;, &#x27;position&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sTop&#x27;, s.oOffset.top+&quot;px&quot;, &#x27;top&#x27;, nTable.style );
+			this._fnUpdateCache( oCache, &#x27;sLeft&#x27;, (oMes.iTableLeft-oWin.iScrollLeft)+&quot;px&quot;, &#x27;left&#x27;, nTable.style );
+		}
+	},
+
+	/*
+	 * Function: _fnUpdateCache
+	 * Purpose:  Check the cache and update cache and value if needed
+	 * Returns:  -
+	 * Inputs:   object:oCache - local cache object
+	 *           string:sCache - cache property
+	 *           string:sSet - value to set
+	 *           string:sProperty - object property to set
+	 *           object:oObj - object to update
+	 */
+	_fnUpdateCache: function ( oCache, sCache, sSet, sProperty, oObj )
+	{
+		if ( oCache[sCache] != sSet )
+		{
+			oObj[sProperty] = sSet;
+			oCache[sCache] = sSet;
+		}
+	},
+
+
+
+	/**
+	 * Copy the classes of all child nodes from one element to another. This implies
+	 * that the two have identical structure - no error checking is performed to that
+	 * fact.
+	 *  @param {element} source Node to copy classes from
+	 *  @param {element} dest Node to copy classes too
+	 */
+	_fnClassUpdate: function ( source, dest )
+	{
+		var that = this;
+
+		if ( source.nodeName.toUpperCase() === &quot;TR&quot; || source.nodeName.toUpperCase() === &quot;TH&quot; ||
+			 source.nodeName.toUpperCase() === &quot;TD&quot; || source.nodeName.toUpperCase() === &quot;SPAN&quot; )
+		{
+			dest.className = source.className;
+		}
+
+		$(source).children().each( function (i) {
+			that._fnClassUpdate( $(source).children()[i], $(dest).children()[i] );
+		} );
+	},
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Cloning functions
+	 */
+
+	/*
+	 * Function: _fnCloneThead
+	 * Purpose:  Clone the thead element
+	 * Returns:  -
+	 * Inputs:   object:oCache - the cached values for this fixed element
+	 */
+	_fnCloneThead: function ( oCache )
+	{
+		var s = this.fnGetSettings();
+		var nTable = oCache.nNode;
+
+		if ( s.bInitComplete &amp;&amp; !s.oCloneOnDraw.top )
+		{
+			this._fnClassUpdate( $(&#x27;thead&#x27;, s.nTable)[0], $(&#x27;thead&#x27;, nTable)[0] );
+			return;
+		}
+
+		/* Set the wrapper width to match that of the cloned table */
+		var iDtWidth = $(s.nTable).outerWidth();
+		oCache.nWrapper.style.width = iDtWidth+&quot;px&quot;;
+		nTable.style.width = iDtWidth+&quot;px&quot;;
+
+		/* Remove any children the cloned table has */
+		while ( nTable.childNodes.length &gt; 0 )
+		{
+			$(&#x27;thead th&#x27;, nTable).unbind( &#x27;click&#x27; );
+			nTable.removeChild( nTable.childNodes[0] );
+		}
+
+		/* Clone the DataTables header */
+		var nThead = $(&#x27;thead&#x27;, s.nTable).clone(true)[0];
+		nTable.appendChild( nThead );
+
+		/* Copy the widths across - apparently a clone isn&#x27;t good enough for this */
+		var a = [];
+		var b = [];
+
+		$(&quot;thead&gt;tr th&quot;, s.nTable).each( function (i) {
+			a.push( $(this).width() );
+		} );
+
+		$(&quot;thead&gt;tr td&quot;, s.nTable).each( function (i) {
+			b.push( $(this).width() );
+		} );
+
+		$(&quot;thead&gt;tr th&quot;, s.nTable).each( function (i) {
+			$(&quot;thead&gt;tr th:eq(&quot;+i+&quot;)&quot;, nTable).width( a[i] );
+			$(this).width( a[i] );
+		} );
+
+		$(&quot;thead&gt;tr td&quot;, s.nTable).each( function (i) {
+			$(&quot;thead&gt;tr td:eq(&quot;+i+&quot;)&quot;, nTable).width( b[i] );
+			$(this).width( b[i] );
+		} );
+
+		// Stop DataTables 1.9 from putting a focus ring on the headers when
+		// clicked to sort
+		$(&#x27;th.sorting, th.sorting_desc, th.sorting_asc&#x27;, nTable).bind( &#x27;click&#x27;, function () {
+			this.blur();
+		} );
+	},
+
+	/*
+	 * Function: _fnCloneTfoot
+	 * Purpose:  Clone the tfoot element
+	 * Returns:  -
+	 * Inputs:   object:oCache - the cached values for this fixed element
+	 */
+	_fnCloneTfoot: function ( oCache )
+	{
+		var s = this.fnGetSettings();
+		var nTable = oCache.nNode;
+
+		/* Set the wrapper width to match that of the cloned table */
+		oCache.nWrapper.style.width = $(s.nTable).outerWidth()+&quot;px&quot;;
+
+		/* Remove any children the cloned table has */
+		while ( nTable.childNodes.length &gt; 0 )
+		{
+			nTable.removeChild( nTable.childNodes[0] );
+		}
+
+		/* Clone the DataTables footer */
+		var nTfoot = $(&#x27;tfoot&#x27;, s.nTable).clone(true)[0];
+		nTable.appendChild( nTfoot );
+
+		/* Copy the widths across - apparently a clone isn&#x27;t good enough for this */
+		$(&quot;tfoot:eq(0)&gt;tr th&quot;, s.nTable).each( function (i) {
+			$(&quot;tfoot:eq(0)&gt;tr th:eq(&quot;+i+&quot;)&quot;, nTable).width( $(this).width() );
+		} );
+
+		$(&quot;tfoot:eq(0)&gt;tr td&quot;, s.nTable).each( function (i) {
+			$(&quot;tfoot:eq(0)&gt;tr td:eq(&quot;+i+&quot;)&quot;, nTable).width( $(this).width() );
+		} );
+	},
+
+	/*
+	 * Function: _fnCloneTLeft
+	 * Purpose:  Clone the left column(s)
+	 * Returns:  -
+	 * Inputs:   object:oCache - the cached values for this fixed element
+	 */
+	_fnCloneTLeft: function ( oCache )
+	{
+		var s = this.fnGetSettings();
+		var nTable = oCache.nNode;
+		var nBody = $(&#x27;tbody&#x27;, s.nTable)[0];
+
+		/* Remove any children the cloned table has */
+		while ( nTable.childNodes.length &gt; 0 )
+		{
+			nTable.removeChild( nTable.childNodes[0] );
+		}
+
+		/* Is this the most efficient way to do this - it looks horrible... */
+		nTable.appendChild( $(&quot;thead&quot;, s.nTable).clone(true)[0] );
+		nTable.appendChild( $(&quot;tbody&quot;, s.nTable).clone(true)[0] );
+		if ( s.bFooter )
+		{
+			nTable.appendChild( $(&quot;tfoot&quot;, s.nTable).clone(true)[0] );
+		}
+
+		/* Remove unneeded cells */
+		var sSelector = &#x27;gt(&#x27; + (oCache.iCells - 1) + &#x27;)&#x27;;
+		$(&#x27;thead tr&#x27;, nTable).each( function (k) {
+			$(&#x27;th:&#x27; + sSelector, this).remove();
+		} );
+
+		$(&#x27;tfoot tr&#x27;, nTable).each( function (k) {
+			$(&#x27;th:&#x27; + sSelector, this).remove();
+		} );
+
+		$(&#x27;tbody tr&#x27;, nTable).each( function (k) {
+			$(&#x27;td:&#x27; + sSelector, this).remove();
+		} );
+
+		this.fnEqualiseHeights( &#x27;thead&#x27;, nBody.parentNode, nTable );
+		this.fnEqualiseHeights( &#x27;tbody&#x27;, nBody.parentNode, nTable );
+		this.fnEqualiseHeights( &#x27;tfoot&#x27;, nBody.parentNode, nTable );
+
+		var iWidth = 0;
+		for (var i = 0; i &lt; oCache.iCells; i++) {
+			iWidth += $(&#x27;thead tr th:eq(&#x27; + i + &#x27;)&#x27;, s.nTable).outerWidth();
+		}
+		nTable.style.width = iWidth+&quot;px&quot;;
+		oCache.nWrapper.style.width = iWidth+&quot;px&quot;;
+	},
+
+	/*
+	 * Function: _fnCloneTRight
+	 * Purpose:  Clone the right most column(s)
+	 * Returns:  -
+	 * Inputs:   object:oCache - the cached values for this fixed element
+	 */
+	_fnCloneTRight: function ( oCache )
+	{
+		var s = this.fnGetSettings();
+		var nBody = $(&#x27;tbody&#x27;, s.nTable)[0];
+		var nTable = oCache.nNode;
+		var iCols = $(&#x27;tbody tr:eq(0) td&#x27;, s.nTable).length;
+
+		/* Remove any children the cloned table has */
+		while ( nTable.childNodes.length &gt; 0 )
+		{
+			nTable.removeChild( nTable.childNodes[0] );
+		}
+
+		/* Is this the most efficient way to do this - it looks horrible... */
+		nTable.appendChild( $(&quot;thead&quot;, s.nTable).clone(true)[0] );
+		nTable.appendChild( $(&quot;tbody&quot;, s.nTable).clone(true)[0] );
+		if ( s.bFooter )
+		{
+			nTable.appendChild( $(&quot;tfoot&quot;, s.nTable).clone(true)[0] );
+		}
+		$(&#x27;thead tr th:lt(&#x27;+(iCols-oCache.iCells)+&#x27;)&#x27;, nTable).remove();
+		$(&#x27;tfoot tr th:lt(&#x27;+(iCols-oCache.iCells)+&#x27;)&#x27;, nTable).remove();
+
+		/* Remove unneeded cells */
+		$(&#x27;tbody tr&#x27;, nTable).each( function (k) {
+			$(&#x27;td:lt(&#x27;+(iCols-oCache.iCells)+&#x27;)&#x27;, this).remove();
+		} );
+
+		this.fnEqualiseHeights( &#x27;thead&#x27;, nBody.parentNode, nTable );
+		this.fnEqualiseHeights( &#x27;tbody&#x27;, nBody.parentNode, nTable );
+		this.fnEqualiseHeights( &#x27;tfoot&#x27;, nBody.parentNode, nTable );
+
+		var iWidth = 0;
+		for (var i = 0; i &lt; oCache.iCells; i++) {
+			iWidth += $(&#x27;thead tr th:eq(&#x27;+(iCols-1-i)+&#x27;)&#x27;, s.nTable).outerWidth();
+		}
+		nTable.style.width = iWidth+&quot;px&quot;;
+		oCache.nWrapper.style.width = iWidth+&quot;px&quot;;
+	},
+
+
+	/**
+	 * Equalise the heights of the rows in a given table node in a cross browser way. Note that this
+	 * is more or less lifted as is from FixedColumns
+	 *  @method  fnEqualiseHeights
+	 *  @returns void
+	 *  @param   {string} parent Node type - thead, tbody or tfoot
+	 *  @param   {element} original Original node to take the heights from
+	 *  @param   {element} clone Copy the heights to
+	 *  @private
+	 */
+	&quot;fnEqualiseHeights&quot;: function ( parent, original, clone )
+	{
+		var that = this;
+		var originals = $(parent +&#x27; tr&#x27;, original);
+		var height;
+
+		$(parent+&#x27; tr&#x27;, clone).each( function (k) {
+			height = originals.eq( k ).css(&#x27;height&#x27;);
+
+			// This is nasty :-(. IE has a sub-pixel error even when setting
+			// the height below (the Firefox fix) which causes the fixed column
+			// to go out of alignment. Need to add a pixel before the assignment
+			// Can this be feature detected? Not sure how...
+			if ( navigator.appName == &#x27;Microsoft Internet Explorer&#x27; ) {
+				height = parseInt( height, 10 ) + 1;
+			}
+
+			$(this).css( &#x27;height&#x27;, height );
+
+			// For Firefox to work, we need to also set the height of the
+			// original row, to the value that we read from it! Otherwise there
+			// is a sub-pixel rounding error
+			originals.eq( k ).css( &#x27;height&#x27;, height );
+		} );
+	}
+};
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Static properties and methods
+ *   We use these for speed! This information is common to all instances of FixedHeader, so no
+ * point if having them calculated and stored for each different instance.
+ */
+
+/*
+ * Variable: oWin
+ * Purpose:  Store information about the window positioning
+ * Scope:    FixedHeader
+ */
+FixedHeader.oWin = {
+	&quot;iScrollTop&quot;: 0,
+	&quot;iScrollRight&quot;: 0,
+	&quot;iScrollBottom&quot;: 0,
+	&quot;iScrollLeft&quot;: 0,
+	&quot;iHeight&quot;: 0,
+	&quot;iWidth&quot;: 0
+};
+
+/*
+ * Variable: oDoc
+ * Purpose:  Store information about the document size
+ * Scope:    FixedHeader
+ */
+FixedHeader.oDoc = {
+	&quot;iHeight&quot;: 0,
+	&quot;iWidth&quot;: 0
+};
+
+/*
+ * Variable: afnScroll
+ * Purpose:  Array of functions that are to be used for the scrolling components
+ * Scope:    FixedHeader
+ */
+FixedHeader.afnScroll = [];
+
+/*
+ * Function: fnMeasure
+ * Purpose:  Update the measurements for the window and document
+ * Returns:  -
+ * Inputs:   -
+ */
+FixedHeader.fnMeasure = function ()
+{
+	var
+		jqWin = $(window),
+		jqDoc = $(document),
+		oWin = FixedHeader.oWin,
+		oDoc = FixedHeader.oDoc;
+
+	oDoc.iHeight = jqDoc.height();
+	oDoc.iWidth = jqDoc.width();
+
+	oWin.iHeight = jqWin.height();
+	oWin.iWidth = jqWin.width();
+	oWin.iScrollTop = jqWin.scrollTop();
+	oWin.iScrollLeft = jqWin.scrollLeft();
+	oWin.iScrollRight = oDoc.iWidth - oWin.iScrollLeft - oWin.iWidth;
+	oWin.iScrollBottom = oDoc.iHeight - oWin.iScrollTop - oWin.iHeight;
+};
+
+
+FixedHeader.version = &quot;2.1.2&quot;;
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Global processing
+ */
+
+/*
+ * Just one &#x27;scroll&#x27; event handler in FixedHeader, which calls the required components. This is
+ * done as an optimisation, to reduce calculation and proagation time
+ */
+$(window).scroll( function () {
+	FixedHeader.fnMeasure();
+
+	for ( var i=0, iLen=FixedHeader.afnScroll.length ; i&lt;iLen ; i++ ) {
+		FixedHeader.afnScroll[i]();
+	}
+} );
+
+
+$.fn.dataTable.FixedHeader = FixedHeader;
+$.fn.DataTable.FixedHeader = FixedHeader;
+
+
+return FixedHeader;
+}; // /factory
+
+
+// Define as an AMD module if possible
+if ( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ) {
+	define( [&#x27;jquery&#x27;, &#x27;datatables&#x27;], factory );
+}
+else if ( typeof exports === &#x27;object&#x27; ) {
+    // Node/CommonJS
+    factory( require(&#x27;jquery&#x27;), require(&#x27;datatables&#x27;) );
+}
+else if ( jQuery &amp;&amp; !jQuery.fn.dataTable.FixedHeader ) {
+	// Otherwise simply initialise as normal, stopping multiple evaluation
+	factory( jQuery, jQuery.fn.dataTable );
+}
+
+
+})(window, document);
+
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

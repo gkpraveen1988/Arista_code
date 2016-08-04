@@ -2,7 +2,7 @@
  * ©2008-2014 SpryMedia Ltd - datatables.net/license
  */
 
-/**
+/*
  * @summary     AutoFill
  * @description Add Excel like click and drag auto-fill options to DataTables
  * @version     1.2.1
@@ -26,7 +26,7 @@
 var factory = function( $, DataTable ) {
 "use strict";
 
-/** 
+/* 
  * AutoFill provides Excel like auto-fill features for a DataTable
  *
  * @class AutoFill
@@ -52,11 +52,11 @@ var AutoFill = function( oDT, oConfig )
 
 	this.c = {};
 
-	/**
+	/*
 	 * @namespace Settings object which contains customisable information for AutoFill instance
 	 */
 	this.s = {
-		/**
+		/*
 		 * @namespace Cached information about the little dragging icon (the filler)
 		 */
 		"filler": {
@@ -64,14 +64,14 @@ var AutoFill = function( oDT, oConfig )
 			"width": 0
 		},
 
-		/**
+		/*
 		 * @namespace Cached information about the border display
 		 */
 		"border": {
 			"width": 2
 		},
 
-		/**
+		/*
 		 * @namespace Store for live information for the current drag
 		 */
 		"drag": {
@@ -82,7 +82,7 @@ var AutoFill = function( oDT, oConfig )
 			"dragging": false
 		},
 
-		/**
+		/*
 		 * @namespace Data cache for information that we need for scrolling the screen when we near
 		 *   the edges
 		 */
@@ -93,7 +93,7 @@ var AutoFill = function( oDT, oConfig )
 			"scrollTop": 0
 		},
 
-		/**
+		/*
 		 * @namespace Data cache for the position of the DataTables scrolling element (when scrolling
 		 *   is enabled)
 		 */
@@ -102,14 +102,14 @@ var AutoFill = function( oDT, oConfig )
 			"bottom": 0
 		},
 
-		/**
+		/*
 		 * @namespace Information stored for each column. An array of objects
 		 */
 		"columns": []
 	};
 
 
-	/**
+	/*
 	 * @namespace Common and useful DOM elements for the class instance
 	 */
 	this.dom = {
@@ -128,7 +128,7 @@ var AutoFill = function( oDT, oConfig )
 	 * Public class methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Retreieve the settings object from an instance
 	 *  @method fnSettings
 	 *  @returns {object} AutoFill settings object
@@ -150,7 +150,7 @@ AutoFill.prototype = {
 	 * Private methods (they are of course public in JS, but recommended as private)
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Initialisation
 	 *  @method _fnInit
 	 *  @param {object} dt DataTables settings object
@@ -289,7 +289,7 @@ AutoFill.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Find out the coordinates of a given TD cell in a table
 	 *  @method  _fnTargetCoords
 	 *  @param   {Node} nTd
@@ -309,7 +309,7 @@ AutoFill.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Display the border around one or more cells (from start to end)
 	 *  @method  _fnUpdateBorder
 	 *  @param   {Node} nStart Starting cell
@@ -381,7 +381,7 @@ AutoFill.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Mouse down event handler for starting a drag
 	 *  @method  _fnFillerDragStart
 	 *  @param   {Object} e Event object
@@ -467,7 +467,7 @@ AutoFill.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Mouse move event handler for during a move. See if we want to update the display based on the
 	 * new cursor position
 	 *  @method  _fnFillerDragMove
@@ -531,7 +531,7 @@ AutoFill.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Mouse release handler - end the drag and take action to update the cells with the needed values
 	 *  @method  _fnFillerFinish
 	 *  @param   {Object} e Event object
@@ -649,7 +649,7 @@ AutoFill.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Display the drag handle on mouse over cell
 	 *  @method  _fnFillerDisplay
 	 *  @param   {Object} e Event object
@@ -688,7 +688,7 @@ AutoFill.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Position the filler icon over a cell
 	 *  @method  _fnFillerPosition
 	 *  @param   {Node} nTd Cell to position filler icon over
@@ -714,7 +714,7 @@ DataTable.AutoFill = AutoFill;
  * Constants
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**
+/*
  * AutoFill version
  *  @constant  version
  *  @type      String
@@ -723,12 +723,12 @@ DataTable.AutoFill = AutoFill;
 AutoFill.version = "1.2.1";
 
 
-/**
+/*
  * AutoFill defaults
  *  @namespace
  */
 AutoFill.defaults = {
-	/**
+	/*
 	 * Mode for dragging (restrict to y-axis only, x-axis only, either one or none):
 	 *
 	 *  * `y`      - y-axis only (default)
@@ -743,12 +743,12 @@ AutoFill.defaults = {
 
 	complete: null,
 
-	/**
+	/*
 	 * Column definition defaults
 	 *  @namespace
 	 */
 	column: {
-		/**
+		/*
 		 * If AutoFill should be enabled on this column
 		 *
 		 * @type {boolean}
@@ -756,7 +756,7 @@ AutoFill.defaults = {
 		 */
 		enable: true,
 
-		/**
+		/*
 		 * Allow automatic increment / decrement on this column if a number
 		 * is found.
 		 *
@@ -765,7 +765,7 @@ AutoFill.defaults = {
 		 */
 		increment: true,
 
-		/**
+		/*
 		 * Cell read function
 		 *
 		 * Default function will simply read the value from the HTML of the
@@ -779,7 +779,7 @@ AutoFill.defaults = {
 			return $(cell).html();
 		},
 
-		/**
+		/*
 		 * Cell write function
 		 *
 		 * Default function will simply write to the HTML and tell the DataTable
@@ -803,7 +803,7 @@ AutoFill.defaults = {
 			}
 		},
 
-		/**
+		/*
 		 * Step function. This provides the ability to customise how the values
 		 * are incremented.
 		 *

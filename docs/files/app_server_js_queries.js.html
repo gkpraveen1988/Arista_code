@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app\server\js\queries.js - BENCHMARK DASHBOARD DOCUMENTATION</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="BENCHMARK DASHBOARD DOCUMENTATION" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: ARISTA BENCHMARK DASHBOARD</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/functionsForcronTenMinutes.js.html">functionsForcronTenMinutes.js</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/component.js.html">component.js</a></li>
+                                <li><a href="../classes/makeGrahandTable.js.html">makeGrahandTable.js</a></li>
+                                <li><a href="../classes/benchmarkDashboard_Process.js.html">benchmarkDashboard_Process.js</a></li>
+                                <li><a href="../classes/common.js.html">common.js</a></li>
+                                <li><a href="../classes/dbConfig.js.html">dbConfig.js</a></li>
+                                <li><a href="../classes/dbConnect.js.html">dbConnect.js</a></li>
+                                <li><a href="../classes/charts.js.html">charts.js</a></li>
+                                <li><a href="../classes/functionsForcronTime12.js.html">functionsForcronTime12.js</a></li>
+                                <li><a href="../classes/functionsFordbConnect.js.html">functionsFordbConnect.js</a></li>
+                                <li><a href="../classes/getAllData.js.html">getAllData.js</a></li>
+                                <li><a href="../classes/queries.js.html">queries.js</a></li>
+                                <li><a href="../classes/server.js.html">server.js</a></li>
+                                <li><a href="../classes/status.js.html">status.js</a></li>
+                                <li><a href="../classes/url.js.html">url.js</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/client.html">client</a></li>
+                                <li><a href="../modules/server.html">server</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app\server\js\queries.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Contains all the files for server side scripting.
+ *
+ * @module server
+ */
+ /**
+ * This file is for Queries.
+ * where ever required, parameters are passed to return the required query string.
+ *
+ *
+ * @class queries.js
+ * @constructor
+ */
+module.exports = {
+
+	
+	&quot;createTable&quot; : function (input) {
+		if (input == &quot;Benchmark&quot;) {
+			var query = &quot;CREATE TABLE Local_Benchmark (id TEXT PRIMARY KEY, firstDropDownValue TEXT, DropDownFlag TEXT)&quot;;
+		}
+		if (input == &quot;Run&quot;) {
+			var query = &quot;CREATE TABLE Local_Run ( benchmark TEXT , result TEXT , dut TEXT, project TEXT, release TEXT, client TEXT, changeNum INTEGER, testTime TEXT)&quot;;
+
+		}
+        if (input == &quot;Info&quot;) {
+            var query = &quot;CREATE TABLE Info (key INTEGER PRIMARY KEY, id TEXT, description TEXT)&quot; ; 
+        }
+        if (input == &quot;timeValue&quot;){
+            var query = &quot;CREATE TABLE timeValue (key INTEGER PRIMARY KEY, lastUpdated TEXT)&quot;;
+        }
+		if (input == &quot;checkPointTimes&quot;) {
+			var query = &quot;CREATE TABLE checkPointTimes (key INTEGER PRIMARY KEY,tryingToConnectAt TEXT,connectedAt TEXT,firedAt TEXT, fetchedAt TEXT)&quot;;
+
+		}        
+        if(input == &quot;updateFlag&quot;)
+        	var query = &quot;CREATE TABLE updateFlag (key INTEGER PRIMARY KEY, Flag TEXT)&quot;;
+		
+		return query;
+
+	},
+
+	&quot;BenchmarkTable&quot; : function (input) {
+		var query;
+
+		if (input == &quot;limit&quot;)
+			query = &quot;select * from Benchmark  limit 1&quot;;
+
+		if (input == &quot;all&quot;)
+			query = &quot;select * from Benchmark&quot;;
+        
+        if(input ==&quot;allBencmarks&quot;)
+            query=&quot;select id from Local_Benchmark&quot;;
+
+		if (input == &quot;insert&quot;)
+			query = &#x27;INSERT OR REPLACE INTO Local_Benchmark (id,firstDropDownValue,DropDownFlag) VALUES &#x27;;
+
+		if (input == &quot;replace&quot;)
+			query = &#x27;REPLACE INTO Local_Benchmark (id,firstDropDownValue,DropDownFlag) VALUES &#x27;;
+
+       // console.log(query);
+		return query;
+
+	},
+    
+    &quot;Info&quot; : function (input,value){
+        var query;
+        if(input==&quot;insert&quot;)
+            query = &#x27;INSERT OR REPLACE INTO Info (key,id,description) VALUES &#x27;;
+        
+        if(input==&quot;getDescription&quot;)
+            query = &#x27;select description from Info where id = &quot;&#x27; + value + &#x27;&quot; union select lastUpdated from timeValue&#x27;;
+        
+        return query;
+    
+    },
+
+	&quot;RunTable&quot; : function (input,timeValue,lastDate,currentDate) {
+		var query;
+		if(input == &quot;count&quot;)
+			query = &#x27;select count(*) as count from benchmark.Run&#x27;;
+		if(input == &quot;testTime&quot;)	
+			query = &#x27;select * from benchmark.Run where testTime &gt;&quot;&#x27; + timeValue + &#x27;&quot;&#x27;;
+		if(input == &quot;allBenchmarks&quot;)
+			query = &quot;select benchmark  from benchmark.Run  where substr(testTime,1,10) &gt;=&#x27;&quot; + lastDate + &quot;&#x27; and substr(testTime,1,10) &lt;=&#x27;&quot; + currentDate + &quot;&#x27; group by benchmark order by benchmark&quot;;
+
+		//console.log(query);
+		return query;
+
+	},
+	&quot;AllData_RunTable&quot; : function(limit, offset){
+		var query = &#x27;select * from Run limit &#x27;+limit+&#x27; offset &#x27;+offset+&#x27;&#x27;;
+		return query;
+
+	},
+	&quot;Local_RunTable&quot; : function(input,value){
+		var query;
+		if(input == &quot;maxID&quot;)
+			query=&#x27;SELECT * FROM Local_Run WHERE key = (SELECT MAX(key) FROM Local_Run)&#x27;;
+		if(input == &quot;insert&quot;)
+			query = &#x27;INSERT OR REPLACE INTO Local_Run (benchmark, result, dut, project, release, client, changeNum, testTime) VALUES&#x27;;		
+		if(input == &quot;getIds&quot;)
+			query = &#x27;select id,DropDownFlag from Local_Benchmark where firstDropDownValue = &quot;&#x27;+value+&#x27;&quot;&#x27;;
+		if(input==&quot;data&quot;)
+			query = &#x27;select * from Local_Run where benchmark = &quot;&#x27;+value+&#x27;&quot; order by testTime limit 50&#x27;;
+        
+        if(input == &quot;timestamp&quot;)
+            query = &#x27;select testTime from Local_Run order by testTime desc limit 1&#x27;;
+
+		
+		return query;
+	},
+    
+    &quot;deleteQuery&quot; : function (input,lastDate){
+    var query;
+        if(input==&quot;idsNotINLocal_Benchmark&quot;)
+        query = &#x27;select * from (select benchmark from Local_Run  group by benchmark ) where benchmark NOT IN(SELECT id FROM Local_Benchmark)&#x27;;
+        
+        if(input==&quot;idsInINLocal_Benchmark&quot;)
+        query = &#x27;select * from (select benchmark from Local_Run  group by benchmark ) where benchmark IN(SELECT id FROM Local_Benchmark)&#x27;;
+        
+		if(input == &quot;notDateIds&quot;)
+			query = &quot;select * from (select benchmark from Local_Run where substr(testTime,1,10) =&#x27;&quot; + lastDate + &quot;&#x27; group by benchmark) where benchmark NOT IN(SELECT id FROM Local_Benchmark)&quot;;
+
+		if(input == &quot;deleteNotDateIds&quot;)
+			query = &quot;delete from Local_Run where benchmark in (select * from (select benchmark from Local_Run where substr(testTime,1,10) =&#x27;&quot; + lastDate + &quot;&#x27; group by benchmark) where benchmark NOT IN(SELECT id FROM Local_Benchmark))&quot;;        
+           
+            //console.log(query);
+           return query;
+    
+    },
+    
+    &quot;updateLocal_RunQuery&quot; : function(input,value){
+        var query;
+        if(input==&quot;firstSet&quot;)
+        query=&#x27;CREATE TABLE Local_Run_temp (benchmark,result,dut,project,release,client,changeNum,testTime); INSERT INTO Local_Run_temp&#x27;
+        
+
+        
+        if(input==&quot;secondSet&quot;)
+        query=&#x27; select * from (select * from Local_Run where benchmark = &quot;&#x27;+value+&#x27;&quot; order by testTime desc limit 50);COMMIT; &#x27; ; 
+        
+        if(input==&quot;middleSet&quot;)
+            query=&#x27;INSERT INTO Local_Run_temp&#x27;;        
+        
+        if(input==&quot;AlterTempTable&quot;)
+            query=&#x27;ALTER Table Local_Run_temp RENAME TO Local_Run; COMMIT;&#x27;
+            
+        if(input==&quot;AlterRunTable&quot;)    
+            query = &#x27;DROP TABLE Local_Run&#x27;;
+     
+    return query;
+    },
+    &quot;timeValue&quot; : function (input,value){
+        if(input==&quot;insert&quot;)
+            var query = &#x27;INSERT OR REPLACE INTO timeValue values (1,&quot;&#x27;+value+&#x27;&quot;)&#x27;;
+        
+        if(input==&quot;get&quot;)
+            var query = &#x27;select lastUpdated from timeValue&#x27;;
+        
+        return query;
+    },
+    &quot;updateFlag&quot; : function (input,value) {
+    	if(input==&quot;insert&quot;)
+    		var query = &#x27;insert or replace into updateFlag values(1,&quot;&#x27;+value+&#x27;&quot;) &#x27;;
+    	if(input==&quot;select&quot;)
+    		var query = &#x27;select Flag from updateFlag&#x27;;
+
+    	return query;
+
+    },
+    &quot;moreData&quot; : function (input,benchmark,limit_value){
+        if(input==&quot;all&quot;)
+            var query = &#x27;select * from Run where benchmark = &quot;&#x27;+benchmark+&#x27;&quot; order by testTime&#x27;;
+        else
+            var query = &#x27;select * from Run where benchmark = &quot;&#x27;+benchmark+&#x27;&quot; order by testTime desc limit &#x27;+limit_value+&#x27;&#x27;;
+        
+        return query;
+    
+    },
+	&quot;InsertIntoCheckPointTimes&quot; : function (tryingToConnectAt,connectedAt, firedAt, fetchedAt) {
+		var query = &#x27;INSERT OR REPLACE INTO checkPointTimes (key,tryingToConnectAt, connectedAt, firedAt, fetchedAt) VALUES (1,&quot;&#x27; + tryingToConnectAt + &#x27;&quot;,&quot;&#x27; + connectedAt + &#x27;&quot;,&quot;&#x27; + firedAt + &#x27;&quot;,&quot;&#x27; + fetchedAt + &#x27;&quot;)&#x27;;
+        
+		return query;
+
+	},
+    &quot;checkPointTimesTable&quot; : function(){
+        var query = &#x27;select * from checkPointTimes&#x27;;
+    
+        return query;
+    
+    }
+    
+
+}
+    
+    
+ /*CREATE TEMPORARY TABLE Local_Run_temp (benchmark,result,dut,project,release,client,changeNum,testTime);
+INSERT INTO Local_Run_temp select * from (select * from Local_Run where benchmark = &#x27;HitlessRestart.pktDriverShutToL3ReconcileComplete.None&#x27; order by testTime desc limit 50 )UNION select * from (select * from Local_Run where benchmark = &#x27;InterfaceScaling.SubIntf.Delete.Lags-8.SubIntfs-256.deleteTime&#x27; order by testTime desc limit 50)UNION
+select * from (select * from Local_Run where benchmark = &#x27;AclTest.PAcl.Modular.defaultConfigReloadTimeAbsolute&#x27; order by testTime desc limit 50);
+DROP TABLE Local_Run;
+CREATE TABLE Local_Run(benchmark,result,dut,project,release,client,changeNum,testTime);
+INSERT INTO Local_Run SELECT benchmark,result,dut,project,release,client,changeNum,testTime FROM Local_Run_temp;
+DROP TABLE Local_Run_temp;
+COMMIT; */     
+    
+    
+    
+    
+    
+    
+    
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,3 +1,16 @@
+/**
+ * Contains all the files for server side scripting.
+ *
+ * @module server
+ */
+ /**
+ * Initaiation of Data fetching/Updation process happens from this file
+ * 
+ *
+ *
+ * @class benchmarkDashboard_Process.js
+ * @constructor
+ */
 var url = require("./url.js");
 var common = require(url.commonJs);
 var timeStamp = common.DisplaytimeStamp();

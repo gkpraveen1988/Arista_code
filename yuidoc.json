@@ -1,0 +1,11 @@
+{
+    "name": "BENCHMARK DASHBOARD DOCUMENTATION",
+    "description": "ARISTA BENCHMARK DASHBOARD DOCUMENTATION",
+    "version": "ARISTA BENCHMARK DASHBOARD",
+    "url": "http://us116.sjc.aristanetworks.com:7777/",
+    "options": {
+        "linkNatives": "true",
+        "outdir": "./docs",
+        "paths": "./app"
+    }
+}

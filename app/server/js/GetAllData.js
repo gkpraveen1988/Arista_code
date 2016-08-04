@@ -1,8 +1,24 @@
+/**
+ * Contains all the files for server side scripting.
+ *
+ * @module server
+ */
+ /**
+ * This file contains functions which will fetch all the last 365 days Data from benchmark Database (SERVER)
+ * 
+ *
+ *
+ * @class getAllData.js
+ * @constructor
+ */
+
+
+
 var dbConf = require("./dbConfig.js");
 var queries = require("./queries.js");
 var common = require("./common.js");
 var async = require("../lib/node_modules/async");
-var thisFile = require("./GetAllData.js");
+var thisFile = require("./getAllData.js");
 var url = require('./url.js');
 var globalConnection;
 var usserverconnection2;
@@ -10,6 +26,15 @@ var GlobalId = 0;
 var Local_ID;
 var GLOBALARRAY = [];
 var asyncArray = [];
+
+/**
+ * A connection to the database is made and control is passed to other function
+ *
+ *
+ * @function ConnectToDataBase()
+ * @return {} : null
+**/
+
 exports.ConnectToDataBase = function () {
 
 var pool = dbConf.dbPool();
@@ -26,19 +51,20 @@ var pool = dbConf.dbPool();
 		}
 
 	});
-		
-	
-
-
-			
-
 }
+
+/**
+ * This function will fire queries and fetches all the data from current date to last 365 days,
+ * from the Run table (Database in server).
+ *
+ *
+ * @function fetchDataFromTable_Run()
+ * @return {} : null
+**/
 
  exports.fetchDataFromTable_Run = function() {
 	console.log("in fetchDataFromTable_Run() function");
 	stm = "";
-	//var query = "select benchmark  from benchmark.Run  where substr(testTime,1,10) >=" + "'2015-06-24'" + " and substr(testTime,1,10) <=" + "'2016-06-24'" + " group by benchmark order by benchmark";
-    		//var file = "../DataBase/localData.db";
 			var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 			var connection = new sqlite3.Database(url.rawFile);
 	connection.all(queries.BenchmarkTable("allBencmarks"), function (err, Benchmark_recordset) {
@@ -50,8 +76,6 @@ var pool = dbConf.dbPool();
 			console.log(Benchmark_recordset.length);
 			Benchmark_recordset.map(function (d, i) {
 				benchmark = d.id;
-				//(Benchmark_recordset.length)
-				//console.log(i);
 				if ((i % 30) == 0 || (i + 1) == (Benchmark_recordset.length)) {
 					console.log("i value is " + i + " control in the if loop");
 					stm = stm + "(select * from benchmark.Run where benchmark = '" + benchmark + "' order by testTime desc limit 50)";
@@ -113,9 +137,15 @@ var pool = dbConf.dbPool();
 
 }
 
-//usserverconnection.query( "(select * from benchmark.Run where benchmark = "+" 'AclTest.Raclrangebenchmarktest.RAclConfiguration.Ip.In.30' "+" ) union all (select * from benchmark.Run where benchmark = "+" 'AclTest.Raclrangebenchmarktest.RAclConfiguration.Ip.In.5' "+" order by testTime desc limit 50)", function (err, Benchmark_recordset) {
-
-
+/**
+ * This function will connect to localData.db and pushes the data into the Local_Run table
+ *
+ *
+ * @function PushToTable_LocalRun()
+ * @param  {Array} : Run_data
+ * @return {}      : null
+**/
+ 
  exports.PushToTable_LocalRun = function(Run_data) {
 	var stm = "";
 

@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app\client\js\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.js - BENCHMARK DASHBOARD DOCUMENTATION</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="BENCHMARK DASHBOARD DOCUMENTATION" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: ARISTA BENCHMARK DASHBOARD</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/functionsForcronTenMinutes.js.html">functionsForcronTenMinutes.js</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/component.js.html">component.js</a></li>
+                                <li><a href="../classes/makeGrahandTable.js.html">makeGrahandTable.js</a></li>
+                                <li><a href="../classes/benchmarkDashboard_Process.js.html">benchmarkDashboard_Process.js</a></li>
+                                <li><a href="../classes/common.js.html">common.js</a></li>
+                                <li><a href="../classes/dbConfig.js.html">dbConfig.js</a></li>
+                                <li><a href="../classes/dbConnect.js.html">dbConnect.js</a></li>
+                                <li><a href="../classes/charts.js.html">charts.js</a></li>
+                                <li><a href="../classes/functionsForcronTime12.js.html">functionsForcronTime12.js</a></li>
+                                <li><a href="../classes/functionsFordbConnect.js.html">functionsFordbConnect.js</a></li>
+                                <li><a href="../classes/getAllData.js.html">getAllData.js</a></li>
+                                <li><a href="../classes/queries.js.html">queries.js</a></li>
+                                <li><a href="../classes/server.js.html">server.js</a></li>
+                                <li><a href="../classes/status.js.html">status.js</a></li>
+                                <li><a href="../classes/url.js.html">url.js</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/client.html">client</a></li>
+                                <li><a href="../modules/server.html">server</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app\client\js\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*! KeyTable 1.2.1
+ * ©2010-2014 SpryMedia Ltd - datatables.net/license
+ */
+
+/**
+ * @summary     KeyTable
+ * @description Spreadsheet like keyboard navigation for DataTables
+ * @version     1.2.1
+ * @file        dataTables.keyTable.js
+ * @author      SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact     www.sprymedia.co.uk/contact
+ * @copyright   Copyright 2009-2014 SpryMedia Ltd.
+ *
+ * This source file is free software, available under the following license:
+ *   MIT license - http://datatables.net/license/mit
+ *
+ * This source file is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
+ *
+ * For details please refer to: http://www.datatables.net
+ */
+
+// Global scope for KeyTable for backwards compatibility. Will be removed in 1.3
+var KeyTable;
+
+
+(function(window, document, undefined) {
+
+
+var factory = function( $, DataTable ) {
+&quot;use strict&quot;;
+
+KeyTable = function ( oInit )
+{
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * API parameters
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/*
+	 * Variable: block
+	 * Purpose:  Flag whether or not KeyTable events should be processed
+	 * Scope:    KeyTable - public
+	 */
+	this.block = false;
+
+	/*
+	 * Variable: event
+	 * Purpose:  Container for all event application methods
+	 * Scope:    KeyTable - public
+	 * Notes:    This object contains all the public methods for adding and removing events - these
+	 *           are dynamically added later on
+	 */
+	this.event = {
+		&quot;remove&quot;: {}
+	};
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * API methods
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/*
+	 * Function: fnGetCurrentPosition
+	 * Purpose:  Get the currently focused cell&#x27;s position
+	 * Returns:  array int: [ x, y ]
+	 * Inputs:   void
+	 */
+	this.fnGetCurrentPosition = function ()
+	{
+		return [ _iOldX, _iOldY ];
+	};
+
+
+	/*
+	 * Function: fnGetCurrentData
+	 * Purpose:  Get the currently focused cell&#x27;s data (innerHTML)
+	 * Returns:  string: - data requested
+	 * Inputs:   void
+	 */
+	this.fnGetCurrentData = function ()
+	{
+		return _nOldFocus.innerHTML;
+	};
+
+
+	/*
+	 * Function: fnGetCurrentTD
+	 * Purpose:  Get the currently focused cell
+	 * Returns:  node: - focused element
+	 * Inputs:   void
+	 */
+	this.fnGetCurrentTD = function ()
+	{
+		return _nOldFocus;
+	};
+
+
+	/*
+	 * Function: fnSetPosition
+	 * Purpose:  Set the position of the focused cell
+	 * Returns:  -
+	 * Inputs:   int:x - x coordinate
+	 *           int:y - y coordinate
+	 * Notes:    Thanks to Rohan Daxini for the basis of this function
+	 */
+	this.fnSetPosition = function( x, y )
+	{
+		if ( typeof x == &#x27;object&#x27; &amp;&amp; x.nodeName )
+		{
+			_fnSetFocus( x );
+		}
+		else
+		{
+			_fnSetFocus( _fnCellFromCoords(x, y) );
+		}
+	};
+
+
+	/*
+	 * Function: fnBlur
+	 * Purpose:  Blur the current focus
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	this.fnBlur = function()
+	{
+		_fnBlur();
+	};
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Private parameters
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/*
+	 * Variable: _nBody
+	 * Purpose:  Body node of the table - cached for renference
+	 * Scope:    KeyTable - private
+	 */
+	var _nBody = null;
+
+	/*
+	 * Variable: 
+	 * Purpose:  
+	 * Scope:    KeyTable - private
+	 */
+	var _nOldFocus = null;
+
+	/*
+	 * Variable: _iOldX and _iOldY
+	 * Purpose:  X and Y coords of the old elemet that was focused on
+	 * Scope:    KeyTable - private
+	 */
+	var _iOldX = null;
+	var _iOldY = null;
+
+	/*
+	 * Variable: _that
+	 * Purpose:  Scope saving for &#x27;this&#x27; after a jQuery event
+	 * Scope:    KeyTable - private
+	 */
+	var _that = null;
+
+	/*
+	 * Variable: sFocusClass
+	 * Purpose:  Class that should be used for focusing on a cell
+	 * Scope:    KeyTable - private
+	 */
+	var _sFocusClass = &quot;focus&quot;;
+
+	/*
+	 * Variable: _bKeyCapture
+	 * Purpose:  Flag for should KeyTable capture key events or not
+	 * Scope:    KeyTable - private
+	 */
+	var _bKeyCapture = false;
+
+	/*
+	 * Variable: _oaoEvents
+	 * Purpose:  Event cache object, one array for each supported event for speed of searching
+	 * Scope:    KeyTable - private
+	 */
+	var _oaoEvents = {
+		&quot;action&quot;: [],
+		&quot;esc&quot;: [],
+		&quot;focus&quot;: [],
+		&quot;blur&quot;: []
+	};
+
+	/*
+	 * Variable: _oDatatable
+	 * Purpose:  DataTables settings object for if we are actually using a 
+	 *           DataTables table
+	 * Scope:    KeyTable - private
+	 */
+	var _oDatatable = null;
+
+	var _bForm;
+	var _nInput;
+	var _bInputFocused = false;
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Private methods
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Key table events
+	 */
+
+	/*
+	 * Function: _fnEventAddTemplate
+	 * Purpose:  Create a function (with closure for sKey) event addition API
+	 * Returns:  function: - template function
+	 * Inputs:   string:sKey - type of event to detect
+	 */
+	function _fnEventAddTemplate( sKey )
+	{
+		/*
+		 * Function: -
+		 * Purpose:  API function for adding event to cache
+		 * Returns:  -
+		 * Inputs:   1. node:x - target node to add event for
+		 *           2. function:y - callback function to apply
+		 *         or
+		 *           1. int:x - x coord. of target cell (can be null for live events)
+		 *           2. int:y - y coord. of target cell (can be null for live events)
+		 *           3. function:z - callback function to apply
+		 * Notes:    This function is (interally) overloaded (in as much as javascript allows for
+		 *           that) - the target cell can be given by either node or coords.
+		 */
+		return function ( x, y, z ) {
+			if ( (x===null || typeof x == &quot;number&quot;) &amp;&amp;
+				 (y===null || typeof y == &quot;number&quot;) &amp;&amp;
+				 typeof z == &quot;function&quot; )
+			{
+				_fnEventAdd( sKey, x, y, z );
+			}
+			else if ( typeof x == &quot;object&quot; &amp;&amp; typeof y == &quot;function&quot; )
+			{
+				var aCoords = _fnCoordsFromCell( x );
+				_fnEventAdd( sKey, aCoords[0], aCoords[1], y );
+			}
+			else
+			{
+				alert( &quot;Unhandable event type was added: x&quot; +x+ &quot;  y:&quot; +y+ &quot;  z:&quot; +z );
+			}
+		};
+	}
+
+
+	/*
+	 * Function: _fnEventRemoveTemplate
+	 * Purpose:  Create a function (with closure for sKey) event removal API
+	 * Returns:  function: - template function
+	 * Inputs:   string:sKey - type of event to detect
+	 */
+	function _fnEventRemoveTemplate( sKey )
+	{
+		/*
+		 * Function: -
+		 * Purpose:  API function for removing event from cache
+		 * Returns:  int: - number of events removed
+		 * Inputs:   1. node:x - target node to remove event from
+		 *           2. function:y - callback function to apply
+		 *         or
+		 *           1. int:x - x coord. of target cell (can be null for live events)
+		 *           2. int:y - y coord. of target cell (can be null for live events)
+		 *           3. function:z - callback function to remove - optional
+		 * Notes:    This function is (interally) overloaded (in as much as javascript allows for
+		 *           that) - the target cell can be given by either node or coords and the function
+		 *           to remove is optional
+		 */
+		return function ( x, y, z ) {
+			if ( (x===null || typeof arguments[0] == &quot;number&quot;) &amp;&amp;
+				 (y===null || typeof arguments[1] == &quot;number&quot; ) )
+			{
+				if ( typeof arguments[2] == &quot;function&quot; )
+				{
+					_fnEventRemove( sKey, x, y, z );
+				}
+				else
+				{
+					_fnEventRemove( sKey, x, y );
+				}
+			}
+			else if ( typeof arguments[0] == &quot;object&quot; )
+			{
+				var aCoords = _fnCoordsFromCell( x );
+				if ( typeof arguments[1] == &quot;function&quot; )
+				{
+					_fnEventRemove( sKey, aCoords[0], aCoords[1], y );
+				}
+				else
+				{
+					_fnEventRemove( sKey, aCoords[0], aCoords[1] );
+				}
+			}
+			else
+			{
+				alert( &quot;Unhandable event type was removed: x&quot; +x+ &quot;  y:&quot; +y+ &quot;  z:&quot; +z );
+			}
+		};
+	}
+
+	/* Use the template functions to add the event API functions */
+	for ( var sKey in _oaoEvents )
+	{
+		if ( sKey )
+		{
+			this.event[sKey] = _fnEventAddTemplate( sKey );
+			this.event.remove[sKey] = _fnEventRemoveTemplate( sKey );
+		}
+	}
+
+
+	/*
+	 * Function: _fnEventAdd
+	 * Purpose:  Add an event to the internal cache
+	 * Returns:  -
+	 * Inputs:   string:sType - type of event to add, given by the available elements in _oaoEvents
+	 *           int:x - x-coords to add event to - can be null for &quot;blanket&quot; event
+	 *           int:y - y-coords to add event to - can be null for &quot;blanket&quot; event
+	 *           function:fn - callback function for when triggered
+	 */
+	function _fnEventAdd( sType, x, y, fn )
+	{
+		_oaoEvents[sType].push( {
+			&quot;x&quot;: x,
+			&quot;y&quot;: y,
+			&quot;fn&quot;: fn
+		} );
+	}
+
+
+	/*
+	 * Function: _fnEventRemove
+	 * Purpose:  Remove an event from the event cache
+	 * Returns:  int: - number of matching events removed
+	 * Inputs:   string:sType - type of event to look for
+	 *           node:nTarget - target table cell
+	 *           function:fn - optional - remove this function. If not given all handlers of this
+	 *             type will be removed
+	 */
+	function _fnEventRemove( sType, x, y, fn )
+	{
+		var iCorrector = 0;
+
+		for ( var i=0, iLen=_oaoEvents[sType].length ; i&lt;iLen-iCorrector ; i++ )
+		{
+			if ( typeof fn != &#x27;undefined&#x27; )
+			{
+				if ( _oaoEvents[sType][i-iCorrector].x == x &amp;&amp;
+					 _oaoEvents[sType][i-iCorrector].y == y &amp;&amp;
+					   _oaoEvents[sType][i-iCorrector].fn == fn )
+				{
+					_oaoEvents[sType].splice( i-iCorrector, 1 );
+					iCorrector++;
+				}
+			}
+			else
+			{
+				if ( _oaoEvents[sType][i-iCorrector].x == x &amp;&amp;
+					 _oaoEvents[sType][i-iCorrector].y == y )
+				{
+					_oaoEvents[sType].splice( i, 1 );
+					return 1;
+				}
+			}
+		}
+		return iCorrector;
+	}
+
+
+	/*
+	 * Function: _fnEventFire
+	 * Purpose:  Look thought the events cache and fire off the event of interest
+	 * Returns:  int:iFired - number of events fired
+	 * Inputs:   string:sType - type of event to look for
+	 *           int:x - x coord of cell
+	 *           int:y - y coord of  ell
+	 * Notes:    It might be more efficient to return after the first event has been tirggered,
+	 *           but that would mean that only one function of a particular type can be
+	 *           subscribed to a particular node.
+	 */
+	function _fnEventFire ( sType, x, y )
+	{
+		var iFired = 0;
+		var aEvents = _oaoEvents[sType];
+		for ( var i=0 ; i&lt;aEvents.length ; i++ )
+		{
+			if ( (aEvents[i].x == x     &amp;&amp; aEvents[i].y == y    ) ||
+				 (aEvents[i].x === null &amp;&amp; aEvents[i].y == y    ) ||
+				 (aEvents[i].x == x     &amp;&amp; aEvents[i].y === null ) ||
+				 (aEvents[i].x === null &amp;&amp; aEvents[i].y === null )
+			)
+			{
+				aEvents[i].fn( _fnCellFromCoords(x,y), x, y );
+				iFired++;
+			}
+		}
+		return iFired;
+	}
+
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Focus functions
+	 */
+
+	/*
+	 * Function: _fnSetFocus
+	 * Purpose:  Set focus on a node, and remove from an old node if needed
+	 * Returns:  -
+	 * Inputs:   node:nTarget - node we want to focus on
+	 *           bool:bAutoScroll - optional - should we scroll the view port to the display
+	 */
+	function _fnSetFocus( nTarget, bAutoScroll )
+	{
+		/* If node already has focus, just ignore this call */
+		if ( _nOldFocus == nTarget )
+		{
+			return;
+		}
+
+		if ( typeof bAutoScroll == &#x27;undefined&#x27; )
+		{
+			bAutoScroll = true;
+		}
+
+		/* Remove old focus (with blur event if needed) */
+		if ( _nOldFocus !== null )
+		{
+			_fnRemoveFocus( _nOldFocus );
+		}
+
+		/* Add the new class to highlight the focused cell */
+		$(nTarget).addClass( _sFocusClass );
+		$(nTarget).parent().addClass( _sFocusClass );
+
+		/* If it&#x27;s a DataTable then we need to jump the paging to the relevant page */
+		var oSettings;
+		if ( _oDatatable )
+		{
+			oSettings = _oDatatable;
+			var iRow = _fnFindDtCell( nTarget )[1];
+			var bKeyCaptureCache = _bKeyCapture;
+
+			/* Page forwards */
+			while ( iRow &gt;= oSettings.fnDisplayEnd() )
+			{
+				if ( oSettings._iDisplayLength &gt;= 0 )
+				{
+					/* Make sure we are not over running the display array */
+					if ( oSettings._iDisplayStart + oSettings._iDisplayLength &lt; oSettings.fnRecordsDisplay() )
+					{
+						oSettings._iDisplayStart += oSettings._iDisplayLength;
+					}
+				}
+				else
+				{
+					oSettings._iDisplayStart = 0;
+				}
+				_oDatatable.oApi._fnCalculateEnd( oSettings );
+			}
+
+			/* Page backwards */
+			while ( iRow &lt; oSettings._iDisplayStart )
+			{
+				oSettings._iDisplayStart = oSettings._iDisplayLength&gt;=0 ?
+					oSettings._iDisplayStart - oSettings._iDisplayLength :
+					0;
+
+				if ( oSettings._iDisplayStart &lt; 0 )
+				{
+				  oSettings._iDisplayStart = 0;
+				}
+				_oDatatable.oApi._fnCalculateEnd( oSettings );
+			}
+
+			/* Re-draw the table */
+			_oDatatable.oApi._fnDraw( oSettings );
+
+			/* Restore the key capture */
+			_bKeyCapture = bKeyCaptureCache;
+		}
+
+		/* Cache the information that we are interested in */
+		var aNewPos = _fnCoordsFromCell( nTarget );
+		_nOldFocus = nTarget;
+		_iOldX = aNewPos[0];
+		_iOldY = aNewPos[1];
+
+		var iViewportHeight, iViewportWidth, iScrollTop, iScrollLeft, iHeight, iWidth, aiPos;
+		if ( bAutoScroll )
+		{
+			/* Scroll the viewport such that the new cell is fully visible in the rendered window */
+			iViewportHeight = $(window).height();
+			iViewportWidth = $(window).width();
+			iScrollTop = $(document).scrollTop();
+			iScrollLeft = $(document).scrollLeft();
+			iHeight = nTarget.offsetHeight;
+			iWidth = nTarget.offsetWidth;
+			aiPos = _fnGetPos( nTarget );
+
+			/* Take account of scrolling in DataTables 1.7 - remove scrolling since that would add to
+			 * the positioning calculation
+			 */
+			if ( _oDatatable &amp;&amp; typeof oSettings.oScroll != &#x27;undefined&#x27; &amp;&amp;
+			  (oSettings.oScroll.sX !== &quot;&quot; || oSettings.oScroll.sY !== &quot;&quot;) )
+			{
+				aiPos[1] -= $(oSettings.nTable.parentNode).scrollTop();
+				aiPos[0] -= $(oSettings.nTable.parentNode).scrollLeft();
+			}
+
+			/* Correct viewport positioning for vertical scrolling */
+			if ( aiPos[1]+iHeight &gt; iScrollTop+iViewportHeight )
+			{
+				/* Displayed element if off the bottom of the viewport */
+				_fnSetScrollTop( aiPos[1]+iHeight - iViewportHeight );
+			}
+			else if ( aiPos[1] &lt; iScrollTop )
+			{
+				/* Displayed element if off the top of the viewport */
+				_fnSetScrollTop( aiPos[1] );
+			}
+
+			/* Correct viewport positioning for horizontal scrolling */
+			if ( aiPos[0]+iWidth &gt; iScrollLeft+iViewportWidth )
+			{
+				/* Displayed element is off the bottom of the viewport */
+				_fnSetScrollLeft( aiPos[0]+iWidth - iViewportWidth );
+			}
+			else if ( aiPos[0] &lt; iScrollLeft )
+			{
+				/* Displayed element if off the Left of the viewport */
+				_fnSetScrollLeft( aiPos[0] );
+			}
+		}
+
+		/* Take account of scrolling in DataTables 1.7 */
+		if ( _oDatatable &amp;&amp; typeof oSettings.oScroll != &#x27;undefined&#x27; &amp;&amp;
+		  (oSettings.oScroll.sX !== &quot;&quot; || oSettings.oScroll.sY !== &quot;&quot;) )
+		{
+			var dtScrollBody = oSettings.nTable.parentNode;
+			iViewportHeight = dtScrollBody.clientHeight;
+			iViewportWidth = dtScrollBody.clientWidth;
+			iScrollTop = dtScrollBody.scrollTop;
+			iScrollLeft = dtScrollBody.scrollLeft;
+			iHeight = nTarget.offsetHeight;
+			iWidth = nTarget.offsetWidth;
+
+			/* Correct for vertical scrolling */
+			if ( nTarget.offsetTop + iHeight &gt; iViewportHeight+iScrollTop )
+			{
+				dtScrollBody.scrollTop = (nTarget.offsetTop + iHeight) - iViewportHeight;
+			}
+			else if ( nTarget.offsetTop &lt; iScrollTop )
+			{
+				dtScrollBody.scrollTop = nTarget.offsetTop;
+			}
+
+			/* Correct for horizontal scrolling */
+			if ( nTarget.offsetLeft + iWidth &gt; iViewportWidth+iScrollLeft )
+			{
+				dtScrollBody.scrollLeft = (nTarget.offsetLeft + iWidth) - iViewportWidth;
+			}
+			else if ( nTarget.offsetLeft &lt; iScrollLeft )
+			{
+				dtScrollBody.scrollLeft = nTarget.offsetLeft;
+			}
+		}
+
+		/* Focused - so we want to capture the keys */
+		_fnCaptureKeys();
+
+		/* Fire of the focus event if there is one */
+		_fnEventFire( &quot;focus&quot;, _iOldX, _iOldY );
+	}
+
+
+	/*
+	 * Function: _fnBlur
+	 * Purpose:  Blur focus from the whole table
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	function _fnBlur()
+	{
+		_fnRemoveFocus( _nOldFocus );
+		_iOldX = null;
+		_iOldY = null;
+		_nOldFocus = null;
+		_fnReleaseKeys();
+	}
+
+
+	/*
+	 * Function: _fnRemoveFocus
+	 * Purpose:  Remove focus from a cell and fire any blur events which are attached
+	 * Returns:  -
+	 * Inputs:   node:nTarget - cell of interest
+	 */
+	function _fnRemoveFocus( nTarget )
+	{
+		$(nTarget).removeClass( _sFocusClass );
+		$(nTarget).parent().removeClass( _sFocusClass );
+		_fnEventFire( &quot;blur&quot;, _iOldX, _iOldY );
+	}
+
+
+	/*
+	 * Function: _fnClick
+	 * Purpose:  Focus on the element that has been clicked on by the user
+	 * Returns:  -
+	 * Inputs:   event:e - click event
+	 */
+	function _fnClick ( e )
+	{
+		var nTarget = this;
+		while ( nTarget.nodeName != &quot;TD&quot; )
+		{
+			nTarget = nTarget.parentNode;
+		}
+
+		_fnSetFocus( nTarget );
+		_fnCaptureKeys();
+	}
+
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Key events
+	 */
+
+	/*
+	 * Function: _fnKey
+	 * Purpose:  Deal with a key events, be it moving the focus or return etc.
+	 * Returns:  bool: - allow browser default action
+	 * Inputs:   event:e - key event
+	 */
+	function _fnKey ( e )
+	{
+		/* If user or system has blocked KeyTable from doing anything, just ignore this event */
+		if ( _that.block || !_bKeyCapture )
+		{
+			return true;
+		}
+
+		/* If a modifier key is pressed (exapct shift), ignore the event */
+		if ( e.metaKey || e.altKey || e.ctrlKey )
+		{
+			return true;
+		}
+		var
+			x, y,
+			iTableWidth = _nBody.getElementsByTagName(&#x27;tr&#x27;)[0].getElementsByTagName(&#x27;td&#x27;).length,
+			iTableHeight;
+
+		/* Get table height and width - done here so as to be dynamic (if table is updated) */
+		if ( _oDatatable )
+		{
+			/* 
+			 * Locate the current node in the DataTable overriding the old positions - the reason for
+			 * is is that there might have been some DataTables interaction between the last focus and
+			 * now
+			 */
+			iTableHeight = _oDatatable.aiDisplay.length;
+
+			var aDtPos = _fnFindDtCell( _nOldFocus );
+			if ( aDtPos === null )
+			{
+				/* If the table has been updated such that the focused cell can&#x27;t be seen - do nothing */
+				return;
+			}
+			_iOldX = aDtPos[ 0 ];
+			_iOldY = aDtPos[ 1 ];
+		}
+		else
+		{
+			iTableHeight = _nBody.getElementsByTagName(&#x27;tr&#x27;).length;
+		}
+
+		/* Capture shift+tab to match the left arrow key */
+		var iKey = (e.keyCode == 9 &amp;&amp; e.shiftKey) ? -1 : e.keyCode;
+
+		switch( iKey )
+		{
+			case 13: /* return */
+				e.preventDefault();
+				e.stopPropagation();
+				_fnEventFire( &quot;action&quot;, _iOldX, _iOldY );
+				return true;
+
+			case 27: /* esc */
+				if ( !_fnEventFire( &quot;esc&quot;, _iOldX, _iOldY ) )
+				{
+					/* Only lose focus if there isn&#x27;t an escape handler on the cell */
+					_fnBlur();
+					return;
+				}
+				x = _iOldX;
+				y = _iOldY;
+				break;
+
+			case -1:
+			case 37: /* left arrow */
+				if ( _iOldX &gt; 0 ) {
+					x = _iOldX - 1;
+					y = _iOldY;
+				} else if ( _iOldY &gt; 0 ) {
+					x = iTableWidth-1;
+					y = _iOldY - 1;
+				} else {
+					/* at start of table */
+					if ( iKey == -1 &amp;&amp; _bForm )
+					{
+						/* If we are in a form, return focus to the &#x27;input&#x27; element such that tabbing will
+						 * follow correctly in the browser
+						 */
+						_bInputFocused = true;
+						_nInput.focus();
+
+						/* This timeout is a little nasty - but IE appears to have some asyhnc behaviour for 
+						 * focus
+						 */
+						setTimeout( function(){ _bInputFocused = false; }, 0 );
+						_bKeyCapture = false;
+						_fnBlur();
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				break;
+
+			case 38: /* up arrow */
+				if ( _iOldY &gt; 0 ) {
+					x = _iOldX;
+					y = _iOldY - 1;
+				} else {
+					return false;
+				}
+				break;
+
+			case 36: /* home */
+				x = _iOldX;
+				y = 0;
+				break;
+
+			case 33: /* page up */
+				x = _iOldX;
+				y = _iOldY - 10;
+				if (y &lt; 0) {
+					y = 0;
+				}
+				break;
+
+			case 9: /* tab */
+			case 39: /* right arrow */
+				if ( _iOldX &lt; iTableWidth-1 ) {
+					x = _iOldX + 1;
+					y = _iOldY;
+				} else if ( _iOldY &lt; iTableHeight-1 ) {
+					x = 0;
+					y = _iOldY + 1;
+				} else {
+					/* at end of table */
+					if ( iKey == 9 &amp;&amp; _bForm )
+					{
+						/* If we are in a form, return focus to the &#x27;input&#x27; element such that tabbing will
+						 * follow correctly in the browser
+						 */
+						_bInputFocused = true;
+						_nInput.focus();
+
+						/* This timeout is a little nasty - but IE appears to have some asyhnc behaviour for 
+						 * focus
+						 */
+						setTimeout( function(){ _bInputFocused = false; }, 0 );
+						_bKeyCapture = false;
+						_fnBlur();
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				break;
+
+			case 40: /* down arrow */
+				if ( _iOldY &lt; iTableHeight-1 ) {
+					x = _iOldX;
+					y = _iOldY + 1;
+				} else {
+					return false;
+				}
+				break;
+
+			case 35: /* end */
+				x = _iOldX;
+				y = iTableHeight-1;
+				break;
+
+			case 34: /* page down */
+				x = _iOldX;
+				y = _iOldY+10;
+				if (y &gt; iTableHeight-1) {
+					y = iTableHeight-1;
+				}
+				break;
+
+			default: /* Nothing we are interested in */
+				return true;
+		}
+
+		_fnSetFocus( _fnCellFromCoords(x, y) );
+		return false;
+	}
+
+
+	/*
+	 * Function: _fnCaptureKeys
+	 * Purpose:  Start capturing key events for this table
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	function _fnCaptureKeys( )
+	{
+		if ( !_bKeyCapture )
+		{
+			_bKeyCapture = true;
+		}
+	}
+
+
+	/*
+	 * Function: _fnReleaseKeys
+	 * Purpose:  Stop capturing key events for this table
+	 * Returns:  -
+	 * Inputs:   -
+	 */
+	function _fnReleaseKeys( )
+	{
+		_bKeyCapture = false;
+	}
+
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Support functions
+	 */
+
+	/*
+	 * Function: _fnCellFromCoords
+	 * Purpose:  Calulate the target TD cell from x and y coordinates
+	 * Returns:  node: - TD target
+	 * Inputs:   int:x - x coordinate
+	 *           int:y - y coordinate
+	 */
+	function _fnCellFromCoords( x, y )
+	{
+		if ( _oDatatable )
+		{
+			if ( typeof _oDatatable.aoData[ _oDatatable.aiDisplay[ y ] ] != &#x27;undefined&#x27; )
+			{
+				return _oDatatable.aoData[ _oDatatable.aiDisplay[ y ] ].nTr.getElementsByTagName(&#x27;td&#x27;)[x];
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else
+		{
+			return $(&#x27;tr:eq(&#x27;+y+&#x27;)&gt;td:eq(&#x27;+x+&#x27;)&#x27;, _nBody )[0];
+		}
+	}
+
+
+	/*
+	 * Function: _fnCoordsFromCell
+	 * Purpose:  Calculate the x and y position in a table from a TD cell
+	 * Returns:  array[2] int: [x, y]
+	 * Inputs:   node:n - TD cell of interest
+	 * Notes:    Not actually interested in this for DataTables since it might go out of date
+	 */
+	function _fnCoordsFromCell( n )
+	{
+		if ( _oDatatable )
+		{
+			return [
+				$(&#x27;td&#x27;, n.parentNode).index(n),
+				$(&#x27;tr&#x27;, n.parentNode.parentNode).index(n.parentNode) + _oDatatable._iDisplayStart
+			];
+		}
+		else
+		{
+			return [
+				$(&#x27;td&#x27;, n.parentNode).index(n),
+				$(&#x27;tr&#x27;, n.parentNode.parentNode).index(n.parentNode)
+			];
+		}
+	}
+
+
+	/*
+	 * Function: _fnSetScrollTop
+	 * Purpose:  Set the vertical scrolling position
+	 * Returns:  -
+	 * Inputs:   int:iPos - scrolltop
+	 * Notes:    This is so nasty, but without browser detection you can&#x27;t tell which you should set
+	 *           So on browsers that support both, the scroll top will be set twice. I can live with
+	 *           that :-)
+	 */
+	function _fnSetScrollTop( iPos )
+	{
+		document.documentElement.scrollTop = iPos;
+		document.body.scrollTop = iPos;
+	}
+
+
+	/*
+	 * Function: _fnSetScrollLeft
+	 * Purpose:  Set the horizontal scrolling position
+	 * Returns:  -
+	 * Inputs:   int:iPos - scrollleft
+	 */
+	function _fnSetScrollLeft( iPos )
+	{
+		document.documentElement.scrollLeft = iPos;
+		document.body.scrollLeft = iPos;
+	}
+
+
+	/*
+	 * Function: _fnGetPos
+	 * Purpose:  Get the position of an object on the rendered page
+	 * Returns:  array[2] int: [left, right]
+	 * Inputs:   node:obj - element of interest
+	 */
+	function _fnGetPos ( obj )
+	{
+		var iLeft = 0;
+		var iTop = 0;
+
+		if (obj.offsetParent)
+		{
+			iLeft = obj.offsetLeft;
+			iTop = obj.offsetTop;
+			obj = obj.offsetParent;
+			while (obj)
+			{
+				iLeft += obj.offsetLeft;
+				iTop += obj.offsetTop;
+				obj = obj.offsetParent;
+			}
+		}
+		return [iLeft,iTop];
+	}
+
+
+	/*
+	 * Function: _fnFindDtCell
+	 * Purpose:  Get the coords. of a cell from the DataTables internal information
+	 * Returns:  array[2] int: [x, y] coords. or null if not found
+	 * Inputs:   node:nTarget - the node of interest
+	 */
+	function _fnFindDtCell( nTarget )
+	{
+		for ( var i=0, iLen=_oDatatable.aiDisplay.length ; i&lt;iLen ; i++ )
+		{
+			var nTr = _oDatatable.aoData[ _oDatatable.aiDisplay[i] ].nTr;
+			var nTds = nTr.getElementsByTagName(&#x27;td&#x27;);
+			for ( var j=0, jLen=nTds.length ; j&lt;jLen ; j++ )
+			{
+				if ( nTds[j] == nTarget )
+				{
+					return [ j, i ];
+				}
+			}
+		}
+		return null;
+	}
+
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Initialisation
+	 */
+
+	/*
+	 * Function: _fnInit
+	 * Purpose:  Initialise the KeyTable
+	 * Returns:  -
+	 * Inputs:   object:oInit - optional - Initalisation object with the following parameters:
+	 *   array[2] int:focus - x and y coordinates of the initial target
+	 *     or
+	 *     node:focus - the node to set initial focus on
+	 *   node:table - the table to use, if not given, first table with class &#x27;KeyTable&#x27; will be used
+	 *   string:focusClass - focusing class to give to table elements
+	 *           object:that - focus
+	 *   bool:initScroll - scroll the view port on load, default true
+	 *   int:tabIndex - the tab index to give the hidden input element
+	 */
+	function _fnInit( table, datatable, oInit, that )
+	{
+		/* Save scope */
+		_that = that;
+
+		/* Capture undefined initialisation and apply the defaults */
+		if ( typeof oInit == &#x27;undefined&#x27; ) {
+			oInit = {};
+		}
+
+		if ( typeof oInit.focus == &#x27;undefined&#x27; ) {
+			oInit.focus = [0,0];
+		}
+
+		oInit.table = table;
+		$(oInit.table).addClass(&#x27;KeyTable&#x27;);
+
+		if ( typeof oInit.focusClass != &#x27;undefined&#x27; ) {
+			_sFocusClass = oInit.focusClass;
+		}
+
+		if ( typeof datatable != &#x27;undefined&#x27; ) {
+			_oDatatable = datatable;
+		}
+
+		if ( typeof oInit.initScroll == &#x27;undefined&#x27; ) {
+			oInit.initScroll = true;
+		}
+
+		if ( typeof oInit.form == &#x27;undefined&#x27; ) {
+			oInit.form = false;
+		}
+		_bForm = oInit.form;
+
+		/* Cache the tbody node of interest */
+		_nBody = oInit.table.getElementsByTagName(&#x27;tbody&#x27;)[0];
+
+		/* If the table is inside a form, then we need a hidden input box which can be used by the
+		 * browser to catch the browser tabbing for our table
+		 */
+		if ( _bForm )
+		{
+			var nDiv = document.createElement(&#x27;div&#x27;);
+			_nInput = document.createElement(&#x27;input&#x27;);
+			nDiv.style.height = &quot;1px&quot;; /* Opera requires a little something */
+			nDiv.style.width = &quot;0px&quot;;
+			nDiv.style.overflow = &quot;hidden&quot;;
+			if ( typeof oInit.tabIndex != &#x27;undefined&#x27; )
+			{
+				_nInput.tabIndex = oInit.tabIndex;
+			}
+			nDiv.appendChild(_nInput);
+			oInit.table.parentNode.insertBefore( nDiv, oInit.table.nextSibling );
+
+			$(_nInput).focus( function () {
+				/* See if we want to &#x27;tab into&#x27; the table or out */
+				if ( !_bInputFocused )
+				{
+					_bKeyCapture = true;
+					_bInputFocused = false;
+					if ( typeof oInit.focus.nodeName != &quot;undefined&quot; )
+					{
+						_fnSetFocus( oInit.focus, oInit.initScroll );
+					}
+					else
+					{
+						_fnSetFocus( _fnCellFromCoords( oInit.focus[0], oInit.focus[1]), oInit.initScroll );
+					}
+
+					/* Need to interup the thread for this to work */
+					setTimeout( function() { _nInput.blur(); }, 0 );
+				}
+			} );
+			_bKeyCapture = false;
+		}
+		else
+		{
+			/* Set the initial focus on the table */
+			if ( typeof oInit.focus.nodeName != &quot;undefined&quot; )
+			{
+				_fnSetFocus( oInit.focus, oInit.initScroll );
+			}
+			else
+			{
+				_fnSetFocus( _fnCellFromCoords( oInit.focus[0], oInit.focus[1]), oInit.initScroll );
+			}
+			_fnCaptureKeys();
+		}
+
+		/* Add event listeners */
+		$(document).bind( &quot;keydown&quot;, _fnKey );
+
+		if ( _oDatatable )
+		{
+			$(_oDatatable.nTable).on( &#x27;click&#x27;, &#x27;td&#x27;, _fnClick );
+		}
+		else
+		{
+			$(_nBody).on( &#x27;click&#x27;, &#x27;td&#x27;, _fnClick );
+		}
+
+		/* Loose table focus when click outside the table */
+		$(document).click( function(e) {
+			var nTarget = e.target;
+			var bTableClick = false;
+			while ( nTarget )
+			{
+				if ( nTarget == oInit.table )
+				{
+					bTableClick = true;
+					break;
+				}
+				nTarget = nTarget.parentNode;
+			}
+			if ( !bTableClick )
+			{
+				_fnBlur();
+			}
+		} );
+	}
+
+	var table, datatable;
+
+	if ( oInit === undefined ) {
+		table = $(&#x27;table.KeyTable&#x27;)[0];
+		datatable = null;
+	}
+	else if ( $.isPlainObject( oInit ) ) {
+		table = oInit.table;
+		datatable = oInit.datatable;
+	}
+	else {
+		datatable = new $.fn.dataTable.Api( oInit ).settings()[0];
+		table = datatable.nTable;
+	}
+	/* Initialise our new object */
+	_fnInit( table, datatable, oInit, this );
+};
+
+
+KeyTable.version = &quot;1.2.1&quot;;
+
+
+$.fn.dataTable.KeyTable = KeyTable;
+$.fn.DataTable.KeyTable = KeyTable;
+
+
+return KeyTable;
+}; // /factory
+
+
+// Define as an AMD module if possible
+if ( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ) {
+	define( [&#x27;jquery&#x27;, &#x27;datatables&#x27;], factory );
+}
+else if ( typeof exports === &#x27;object&#x27; ) {
+    // Node/CommonJS
+    factory( require(&#x27;jquery&#x27;), require(&#x27;datatables&#x27;) );
+}
+else if ( jQuery &amp;&amp; !jQuery.fn.dataTable.KeyTable ) {
+	// Otherwise simply initialise as normal, stopping multiple evaluation
+	factory( jQuery, jQuery.fn.dataTable );
+}
+
+
+})(window, document);
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

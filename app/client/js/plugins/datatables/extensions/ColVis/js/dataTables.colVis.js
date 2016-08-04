@@ -2,7 +2,7 @@
  * ©2010-2015 SpryMedia Ltd - datatables.net/license
  */
 
-/**
+/*
  * @summary     ColVis
  * @description Controls for column visibility in DataTables
  * @version     1.1.2
@@ -27,7 +27,7 @@
 var factory = function( $, DataTable ) {
 "use strict";
 
-/**
+/*
  * ColVis provides column visibility control for DataTables
  *
  * @class ColVis
@@ -60,12 +60,12 @@ var ColVis = function( oDTSettings, oInit )
 	 * Public class variables
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * @namespace Settings object which contains customisable information for
 	 *     ColVis instance. Augmented by ColVis.defaults
 	 */
 	this.s = {
-		/**
+		/*
 		 * DataTables settings object
 		 *  @property dt
 		 *  @type     Object
@@ -73,7 +73,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"dt": null,
 
-		/**
+		/*
 		 * Customisation object
 		 *  @property oInit
 		 *  @type     Object
@@ -81,7 +81,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"oInit": oInit,
 
-		/**
+		/*
 		 * Flag to say if the collection is hidden
 		 *  @property hidden
 		 *  @type     boolean
@@ -89,7 +89,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"hidden": true,
 
-		/**
+		/*
 		 * Store the original visibility settings so they could be restored
 		 *  @property abOriginal
 		 *  @type     Array
@@ -99,11 +99,11 @@ var ColVis = function( oDTSettings, oInit )
 	};
 
 
-	/**
+	/*
 	 * @namespace Common and useful DOM elements for the class instance
 	 */
 	this.dom = {
-		/**
+		/*
 		 * Wrapper for the button - given back to DataTables as the node to insert
 		 *  @property wrapper
 		 *  @type     Node
@@ -111,7 +111,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"wrapper": null,
 
-		/**
+		/*
 		 * Activation button
 		 *  @property button
 		 *  @type     Node
@@ -119,7 +119,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"button": null,
 
-		/**
+		/*
 		 * Collection list node
 		 *  @property collection
 		 *  @type     Node
@@ -127,7 +127,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"collection": null,
 
-		/**
+		/*
 		 * Background node used for shading the display and event capturing
 		 *  @property background
 		 *  @type     Node
@@ -135,7 +135,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"background": null,
 
-		/**
+		/*
 		 * Element to position over the activation button to catch mouse events when using mouseover
 		 *  @property catcher
 		 *  @type     Node
@@ -143,7 +143,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"catcher": null,
 
-		/**
+		/*
 		 * List of button elements
 		 *  @property buttons
 		 *  @type     Array
@@ -151,7 +151,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"buttons": [],
 
-		/**
+		/*
 		 * List of group button elements
 		 *  @property groupButtons
 		 *  @type     Array
@@ -159,7 +159,7 @@ var ColVis = function( oDTSettings, oInit )
 		 */
 		"groupButtons": [],
 
-		/**
+		/*
 		 * Restore button
 		 *  @property restore
 		 *  @type     Node
@@ -187,7 +187,7 @@ ColVis.prototype = {
 	 * Public methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Get the ColVis instance's control button so it can be injected into the
 	 * DOM
 	 *  @method  button
@@ -198,7 +198,7 @@ ColVis.prototype = {
 		return this.dom.wrapper;
 	},
 
-	/**
+	/*
 	 * Alias of `rebuild` for backwards compatibility
 	 *  @method  fnRebuild
 	 */
@@ -207,7 +207,7 @@ ColVis.prototype = {
 		this.rebuild();
 	},
 
-	/**
+	/*
 	 * Rebuild the list of buttons for this instance (i.e. if there is a column
 	 * header update)
 	 *  @method  fnRebuild
@@ -238,7 +238,7 @@ ColVis.prototype = {
 	 * Private methods (they are of course public in JS, but recommended as private)
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Constructor logic
 	 *  @method  _fnConstruct
 	 *  @returns void
@@ -309,7 +309,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Apply any customisation to the settings from the DataTables initialisation
 	 *  @method  _fnApplyCustomisation
 	 *  @returns void
@@ -344,7 +344,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * On each table draw, check the visibility checkboxes as needed. This allows any process to
 	 * update the table's column visibility and ColVis will still be accurate.
 	 *  @method  _fnDrawCallback
@@ -401,7 +401,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Loop through the groups (provided in the settings) and create a button for each.
 	 *  @method  _fnAddgroups
 	 *  @returns void
@@ -424,7 +424,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Loop through the columns in the table and as a new button for each one.
 	 *  @method  _fnAddButtons
 	 *  @returns void
@@ -486,7 +486,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Create a button which allows a "restore" action
 	 *  @method  _fnDomRestoreButton
 	 *  @returns {Node} Created button
@@ -515,7 +515,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Create a button which allows show all and show node actions
 	 *  @method  _fnDomShowXButton
 	 *  @returns {Node} Created button
@@ -547,7 +547,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Create the DOM for a show / hide group button
 	 *  @method  _fnDomGroupButton
 	 *  @param {int} i Group in question, order based on that provided in settings
@@ -584,7 +584,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Create the DOM for a show / hide button
 	 *  @method  _fnDomColumnButton
 	 *  @param {int} i Column in question
@@ -656,7 +656,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Get the position in the DataTables instance array of the table for this
 	 * instance of ColVis
 	 *  @method  _fnDataTablesApiIndex
@@ -676,7 +676,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Create the element used to contain list the columns (it is shown and
 	 * hidden as needed)
 	 *  @method  _fnDomCollection
@@ -700,7 +700,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * An element to be placed on top of the activate button to catch events
 	 *  @method  _fnDomCatcher
 	 *  @returns {Node} div container for the collection
@@ -721,7 +721,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Create the element used to shade the background, and capture hide events (it is shown and
 	 * hidden as needed)
 	 *  @method  _fnDomBackground
@@ -755,7 +755,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Show the show / hide list and the background
 	 *  @method  _fnCollectionShow
 	 *  @returns void
@@ -831,7 +831,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Hide the show / hide list and the background
 	 *  @method  _fnCollectionHide
 	 *  @returns void
@@ -857,7 +857,7 @@ ColVis.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Alter the colspan on any fnOpen rows
 	 */
 	"_fnAdjustOpenRows": function ()
@@ -879,7 +879,7 @@ ColVis.prototype = {
  * Static object methods
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**
+/*
  * Rebuild the collection for a given table, or all tables if no parameter given
  *  @method  ColVis.fnRebuild
  *  @static
@@ -907,7 +907,7 @@ ColVis.fnRebuild = function ( oTable )
 
 
 ColVis.defaults = {
-	/**
+	/*
 	 * Mode of activation. Can be 'click' or 'mouseover'
 	 *  @property activate
 	 *  @type     string
@@ -915,7 +915,7 @@ ColVis.defaults = {
 	 */
 	active: 'click',
 
-	/**
+	/*
 	 * Text used for the button
 	 *  @property buttonText
 	 *  @type     string
@@ -923,7 +923,7 @@ ColVis.defaults = {
 	 */
 	buttonText: 'Show / hide columns',
 
-	/**
+	/*
 	 * List of columns (integers) which should be excluded from the list
 	 *  @property aiExclude
 	 *  @type     array
@@ -931,7 +931,7 @@ ColVis.defaults = {
 	 */
 	aiExclude: [],
 
-	/**
+	/*
 	 * Show restore button
 	 *  @property bRestore
 	 *  @type     boolean
@@ -939,7 +939,7 @@ ColVis.defaults = {
 	 */
 	bRestore: false,
 
-	/**
+	/*
 	 * Restore button text
 	 *  @property sRestore
 	 *  @type     string
@@ -947,7 +947,7 @@ ColVis.defaults = {
 	 */
 	sRestore: 'Restore original',
 
-	/**
+	/*
 	 * Show Show-All button
 	 *  @property bShowAll
 	 *  @type     boolean
@@ -955,7 +955,7 @@ ColVis.defaults = {
 	 */
 	bShowAll: false,
 
-	/**
+	/*
 	 * Show All button text
 	 *  @property sShowAll
 	 *  @type     string
@@ -963,7 +963,7 @@ ColVis.defaults = {
 	 */
 	sShowAll: 'Show All',
 
-	/**
+	/*
 	 * Position of the collection menu when shown - align "left" or "right"
 	 *  @property sAlign
 	 *  @type     string
@@ -971,7 +971,7 @@ ColVis.defaults = {
 	 */
 	sAlign: 'left',
 
-	/**
+	/*
 	 * Callback function to tell the user when the state has changed
 	 *  @property fnStateChange
 	 *  @type     function
@@ -979,7 +979,7 @@ ColVis.defaults = {
 	 */
 	fnStateChange: null,
 
-	/**
+	/*
 	 * Overlay animation duration in mS
 	 *  @property iOverlayFade
 	 *  @type     integer|false
@@ -987,7 +987,7 @@ ColVis.defaults = {
 	 */
 	iOverlayFade: 500,
 
-	/**
+	/*
 	 * Label callback for column names. Takes three parameters: 1. the
 	 * column index, 2. the column title detected by DataTables and 3. the
 	 * TH node for the column
@@ -997,7 +997,7 @@ ColVis.defaults = {
 	 */
 	fnLabel: null,
 
-	/**
+	/*
 	 * Indicate if the column list should be positioned by Javascript,
 	 * visually below the button or allow CSS to do the positioning
 	 *  @property bCssPosition
@@ -1006,7 +1006,7 @@ ColVis.defaults = {
 	 */
 	bCssPosition: false,
 
-	/**
+	/*
 	 * Group buttons
 	 *  @property aoGroups
 	 *  @type     array
@@ -1014,7 +1014,7 @@ ColVis.defaults = {
 	 */
 	aoGroups: [],
 
-	/**
+	/*
 	 * Button ordering - 'alpha' (alphabetical) or 'column' (table column
 	 * order)
 	 *  @property order
@@ -1030,7 +1030,7 @@ ColVis.defaults = {
  * Static object properties
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**
+/*
  * Collection of all ColVis instances
  *  @property ColVis.aInstances
  *  @static
@@ -1047,7 +1047,7 @@ ColVis.aInstances = [];
  * Constants
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**
+/*
  * Name of this class
  *  @constant CLASS
  *  @type     String
@@ -1056,7 +1056,7 @@ ColVis.aInstances = [];
 ColVis.prototype.CLASS = "ColVis";
 
 
-/**
+/*
  * ColVis version
  *  @constant  VERSION
  *  @type      String

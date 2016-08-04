@@ -1,4 +1,27 @@
+/**
+ * Contains all the files for client side scripting.
+ *
+ * @module client
+ */
+ /**
+ * All the Functions related to plotting graphs and table goes here
+ *
+ * @class makeGrahandTable.js
+ * @constructor
+ */
+
 var global_data;
+
+/**
+ * In this Function, the data is created as rows,filled into the table/(navigation pane).
+ * @function getData()
+ *
+ * @param  {String}  : inputFlag
+ * @param  {String}  : boolan
+ * @return {} null
+ **/
+
+
 function filltable(tdata) {
 
 		var html = '';
@@ -14,6 +37,16 @@ function filltable(tdata) {
 
 }
 
+/**
+ * In this Function,
+ * @function getData()
+ *
+ * @param  {String}  : inputFlag
+ * @param  {String}  : boolan
+ * @return {} null
+ **/
+
+
 function placeArrays(valuesArray, dataArray) {
 	global_data = clone(dataArray);
 
@@ -25,13 +58,7 @@ function placeArrays(valuesArray, dataArray) {
 	}
 
 	$("#table").html("");
-    
-    
-    
 	filltable(clone(dataArray));
-    
-    
-    
 	$("#example1").DataTable({
 
 		"order" : [[0, "asc"]],
@@ -54,6 +81,17 @@ $("#refresh").on("click", function () {
 });
 var Grouptip;
 var tip;
+
+/**
+ * This is the main function where graphs are plotted inside svg.
+ * @function getData()
+ *
+ * @param  {String}  : inputFlag
+ * @param  {String}  : boolan
+ * @return {} null
+ **/
+
+
 function drawBars(data) {
 
 	d3.selectAll(".chartGroup").remove();
@@ -102,8 +140,8 @@ function drawBars(data) {
 		uniqProjectArry.forEach(function (d, i) {
             
             if(!colorObj[d]){
-                colorObj[d] = color(i);
-            
+               // colorObj[d] = d3.rgb(color(i)).brighter(2).toString();
+            colorObj[d] =color(i);
             }
 			
 
@@ -111,6 +149,7 @@ function drawBars(data) {
 
 	} else {
 		uniqDutArry.forEach(function (d, i) {
+            
             
              if(!colorObj[d]){
                 colorObj[d] = color(i);
@@ -124,8 +163,6 @@ function drawBars(data) {
 	}
 
 	var resultArry = [];
-
-	/*--------------------------------------------------------------------------------*/
 	data.forEach(function (d, i) {
 
 		var testTimeGr = (d.testTime).slice(0, 10);
@@ -201,11 +238,6 @@ function drawBars(data) {
         minAxisValue=minAxisValue;
     
     }
-    
-   
-  
-
-  //  console.log("drawBar"+minAxisValue);
   
 
 		var y = d3.scale.linear()
@@ -239,12 +271,12 @@ function drawBars(data) {
 	.attr("class", "y axis")
 	.call(yAxis);
 
-	svg.append("g")
+	/*svg.append("g")
 	.attr("class", "grid")
 	.call(make_y_axis()
 		.tickSize(-width, 0, 0)
 		.tickFormat(""))
-
+*/
 	svg.append("text")
 	.attr("transform", "rotate(-90)")
 	.attr("y", function () {
@@ -270,7 +302,6 @@ function drawBars(data) {
 		return text;
 
 	});
-	/**-----------------------------new changes---------------------------------------**/
 	var groups = svg.selectAll("g.chartGroup")
 		.data(chartGroups)
 		.enter().append("g")
@@ -360,7 +391,6 @@ function drawBars(data) {
 	})
 	.style("stroke", "blue")
 	.style("stroke-width", 3);
-	/**-----------------------------new changes---------------------------------------**/
 
 	svg.selectAll("bar.each")
 	.data(chartData)
@@ -400,75 +430,28 @@ function drawBars(data) {
 
 
 	})
-/*	////
-	.style("stroke-width", function (d, i) {
+    .style("fill-opacity",0.6)
 
-		var threshoslValu = $('#resultDropSelect').val();
-
-		if (threshoslValu != undefined && threshoslValu != "ALL") {
-			splittedValue = threshoslValu.split("-");
-			leftValue = (splittedValue[0]).trim();
-			rightValue = (splittedValue[1]).trim();
-			leftValue = parseFloat(leftValue);
-			rightValue = parseFloat(rightValue);
-			mainValue = parseFloat(d.result);
-			mainValue = Math.abs(mainValue);
-			if (mainValue > leftValue && mainValue <= rightValue) {
-				return 2;
-			} else {
-				return 1;
-			}
-		} else {
-			return 1;
-
-		}
-	})
-	.style("stroke", function (d, i) {
-
-		var threshoslValu = $('#resultDropSelect').val();
-
-		if (threshoslValu != undefined && threshoslValu != "ALL") {
-			splittedValue = threshoslValu.split("-");
-			leftValue = (splittedValue[0]).trim();
-			rightValue = (splittedValue[1]).trim();
-			leftValue = parseFloat(leftValue);
-			rightValue = parseFloat(rightValue);
-			mainValue = parseFloat(d.result);
-			mainValue = Math.abs(mainValue);
-			if (mainValue > leftValue && mainValue <= rightValue) {
-				return "black";
-			} else {
-
-				var radioValu = $("input[name='colorChk']:checked").val();
-
-				return colorObj[d[radioValu]]; ;
-			}
-		} else {
-			var radioValu = $("input[name='colorChk']:checked").val();
-
-			return colorObj[d[radioValu]]; ;
-			// return "rgb(124, 181, 236)";
-
-		}
-        
-        
-        
-
-	})*/
 	.on('mouseover', function (d, i) {
 
-		d3.select(this).style("fill", "orange");
+		//d3.select(this).style("fill", "orange");
+        d3.select(this).style("stroke-width", 2)
+        .style("stroke", "black");
 		tip.show(d);
 	})
 	.on('mouseout', function (d, i) {
 
 		var radioValu = $("input[name='colorChk']:checked").val();
 
-		d3.select(this).style("fill", colorObj[d[radioValu]]);
+		//d3.select(this).style("fill", colorObj[d[radioValu]]);
+        d3.select(this).style("fill", colorObj[d[radioValu]])
+        .style("stroke","none");     
 		tip.hide(d)
 
 	});
-
+    
+    drawLines(svg,x,y,width,minAxisValue);
+    
 	var groups = svg.selectAll("g.chartGroup")
 		.data(chartGroups)
 		.enter().append("g")
@@ -512,8 +495,18 @@ function drawBars(data) {
 	})
 	.style("stroke", "blue")
 	.style("stroke-width", 3);
-
+    drawLegends();
 }
+
+/**
+ * An array which contains all the unique dates,in YYYY-MM-DD format is created out of the input data.
+ * @function getData()
+ *
+ * @param  {Array}  : inputData
+ * @return {} null
+ **/
+
+
 
 function createDatesArray(inputData) {
 
@@ -553,6 +546,17 @@ function createDatesArray(inputData) {
 	}
 }
 
+/**
+ * this Function creates an array which contains those Dates when,
+ * benchmark has no records on that particular date
+ * @function createNullElementsArray()
+ *
+ * @param  {Array}  : fullDatesArray
+ * @param  {Array}  : inputData
+ * @return {} null
+ **/
+
+
 function createNullElementsArray(fullDatesArray, inputData) {
 	var inData = clone(inputData);
 	var dArr = [];
@@ -568,54 +572,40 @@ function createNullElementsArray(fullDatesArray, inputData) {
 	dataForAllDates(NullElementsArray, inputData);
 }
 
-function dataForAllDates(NullElementsArray, inData) {
-    
-    
-    
-    var resultArry=[];
-    inData.forEach(function (d, i) {
+/**
+ * In this Function, an array of data/records for all the dates in the range with null data
+ * on particular date,benchmark has no records is also included.
+ * @function dataForAllDates()
+ *
+ * @param  {Array}  : NullElementsArray
+ * @param  {Array}  : inData
+ * @return {} null
+ **/
 
-		
+function dataForAllDates(NullElementsArray, inData) {
+	var resultArry = [];
+	inData.forEach(function (d, i) {
+
 		resultArry.push(d.result);
 
 	});
-
-    
-      var minAxisValue = Math.min.apply(null, resultArry);
-  
-    
-    if(minAxisValue>0){
-        minAxisValue=0;
-    
-    }else{
-    
-        minAxisValue=minAxisValue-5;
-    
-    }
-    
-    
-     console.log("data"+minAxisValue);
-    
+	var minAxisValue = Math.min.apply(null, resultArry);
+	if (minAxisValue > 0) {
+		minAxisValue = 0;
+	} else {
+		minAxisValue = minAxisValue - 5;
+	}
+	console.log("data" + minAxisValue);
 	requiredData = clone(inData[0]);
 	var FINALARRAY = [];
 	NullElementsArray.map(function (d, i) {
 		var objectNULL = {};
 		objectNULL["benchmark"] = requiredData.benchmark;
-	/*	objectNULL["changeNum"] = "null";
-		objectNULL["client"] = "null";
-		objectNULL["dut"] = "null";
-		objectNULL["project"] = "null";
-		objectNULL["release"] = "null";*/
-        
-        
-        	objectNULL["changeNum"] = null;
+		objectNULL["changeNum"] = null;
 		objectNULL["client"] = null;
 		objectNULL["dut"] = null;
 		objectNULL["project"] = null;
 		objectNULL["release"] = null;
-        
-        
-        
 		objectNULL["result"] = minAxisValue;
 		objectNULL["testTime"] = d + "T00:00:00";
 		FINALARRAY.push(objectNULL);
@@ -634,9 +624,215 @@ function dataForAllDates(NullElementsArray, inData) {
 		}
 	});
 	setTimeout(function () {
-        console.log(inData);
+		console.log(inData);
 		drawBars(inData);
 	}, 100);
 
 }
+
+
+/**
+ * plots the Legends near to the axis mentioning the RESULT THRESHOLD values.
+ *
+ *
+ * @function drawLegends()
+ * @param  {} null
+ **/
+
+function drawLegends() {
+    svg = d3.select("svg");
+    width = $("#graph").width();  
+    
+   
+    
+  Name = "a";
+  var legend1 = svg.selectAll(".legend")
+                    .data([{"text":"Mean+σ","color":"green"},{"text":"Mean","color":"blue"},{"text":"Mean-σ","color":"red"}])
+                    .enter().append("g")
+                    .attr("class", "legend")
+                    .attr("transform", function(d, i) { return "translate(" +(( i *(-100))-width/1.4 )+ ",0)"; });
+                    //.attr("transform","translate(-950,0)");
+  legend1.append("line")
+      .attr("x1", width - 28)
+      .attr("x2", width)
+      .attr("y1", 10)
+      .attr("y2", 10)
+      .style("stroke-dasharray",function(d,i){
+                                    if(d.text!="Mean"){
+                                            return "5,5"
+                                    }else{
+                                    
+                                        return "0,0"
+                                    }
+        })
+      //.style("stroke","5,5")
+      .style("stroke", function(d,i){return d.color;});
+  legend1.append("text")
+      .attr("x", width - 44)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d,i){return d.text});
+
+  Name = "b";
+  var legend2 = svg.selectAll(".legend")
+                    .data(Name.slice())
+                    .enter().append("g")
+                    .attr("class", "legend")
+                    //.attr("transform", function(d, i) { return "translate(" + i * 5 + ",0)"; });
+                    .attr("transform","translate(-750,0)");
+  legend2.append("line")
+      .attr("x1", width - 28)
+      .attr("x2", width)
+      .attr("y1", 10)
+      .attr("y2", 10)
+      //.style("stroke-dasharray","5,5")
+      .style("stroke","5,5")
+      .style("stroke", "blue");
+  legend2.append("text")
+      .attr("x", width - 44)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text("Mean");
+    
+    
+  Name = "c";
+  var legend3 = svg.selectAll(".legend")
+                    .data(Name.slice())
+                    .enter().append("g")
+                    .attr("class", "legend")
+                    //.attr("transform", function(d, i) { return "translate(" + i * 5 + ",0)"; });
+                    .attr("transform","translate(-550,0)");
+  legend3.append("line")
+      .attr("x1", width - 28)
+      .attr("x2", width)
+      .attr("y1", 10)
+      .attr("y2", 10)
+      .style("stroke-dasharray","5,5")
+      //.style("stroke","5,5")
+      .style("stroke", "red");
+  legend3.append("text")
+      .attr("x", width - 44)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text("Mean-σ");    
+    
+    
+} 
+
+
+/**
+ * The lines for Mean, Mean+σ and Mean-σ are plotted,
+ * and values are appended as text to the respective lines
+ * @function getData()
+ *
+ * @param  {String}  : inputFlag
+ * @param  {String}  : boolan
+ * @return {} null
+ **/
+
+    
+    function drawLines(svg,x,y,width,minAxisValue){
+    
+     if(global_data.length!=0){ 
+    //if(Mean_minus_SD>minAxisValue)
+    var deviationlines=svg.append("g")
+                            .attr("class","deviationlines")
+        
+    
+    deviationlines.append("line")
+    .attr("class","meanLine")
+    .style("stroke", "blue")  
+    .attr("x1", function(){ 
+                  
+                    return x(global_data[0].testTime);
+    })    
+    .attr("y1", function(){
+                    return y(dataMean);
+    })     
+    .attr("x2", function(){
+                  
+                    return x(global_data[global_data.length-1].testTime)+x.rangeBand();
+    })    
+    .attr("y2", function(){
+                    return y(dataMean);        
+    });
+         	
+         svg.append("text")
+		.attr("transform", "translate(" + (width+3) + "," + y(dataMean) + ")")
+		.attr("dy", ".35em")
+		.attr("text-anchor", "start")
+		.style("fill", "blue")
+		.text(dataMean.toFixed(6));
+         
+ 
+    deviationlines.append("line")
+    .attr("class","meanPlusStaLine")
+    .style("stroke-dasharray", ("3, 3"))
+    .style("stroke", "green")  
+    .attr("x1", function(){ 
+                  
+                    return x(global_data[0].testTime);
+    })    
+    .attr("y1", function(){
+                    return y(Mean_plus_SD);
+    })     
+    .attr("x2", function(){
+                  
+                    return x(global_data[global_data.length-1].testTime)+x.rangeBand();
+    })    
+    .attr("y2", function(){
+                    return y(Mean_plus_SD);        
+    }); 
+    
+    
+         svg.append("text")
+		.attr("transform", "translate(" + (width+3) + "," + y(Mean_plus_SD) + ")")
+		.attr("dy", ".35em")
+		.attr("text-anchor", "start")
+		.style("fill", "green")
+		.text(Mean_plus_SD.toFixed(6));
+
+  
+ if(Mean_minus_SD>minAxisValue)
+ {
+    deviationlines.append("line")
+    .attr("class","meanNegStaLine")
+    .style("stroke", "red") 
+    .style("stroke-dasharray", ("3, 3"))
+    .attr("x1", function(){ 
+                  
+                    return x(global_data[0].testTime);
+    })    
+    .attr("y1", function(){
+                    return y(Mean_minus_SD);
+    })     
+    .attr("x2", function(){
+                  
+                    return x(global_data[global_data.length-1].testTime)+x.rangeBand();
+    })    
+    .attr("y2", function(){
+                    return y(Mean_minus_SD);        
+    }); 
+         
+         
+
+
+         svg.append("text")
+		.attr("transform", "translate(" + (width+3) + "," + y(Mean_minus_SD) + ")")
+		.attr("dy", ".35em")
+		.attr("text-anchor", "start")
+		.style("fill", "red")
+		.text(Mean_minus_SD.toFixed(6));         
+
+ }
+     }
+    }
+
+
+
+
+
 

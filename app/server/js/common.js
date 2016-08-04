@@ -1,4 +1,28 @@
+/**
+ * Contains all the files for server side scripting.
+ *
+ * @module server
+ */
+ /**
+ * This JavaScript file contains few function definations which are required by other Files
+ *
+ * @class common.js
+ * @constructor
+ */
+
+
 var common = require('./common.js');
+
+/**
+  * This Function takes in an Object and make a copy of that Object,
+ * without any reference and returns the Object.
+ * @function clone()
+ *
+ *
+ * @param  {Object} obj.
+ * @return {Object} copy.
+ **/
+
 exports.clone = function (obj) {
 	var copy;
 	if (null == obj || "object" != typeof obj)
@@ -29,6 +53,15 @@ exports.clone = function (obj) {
 	throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 
+
+/**
+ * This Function takes Date Object as an input and returns a String of YYYY:MM:DD format
+ * @function nextRequiredDate()
+ *
+ * @param  {Object}  : date
+ * @return {String}  : finalDate
+ **/
+
 exports.nextRequiredDate = function (date) {
 	var date = date;
 	var year = date.getFullYear();
@@ -39,6 +72,14 @@ exports.nextRequiredDate = function (date) {
 	var finalDate = year + "-" + month + "-" + day;
 	return finalDate;
 }
+
+/**
+ * This Function calculates three dates, current date, the date 365 days ago from current date
+ * and previous date of 365 days date, added to an Object as keys and returns the final object.
+ * @function createDateObject()
+ *
+ * @return {Object}  : DateObject365
+ **/
 
 exports.createDateObject = function (){
 	var DateObject365 = {};
@@ -57,6 +98,15 @@ exports.createDateObject = function (){
 	return DateObject365;
 
 }
+
+/**
+ * a date object is created of current Time,
+ * current time in HH:MM:SS format is made using the date object.
+ *
+ *
+ * @function DisplayCurrentTime()
+ * @return {String} time. this is a String, which is Date&time in YYYY-MM-DDTHH:MM:SS format.
+**/
 
 exports.DisplayCurrentTime = function () {
 	var date = new Date();
@@ -80,9 +130,10 @@ exports.refreshFlag;
  * current time in HH:MM:SS format is made using the date object.
  *
  *
- * @function DisplayCurrentTime()
+ * @function DisplaytimeStamp()
  * @return {String} time. this is a String, which is time in HH:MM:SS format.
 **/
+
 exports.DisplaytimeStamp = function () {
         var date = new Date();
         var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
@@ -91,6 +142,15 @@ exports.DisplaytimeStamp = function () {
         time = hours + ":" + minutes + ":" + seconds;
         return time;
 }
+
+/**
+ * a date object is created of current Time,
+ * current UTC time in HH:MM:SS format is made using the date object.
+ *
+ *
+ * @function DisplaytimeStamp()
+ * @return {String} time. this is a String, which is time in HH:MM:SS format.
+**/
 
 exports.DisplayCurrentUTCTime = function () {
 	var date = new Date();

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app\client\js\component.js - BENCHMARK DASHBOARD DOCUMENTATION</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="BENCHMARK DASHBOARD DOCUMENTATION" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: ARISTA BENCHMARK DASHBOARD</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/functionsForcronTenMinutes.js.html">functionsForcronTenMinutes.js</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/component.js.html">component.js</a></li>
+                                <li><a href="../classes/makeGrahandTable.js.html">makeGrahandTable.js</a></li>
+                                <li><a href="../classes/benchmarkDashboard_Process.js.html">benchmarkDashboard_Process.js</a></li>
+                                <li><a href="../classes/common.js.html">common.js</a></li>
+                                <li><a href="../classes/dbConfig.js.html">dbConfig.js</a></li>
+                                <li><a href="../classes/dbConnect.js.html">dbConnect.js</a></li>
+                                <li><a href="../classes/charts.js.html">charts.js</a></li>
+                                <li><a href="../classes/functionsForcronTime12.js.html">functionsForcronTime12.js</a></li>
+                                <li><a href="../classes/functionsFordbConnect.js.html">functionsFordbConnect.js</a></li>
+                                <li><a href="../classes/getAllData.js.html">getAllData.js</a></li>
+                                <li><a href="../classes/queries.js.html">queries.js</a></li>
+                                <li><a href="../classes/server.js.html">server.js</a></li>
+                                <li><a href="../classes/status.js.html">status.js</a></li>
+                                <li><a href="../classes/url.js.html">url.js</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/client.html">client</a></li>
+                                <li><a href="../modules/server.html">server</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app\client\js\component.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Contains all the files for client side scripting.
+ *
+ * @module client
+ */
+ /**
+ * All the Functions related to Filteration fo Data and Ajax calls goes here
+ *
+ * @class component.js
+ * @constructor
+ */
+var lastUsedSize = 50;
+var DutLength
+var ProjectLength
+var recordsNumber
+var intrecordsNumber
+var benchmarkID
+var selectedProjectText = [];
+var selectedDutText = [];
+var dateFilteredData;
+var uniqProjectArry;
+var uniqDutArry;
+var refreshClick = false;
+var uniqResultArray;
+var colorObj = {};
+//	var color = d3.scale.category20();
+var colorArray = [];
+var color= function(i){
+return colorArray[i];
+};
+
+$(function () {
+
+	var globalMainData;
+
+	Array.prototype.contains = function (v) {
+		for (var i = 0; i &lt; this.length; i++) {
+			if (this[i] === v)
+				return true;
+		}
+		return false;
+	};
+
+	Array.prototype.unique = function () {
+		var arr = [];
+		for (var i = 0; i &lt; this.length; i++) {
+			if (!arr.contains(this[i])) {
+				arr.push(this[i]);
+			}
+		}
+		return arr;
+	}
+
+	
+	$(&quot;.select2&quot;).select2();
+
+
+
+	generateColorArry(5000);
+
+	
+	$(&#x27;#reservation&#x27;).daterangepicker();
+	
+	$(&#x27;#reservationtime&#x27;).daterangepicker({
+		timePicker : true,
+		timePickerIncrement : 30,
+		format : &#x27;MM/DD/YYYY h:mm A&#x27;
+	});
+
+	Drop1value = $(&quot;#Drop1Value&quot;).text();
+	ajaxCall(&quot;firstDropDownValue&quot;, &quot;&quot;);
+
+	$(&#x27;.slider&#x27;).slider();
+
+	$(&quot;#range_1&quot;).ionRangeSlider({
+		min : 0,
+		max : 5000,
+		from : 1000,
+		to : 4000,
+		type : &#x27;double&#x27;,
+		step : 1,
+		prefix : &quot;&quot;,
+		prettify : false,
+		hasGrid : true
+	});
+
+});
+
+$(&quot;#filterGo&quot;).on(&quot;click&quot;, function () {
+
+	$(&quot;#mask&quot;).show();
+	startFilterProcess();
+
+})
+
+/**
+ * Ajax call with request type &quot;post&quot; is made and based on the response,
+ * different functions are called
+ * @function ajaxCall()
+ *
+ * @param  {String}  : input1
+ * @param  {String} : input2
+ * @return {} null
+ **/
+
+
+function ajaxCall(input1, input2) {
+	input1 = encodeURIComponent(input1);
+	input2 = encodeURIComponent(input2);
+    console.log(&quot;in the ajax call&quot;);
+	$(&quot;#mask&quot;).show();
+	$.post(&quot;/&quot;, {
+		Fetch : input1,
+		Value : input2
+	}, function (data) {
+        
+        if (data[&quot;benchmarks&quot;]!=undefined) {
+       
+            
+            var localData = data[&#x27;benchmarks&#x27;];
+			refreshClick = false;
+
+			var html = &#x27;&#x27;;
+
+			$.each(localData, function (i, d) {
+				html += &#x27;&lt;option&gt;&#x27; + d.firstDropDownValue + &#x27;&lt;/option&gt;&#x27;;
+			});
+
+			$(&#x27;#drop1 select&#x27;).html(html);
+
+			setTimeout(function () {
+				$(&quot;#mask&quot;).hide();
+
+			}, 100);
+
+		} else if ((Object.keys(data[0]))[0] == &quot;benchmark&quot;) {
+
+			BenchmarkData = clone(data);
+			if (input1 == &quot;moreData&quot;) {
+				
+				globalMainData = clone(data);
+                
+				addUniqValuesToDropDown(clone(data),&quot;moreData&quot;)
+
+				processDatefilter(clone(data));
+			} else {
+
+				addUniqValuesToDropDown(clone(data),&quot;lessData&quot;);
+			}
+
+		} else if ((Object.keys(data[0]))[0] == &quot;description&quot;) {
+
+			var checkint = (data[0].description).indexOf(&quot; GMT&quot;);
+			if (checkint == -1) {
+				$(&#x27;#desc&#x27;).html(data[0].description);
+				$(&#x27;#lastTime&#x27;).html(data[1].description);
+			} else {
+				$(&#x27;#desc&#x27;).html(data[1].description);
+				$(&#x27;#lastTime&#x27;).html(data[0].description);
+			}
+
+		} else {
+
+			refreshClick = false;
+            
+      
+
+			$(&#x27;#select2-resultDropSelect-container&#x27;).html(&quot;&quot;);
+			$(&quot;#select2-selectDrop2-container&quot;).html(&quot;&quot;);
+            
+            
+            var myNode = document.getElementById(&quot;#select2-selectDrop2-results&quot;);
+            
+            if(myNode){
+            
+                  while (myNode.hasChildNodes()) {
+                    myNode.removeChild(myNode.lastChild);
+            }
+            }
+            
+          
+            
+            
+            
+			//$(&#x27;#drop2 select&#x27;).empty();
+			$(&#x27;#resultDropSelect&#x27;).html(&quot;&quot;);
+            
+			if (data[0].DropDownFlag == &quot;false&quot;) {
+				document.getElementById(&quot;selectDrop2&quot;).disabled = true;
+
+				$(&quot;#drop2 .select2-container--default .select2-selection--single&quot;).css(&quot;border&quot;, &quot;1px solid #d2d6de&quot;);
+
+				getData(&quot;false&quot;, true);
+			} else {
+				document.getElementById(&quot;selectDrop2&quot;).disabled = false;
+
+				$(&quot;.dis&quot;).attr(&quot;disabled&quot;, true);
+
+				$(&quot;#drop2 .select2-container--default .select2-selection--single&quot;).css(&quot;border&quot;, &quot;1px solid red&quot;)
+
+			}
+            
+           
+			
+			var html = &#x27;&#x27;;
+
+			$.each(data, function (i, d) {
+				html += &#x27;&lt;option&gt;&#x27; + d.id + &#x27;&lt;/option&gt;&#x27;;
+			});
+
+			$(&#x27;#drop2 select&#x27;).html(html);
+
+			setTimeout(function () {
+				$(&quot;#mask&quot;).hide();
+			}, 100);
+
+			
+		}
+
+	})
+	.fail(function (e) {
+		console.log(e.responseText);
+        
+        alert(&quot;connection erroe !!!! please reload the page.&quot;);
+        
+        $(&quot;#mask&quot;).hide();
+	});
+	setTimeout(function () {
+
+		$(&quot;.select2-container&quot;).on(&quot;click&quot;, function () {
+
+			$(&quot;.select2-results&quot;).find(&quot;.select2-results__option&quot;).attr(&quot;aria-selected&quot;, false);
+
+		})
+
+	}, 300);
+
+}
+
+/**
+ * In this Function, Unique values of different filters are prepared and added to the respective drop downs
+ * @function addUniqValuesToDropDown()
+ *
+ * @param  {Array}  : data
+ * @param  {String} : dataRange
+ * @return {} null
+ **/
+
+function addUniqValuesToDropDown(data,dataRange) {
+
+	var mainArray = [];
+	data.map(function (d, i) {
+
+		mainArray.push(i + 1);
+		d[&quot;y&quot;] = parseFloat(d.result);
+		if (i + 1 == data.length) {
+
+			resultArray = [];
+			dutArry = [];
+			projectArry = [];
+			data.forEach(function (d, i) {
+				projectArry.push(d.project);
+				dutArry.push(d.dut);
+				resultArray.push(parseFloat(d.result));
+			});
+
+			globalMainData = clone(data);
+
+			uniqProjectArry = projectArry.unique();
+
+			uniqDutArry = dutArry.unique();
+
+			uniqResultArray = resultArray.unique();
+			
+			console.log(&quot;uniqProjectArry&quot;+JSON.stringify(uniqProjectArry));
+			
+		    console.log(&quot;uniqDutArry&quot;+JSON.stringify(uniqDutArry));
+			
+			console.log(&quot;uniqResultArray&quot;+JSON.stringify(uniqResultArray));
+            
+            
+		
+
+			if (refreshClick == false) {
+
+				
+				//$(&#x27;#reservation&#x27;).val(&quot;&quot;);
+				addUniqDutToDropDown(uniqDutArry,dataRange);
+				addUniqProjectToDropDown(uniqProjectArry);
+				addResultValuesToDropDown(uniqResultArray);
+				placeArrays(mainArray, data);
+			}
+		}
+	});
+	$(&quot;.dis&quot;).attr(&quot;disabled&quot;, false);
+}
+
+/**
+ * The Filter Process is initiated in this function based on the selection done by user.
+ * @function startFilterProcess()
+ *
+ * @return {} null
+ **/
+
+function startFilterProcess() {
+	selectedProjectText = [];
+	selectedDutText = [];
+
+	$(&quot;#projectForm .select2-selection__choice&quot;).each(function () {
+		var title = $(this).attr(&quot;title&quot;);
+		if (title != &quot;&quot;) {
+			selectedProjectText.push(title);
+		}
+
+	});
+	$(&quot;#dutForm .select2-selection__choice&quot;).each(function () {
+		var title = $(this).attr(&quot;title&quot;);
+		if (title != &quot;&quot;) {
+			selectedDutText.push(title);
+		}
+
+	});
+	DutLength = selectedDutText.length;
+	ProjectLength = selectedProjectText.length;
+	
+	recordsNumber = $(&quot;#select2-sizeDrop-container&quot;).attr(&quot;title&quot;);
+
+	intrecordsNumber = parseInt(recordsNumber);
+
+	benchmarkID = $(&#x27;#selectDrop2 :selected&#x27;).text();
+
+	lastupdatedSizeCheck();
+	
+	console.log(&quot;lastupdatedSizeCheck function is called&quot;);
+
+}
+
+/**
+ * The Function checks the previous  value of the size filter.
+ * @function lastupdatedSizeCheck()
+ *
+ * @return {} null
+ **/
+
+function lastupdatedSizeCheck() {
+
+	if (lastUsedSize == intrecordsNumber) {
+		if (lastUsedSize != 20){
+			processDatefilter(clone(globalMainData));
+		    console.log(&quot;lastUsedSize is 50&quot;);
+		}else {
+			var dummy20entriesData = clone(globalMainData);
+			dummy20entriesData = dummy20entriesData.slice(0, 20);
+			processDatefilter(dummy20entriesData);
+			console.log(&quot;lastUsedSize is 20&quot;);
+		}
+
+	} else {
+		lastUsedSize = intrecordsNumber;
+		checkSize();
+		console.log(&quot;checkSize function called&quot;)
+	}
+}
+var dummy20entriesData;
+
+/**
+ * The Function checks the value of the size filter,
+ * based on the value ajaxCall is made with this value as one of the parameter.
+ * @function checkSize()
+ *
+ * @return {} null
+ **/
+
+function checkSize() {
+    if (lastUsedSize &gt; 50) {
+        debugger;
+		var value = recordsNumber + &quot;-&quot; + benchmarkID
+			ajaxCall(&quot;moreData&quot;, value);
+			console.log(&quot;ajaxCall called&quot;);
+			
+	} else if (intrecordsNumber == 50) {
+		
+		globalMainData = globalMainData.slice(0, 50);
+		processDatefilter(clone(globalMainData));
+		
+	} else {
+		dummy20entriesData = clone(globalMainData);
+		dummy20entriesData = dummy20entriesData.slice(0, 20);
+		processDatefilter(dummy20entriesData);
+	}
+}
+
+/**
+ * Based on user selection of WHEN filter, different functions are called by reference
+ * @function processDatefilter()
+ * 
+ * @param  {Array} : LocalData
+ * @return {} null
+ **/
+
+function processDatefilter(LocalData) {
+
+	var dates = $(&#x27;#reservation&#x27;).val();
+	if (dates == &quot;&quot;) {
+		Dut(LocalData);
+	} else {
+		dateFilteredData = getFilterData(clone(LocalData), dates);
+		Dut(dateFilteredData);
+	}
+
+}
+
+/**
+ * The input data is filtered based upon the Duts which are selected in the WHERE filter
+ * @function Dut()
+ * 
+ * @param  {Array} : inputDateFilterdData
+ * @return {} null
+ **/
+
+function Dut(inputDateFilterdData) {
+	if (DutLength != 0) {
+
+		var filterDutData = [];
+		selectedDutText.forEach(function (d, i) {
+			var temFilterDutData = inputDateFilterdData.filter(function (o, j) {
+					return o.dut == d;
+				});
+			temFilterDutData.forEach(function (o, j) {
+				filterDutData.push(o);
+
+			})
+
+			if (i == DutLength - 1) {
+				console.log(filterDutData.length);
+				
+				processProjectFilter(clone(filterDutData));
+
+			}
+
+		});
+
+	} else {
+		processProjectFilter(clone(inputDateFilterdData));
+
+	}
+}
+
+/**
+ * The input data is filtered based upon the Projects that are selected in the PROJECT filter
+ * @function processProjectFilter()
+ * 
+ * @param  {Array} : inputData
+ * @return {} null
+ **/
+
+function processProjectFilter(inputData) {
+	if (ProjectLength != 0) {
+
+		var filterData = [];
+		selectedProjectText.forEach(function (d, i) {
+			var temFilterData = inputData.filter(function (o, j) {
+					return o.project == d;
+				});
+			temFilterData.forEach(function (o, j) {
+				filterData.push(o);
+
+			})
+
+			if (i == ProjectLength - 1) {
+				console.log(filterData.length);
+				//placeArrays([], filterData);
+                processResultFilter(filterData);
+
+			}
+
+		});
+
+	} else {
+		//placeArrays([], clone(inputData));
+        processResultFilter(clone(inputData));
+
+	}
+}
+
+/**
+ * The input data is filtered based upon the range that is selected in the RESULT THRESHOLD filter
+ * @function processResultFilter()
+ * 
+ * @param  {Array} : inputData
+ * @return {} null
+ **/
+
+function processResultFilter(inputData){
+    
+
+var threshoslValu = $(&#x27;#resultDropSelect&#x27;).val();
+    
+		if (threshoslValu != undefined &amp;&amp; threshoslValu != &quot;ALL&quot;) {
+
+          
+            switch (threshoslValu) {
+            case resultDropDownArray[0]:
+                
+                var resultFilteredData = inputData.filter(function (d, i) {
+                        mainValue = parseFloat(d.result);
+                        return (mainValue &gt; Mean_plus_SD);
+
+                    })
+                    break;
+            case resultDropDownArray[1]:
+                
+                var resultFilteredData = inputData.filter(function (d, i) {
+                        mainValue = parseFloat(d.result);
+                        return (mainValue &lt;= Mean_plus_SD &amp;&amp; mainValue &gt; dataMean);
+
+                    })
+                    break;
+            case resultDropDownArray[2]:
+                
+                var resultFilteredData = inputData.filter(function (d, i) {
+                        mainValue = parseFloat(d.result);
+                        return (mainValue &lt;= dataMean &amp;&amp; mainValue &gt; Mean_minus_SD);
+
+                    })
+                    break;
+            case resultDropDownArray[3]:
+                //returnval = (mainValue &lt; Mean_minus_SD);
+                var resultFilteredData = inputData.filter(function (d, i) {
+                        mainValue = parseFloat(d.result);
+                        return (mainValue &lt;= Mean_minus_SD);
+
+                    })
+                    break;
+            }	
+            
+
+            
+            placeArrays([],resultFilteredData);
+
+			
+		} else {
+		
+
+			placeArrays([],inputData);
+
+		}
+
+
+
+
+}
+
+/**
+ * The input data is filtered based upon the daterange that is selected in the WHEN filter and filterd data is returned
+ * @function getFilterData()
+ * 
+ * @param  {Array}  : inputData
+ * @param  {String} : inputDateRange
+ * @return {Array}  : result
+ **/
+
+function getFilterData(inputData, inputDateRange) {
+	
+	var dateRange = inputDateRange.split(&quot;-&quot;);
+	startDate = dateRange[0].trim();
+	endDate = dateRange[1].trim();
+	var startDt = startDate.split(&quot;/&quot;);
+	var endDt = endDate.split(&quot;/&quot;);
+	var toDt = new Date(parseInt(startDt[2]), parseInt(startDt[0]) - 1, parseInt(startDt[1])); //Year, Month, Date
+	var fromDt = new Date(parseInt(endDt[2]), parseInt(endDt[0]) - 1, parseInt(endDt[1])); //Year, Month, Date
+	result = inputData.filter(function (d, i) {
+			var dataDate = ((d.testTime).slice(0, 10)).split(&quot;-&quot;);
+			var objDate = new Date(parseInt(dataDate[0]), parseInt(dataDate[1]) - 1, parseInt(dataDate[2]));
+			if (objDate &gt;= toDt &amp;&amp; objDate &lt;= fromDt)
+				return true;
+		})
+		return result;
+}
+
+$(&quot;input[name=&#x27;colorChk&#x27;]&quot;).on(&quot;click&quot;, function () {
+
+	radioValu = $(&quot;input[name=&#x27;colorChk&#x27;]:checked&quot;).val();
+
+	colorObj = {};
+	if (radioValu == &quot;project&quot;) {
+
+		uniqProjectArry.forEach(function (d, i) {
+			colorObj[d] = color(i);
+
+		})
+
+	} else {
+		uniqDutArry.forEach(function (d, i) {
+			colorObj[d] = color(i);
+
+		})
+
+	}
+
+	changeColor();
+
+})
+
+/**
+ * 
+ * @function changeColor()
+ * 
+ * @return {}  null
+ **/
+
+function changeColor() {
+	$(&quot;.select2-selection__choice&quot;).css(&quot;background-color&quot;, &#x27;rgb(31, 119, 180)&#x27;);
+
+	$(&quot;.select2-selection__choice&quot;).each(function () {
+
+		var tempTitle = $(this).attr(&quot;title&quot;);
+		var color = colorObj[tempTitle];
+		$(this).css(&quot;background-color&quot;, color);
+        $(this).css(&quot;opacity&quot;, 0.6);
+	})
+
+}
+
+
+/**
+ * 
+ * @function getRandomColor()
+ * 
+ * @return {} : color1
+ **/
+
+
+
+function getRandomColor() {
+    var letters = &#x27;0123456789ABCDEF&#x27;;
+    var color1 = &#x27;#&#x27;;
+    for (var i = 0; i &lt; 6; i++ ) {
+        color1 += letters[Math.floor(Math.random() * 16)];
+    }
+    return color1;
+}
+
+/**
+ * 
+ * @function generateColorArry()
+ * 
+ * @param  {Integer} : n 
+ * @return {}  null
+ **/
+
+function generateColorArry(n){
+for(i=0;i&lt;n;i++){
+
+               var colorVal=getRandomColor();
+  if(colorArray.indexOf(color)==-1){
+  
+                colorArray.push(colorVal);
+  }
+  if(i==n-1){
+  
+   console.log(colorArray);
+  }
+  
+}
+
+}
+
+
+
+
+
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

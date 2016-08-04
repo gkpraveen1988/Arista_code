@@ -21,13 +21,14 @@ var url = require("./url.js");
 var common = require("./common.js");
 
 /**
- * Creates a server which listens for the clients on port 7000.
+ * Creates a server which listens for the clients on port 7777.
  * when got a request from client, checks all the request parameters sent from client.
  * @method createServer
  *
  * @param {Object} request. this request will contain the method of request either "GET" or "POST" and an url.
  * @param {Object} response. an Object which contains the response properties of server(http)
  **/
+
 http.createServer(function (request, response) {
 	console.log("server started");
 	console.log("request type is " + request.method);
@@ -78,26 +79,18 @@ http.createServer(function (request, response) {
 							console.log(requestJson);
                             requestJson.Value = decodeURIComponent(requestJson.Value);
 							if (requestJson.Fetch == 'firstDropDownValue') {
-								//console.log("so its firstDropDownValue dude")
 								thisFile.getBenchmarks(response);
 							}
 							if (requestJson.Fetch == 'ids') {
-								//console.log("so its id dude")
 								thisFile.getIDs(response, requestJson.Value);
 							}
 							if (requestJson.Fetch == 'data') {
-								//console.log("so its data dude");
-                                //requestJson.Value = decodeURIComponent(requestJson.Value);
 								thisFile.getData(response, requestJson.Value);
 							}
 							if (requestJson.Fetch == 'description') {
-								//console.log("so its description dude");
-                                //requestJson.Value = decodeURIComponent(requestJson.Value);
 								thisFile.getDescription(response, requestJson.Value);
 							}
 							if (requestJson.Fetch == 'moreData') {
-								//console.log("so its description dude");
-                                //requestJson.Value = decodeURIComponent(requestJson.Value);
 								thisFile.getDataFromServer(response, requestJson.Value);
 							}                            
 
@@ -106,8 +99,8 @@ http.createServer(function (request, response) {
 							console.log('problem with request: ' + e.message);
 						});
 					} else {
-						//console.log(status.response.successful);
-						console.log("failure");
+						console.log(status.response.successful);
+						//console.log("failure");
 						response.writeHead("failure", {
 							'Content-Type' : contentType
 						});
@@ -123,6 +116,79 @@ http.createServer(function (request, response) {
 	});
 }).listen(7777);
 
+http.createServer(function (request, response) {
+    
+    
+    
+    console.log(request.url);
+        
+    var filePath = "../../../docs" + request.url;
+	if (filePath == "../../../docs" + "/"){
+		filePath = "../../../docs/index.html"
+    }else{
+            ext=filePath.slice(filePath.length-7,filePath.length);
+        
+           if(ext=="?pjax=1"){
+           
+           filePath=filePath.slice(0,filePath.length-7);
+           console.log(filePath);
+           }
+          
+    
+    }
+    
+    
+	var extname = path.extname(filePath);
+	var contentType = 'text/html';
+	switch (extname) {
+	case '.js':
+		contentType = 'text/javascript';
+		break;
+	case '.css':
+		contentType = 'text/css';
+		break;
+	case '.json':
+		contentType = 'application/json';
+		break;
+	}
+	fs.exists(filePath, function (exists) {
+		if (exists) {
+			fs.readFile(filePath, function (error, content) {
+				if (error) {
+					response.writeHead(status.response.serverProblem);
+					response.end();
+				} else {
+			
+                        
+                    
+						console.log(status.response.successful);
+						response.writeHead(status.response.successful, {
+							'Content-Type' : contentType
+						});
+						response.end(content, 'utf-8');
+					
+                    
+				}
+			});
+		} else {
+			console.log("server response");
+			response.writeHead(status.response.pageNotFound);
+			response.end();
+		}
+	});
+}).listen(3001);
+
+
+
+/**
+ * connects to the Database in the server and fetches Data for the requested benchmark from the Run table
+ * and gives result to giveResponse() function.
+ * @function getDescription()
+ *
+ *
+ * @param {Object} response. an Object which contains the response properties of server(http)
+ * @param {String} value. this is name of the Benchmark Name
+ **/
 
 exports.getDataFromServer = function(response,value){
     var dataQuery;
@@ -167,12 +233,17 @@ console.log(value);
 
 }
 
-exports.getDescription = function (response, value) {
-    
-	//value = value.replace(/[+]/g, " ");
-    //console.log(value+" this is the value in getDescription function");
-	//var file = "../DataBase/localData.db";
+/**
+ * connects to the localData.db and fetches description for the requested benchmark from the Info table
+ * and gives result to giveResponse() function.
+ * @function getDescription()
+ *
+ *
+ * @param {Object} response. an Object which contains the response properties of server(http)
+ * @param {String} value. this is name of the Benchmark Name
+ **/
 
+exports.getDescription = function (response, value) {
 	var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 	var db = new sqlite3.Database(url.rawFile);
 	db.serialize(function () {
@@ -191,13 +262,17 @@ exports.getDescription = function (response, value) {
 
 }
 
+/**
+ * connects to the localData.db and fetches Data for the requested benchmark from the Local_Run table
+ * and gives result to giveResponse() function.
+ * @function getData()
+ *
+ *
+ * @param {Object} response. an Object which contains the response properties of server(http)
+ * @param {String} value. this is name of the Benchmark Name
+ **/
+
 exports.getData = function (response, value) {
-
-	//value = value.replace(/[+]/g, " ");
-
-	//console.log("---------------------------" + value)
-
-	//var file = "../DataBase/localData.db";
 	var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 	var db = new sqlite3.Database(url.rawFile);
 	db.serialize(function () {
@@ -206,7 +281,6 @@ exports.getData = function (response, value) {
 				console.log(error);
 				return;
 			} else {
-				//console.log(Data[0]);
 				console.log("got all Data");
 				thisFile.giveResponse(Data, response);
 
@@ -215,6 +289,17 @@ exports.getData = function (response, value) {
 	});
 
 }
+
+
+/**
+ * connects to the localData.db and fetches all the benchmarks from the Local_Run table
+ * and gives result to giveResponse() function.
+ * @function getIDs()
+ *
+ *
+ * @param {Object} response. an Object which contains the response properties of server(http)
+ * @param {String} value. this is name of the Benchmark Name
+ **/
 
 exports.getIDs = function (response, value) {
 	var file = "../DataBase/localData.db";
@@ -227,7 +312,6 @@ exports.getIDs = function (response, value) {
 				console.log(error);
 				return;
 			} else {
-				//console.log(ids);
 				console.log("got all ids");
 				thisFile.giveResponse(ids, response);
 
@@ -237,11 +321,11 @@ exports.getIDs = function (response, value) {
 }
 
 /**
- * creates a Database Connection, with rawData.db
+ * connects to the localData.db and fetches all the firstDropDown values from the Local_Benchmark table
+ * and gives result to prepareTimeValues() function.
  * @function getBenchmarks()
  *
  *
- * @param {String} timeframeRequestValue. this is a String which will be either "daily" or "weekly"
  * @param {Object} response. an Object which contains the response properties of server(http)
  **/
 
@@ -256,9 +340,7 @@ exports.getBenchmarks = function (response) {
 				console.log(error);
 				return;
 			} else {
-				//console.log(benchmarks);
 				console.log("got all benchmarks");
-				//thisFile.giveResponse(benchmarks, response);
                 var finalObject = {};
                 finalObject["benchmarks"] = benchmarks;
                 thisFile.prepareTimeValues(finalObject,response);
@@ -270,14 +352,11 @@ exports.getBenchmarks = function (response) {
 }
 
 /**
- * Using the Database Connection, fires a query to Database(rawData),
- * fetches single row from "timeValues" Table based on "daily" or "weekly",
- * adds different timings to the Json Object with the values fetched from Database.
+ * Using the Database Connection, fires a query to Database(localData.db),
+ * fetches data from "checkPointTimes" Table,adds all the timings to the Json Object.
  * @function prepareTimeValues()
  *
  *
- * @param {Object} db. db is the Database Connection
- * @param {String} timeframeRequestValue. this is a String which will be either "daily" or "weekly"
  * @param {Object} finalObject. this is an Array of json objects according to the dates.
  * @param {Object} response. an Object which contains the response properties of server(http)
  **/
@@ -298,38 +377,10 @@ exports.prepareTimeValues = function (finalObject, response) {
 		finalObject["firedAt"] = row[0].firedAt;
 		finalObject["fetchedAt"] = row[0].fetchedAt;
 		console.log(finalObject);
-		//thisFile.fetchDatafromSqlite(db, timeframeRequestValue, finalObject, response);
         thisFile.giveResponse(finalObject, response);
 	});
 }
 
-/**
- * Using the Database Connection, fires a query to Database(rawData),
- * fetches all the data from the Table based on timeFrameValue.
- * @function fetchDatafromSqlite()
- *
- *
- * @param {Object} db. db is the Database Connection
- * @param {String} timeframeRequestValue. this is a String which will be either "daily" or "weekly"
- * @param {Object} finalObject. this is an Array of json objects according to the dates.
- * @param {Object} response. an Object which contains the response properties of server(http)
- **/
-exports.fetchDatafromSqlite = function (db, timeframeRequestValue, finalObject, response) {
-
-	db.all(queries.selectFromTable(timeframeRequestValue), function (err, result) {
-
-		if (err) {
-			console.log(err);
-			setTimeout(function () {
-				thisFile.fetchDatafromSqlite(db, timeframeRequestValue, finalObject, response);
-			}, 500);
-		}
-		finalObject["globalData"] = result;
-		thisFile.giveResponse(finalObject, response, timeframeRequestValue);
-
-	});
-
-}
 
 /**
  * provides the Array of Json objects as a response,
@@ -340,6 +391,7 @@ exports.fetchDatafromSqlite = function (db, timeframeRequestValue, finalObject, 
  * @param {Object} response. an Object which contains the response properties of server(http)
  * @param {String} timeframeRequestValue. a String which is either "daily" or "weekly"
  **/
+
 exports.giveResponse = function (result, response) {
     console.log("postRequestTime is"+postRequestTime);
     result["postRequestTime"] = postRequestTime;

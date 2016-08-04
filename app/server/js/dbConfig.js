@@ -1,3 +1,14 @@
+/**
+ * Contains all the files for server side scripting.
+ *
+ * @module server
+ */
+ /**
+ * This JavaScript File contains all the configurations related to mysql DataBase.
+ *
+ * @class dbConfig.js
+ * @constructor
+ */
 
 exports.dbPool = function(){
 var DB = require("../lib/node_modules/mysql");

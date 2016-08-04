@@ -1,0 +1,107 @@
+
+      .main-header .logo{
+      width:150px;
+      }
+      .main-header>.navbar ,.content-wrapper,.main-footer{
+      margin-left:0px;
+      }
+      .main-sidebar{
+      width:150px;
+      }
+      .box-body{
+      padding: 9px 9px 0px 9px;
+      }
+      td,th{
+      text-align: center;
+      }
+      .table>tbody>tr>td{
+      padding: 2px;
+      }
+      .descSize {
+      font-size: 14px;
+      }
+      label {
+      font-size: 10px;
+      font-weight: 800;
+      }
+      .axis path, .axis line, g.chartGroup path {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+      }
+      circle.point {
+      fill: steelblue;
+      stroke: black;
+      }
+      svg text,svg p,svg span {
+      font: 10px sans-serif;
+      }
+      rect:hover {
+      fill: orange ;
+      }
+      .d3-tip {
+      line-height: 1;
+      font-weight: bold;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      border-radius: 2px;
+      }
+      /* Creates a small triangle extender for the tooltip */
+      .d3-tip:after {
+      box-sizing: border-box;
+      display: inline;
+      font-size: 10px;
+      width: 100%;
+      line-height: 1;
+      color: rgba(0, 0, 0, 0.8);
+      content: "\25BC";
+      position: absolute;
+      text-align: center;
+      }
+      /* Style northward tooltips differently */
+      .d3-tip.n:after {
+      margin: -1px 0 0 0;
+      top: 100%;
+      left: 0;
+      }
+      .grid .tick {
+      stroke: lightgrey;
+      stroke-opacity: 0.7;
+      shape-rendering: crispEdges;
+      }
+      .grid path {
+      stroke-width: 0;
+      }
+      .select2-container--default .select2-search--inline .select2-search__field {
+      border:0px solid white !important;
+      }
+      #mask{
+      min-width: 100%;
+      min-height: 100%; 
+      margin: 0;
+      padding: 0;
+      background-color:white;
+      top: 52px;
+      left: 0px;
+      z-index:99999999999999;
+      position:absolute;
+      opacity:0.7;
+      }
+      #mask img {
+      display:block;
+      margin:auto;
+      margin-top:300px;
+      }
+      .colLabel > input{ /* HIDE RADIO */
+      visibility: hidden; /* Makes input not-clickable */
+      position: absolute; /* Remove input from document flow */
+      }
+      .colLabel > input + img{ /* IMAGE STYLES */
+      cursor:pointer;
+      border:2px solid transparent;
+      }
+      .colLabel > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+      border:2px solid #f00;
+      }
+    

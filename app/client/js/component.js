@@ -1,3 +1,14 @@
+/**
+ * Contains all the files for client side scripting.
+ *
+ * @module client
+ */
+ /**
+ * All the Functions related to Filteration fo Data and Ajax calls goes here
+ *
+ * @class component.js
+ * @constructor
+ */
 var lastUsedSize = 50;
 var DutLength
 var ProjectLength
@@ -12,8 +23,11 @@ var uniqDutArry;
 var refreshClick = false;
 var uniqResultArray;
 var colorObj = {};
-	var color = d3.scale.category20();
-
+//	var color = d3.scale.category20();
+var colorArray = [];
+var color= function(i){
+return colorArray[i];
+};
 
 $(function () {
 
@@ -42,7 +56,7 @@ $(function () {
 
 
 
-	
+	generateColorArry(5000);
 
 	
 	$('#reservation').daterangepicker();
@@ -79,6 +93,15 @@ $("#filterGo").on("click", function () {
 
 })
 
+/**
+ * Ajax call with request type "post" is made and based on the response,
+ * different functions are called
+ * @function ajaxCall()
+ *
+ * @param  {String}  : input1
+ * @param  {String} : input2
+ * @return {} null
+ **/
 
 
 function ajaxCall(input1, input2) {
@@ -92,8 +115,7 @@ function ajaxCall(input1, input2) {
 	}, function (data) {
         
         if (data["benchmarks"]!=undefined) {
-        //if ((Object.keys(data["benchmarks"][0]))[0] == "firstDropDownValue") {
-		//if ((Object.keys(data[0]))[0] == "firstDropDownValue") {
+       
             
             var localData = data['benchmarks'];
 			refreshClick = false;
@@ -115,7 +137,7 @@ function ajaxCall(input1, input2) {
 
 			BenchmarkData = clone(data);
 			if (input1 == "moreData") {
-				//alert(1);
+				
 				globalMainData = clone(data);
                 
 				addUniqValuesToDropDown(clone(data),"moreData")
@@ -140,13 +162,29 @@ function ajaxCall(input1, input2) {
 		} else {
 
 			refreshClick = false;
+            
+      
 
 			$('#select2-resultDropSelect-container').html("");
 			$("#select2-selectDrop2-container").html("");
-			$('#drop2 select').html("");
+            
+            
+            var myNode = document.getElementById("#select2-selectDrop2-results");
+            
+            if(myNode){
+            
+                  while (myNode.hasChildNodes()) {
+                    myNode.removeChild(myNode.lastChild);
+            }
+            }
+            
+          
+            
+            
+            
+			//$('#drop2 select').empty();
 			$('#resultDropSelect').html("");
-
-			//$('#resultDropSelect').html("");
+            
 			if (data[0].DropDownFlag == "false") {
 				document.getElementById("selectDrop2").disabled = true;
 
@@ -161,6 +199,8 @@ function ajaxCall(input1, input2) {
 				$("#drop2 .select2-container--default .select2-selection--single").css("border", "1px solid red")
 
 			}
+            
+           
 			
 			var html = '';
 
@@ -197,10 +237,17 @@ function ajaxCall(input1, input2) {
 
 }
 
-function addUniqValuesToDropDown(data,dataRange) {
-	
+/**
+ * In this Function, Unique values of different filters are prepared and added to the respective drop downs
+ * @function addUniqValuesToDropDown()
+ *
+ * @param  {Array}  : data
+ * @param  {String} : dataRange
+ * @return {} null
+ **/
 
-	
+function addUniqValuesToDropDown(data,dataRange) {
+
 	var mainArray = [];
 	data.map(function (d, i) {
 
@@ -248,6 +295,13 @@ function addUniqValuesToDropDown(data,dataRange) {
 	$(".dis").attr("disabled", false);
 }
 
+/**
+ * The Filter Process is initiated in this function based on the selection done by user.
+ * @function startFilterProcess()
+ *
+ * @return {} null
+ **/
+
 function startFilterProcess() {
 	selectedProjectText = [];
 	selectedDutText = [];
@@ -281,6 +335,13 @@ function startFilterProcess() {
 
 }
 
+/**
+ * The Function checks the previous  value of the size filter.
+ * @function lastupdatedSizeCheck()
+ *
+ * @return {} null
+ **/
+
 function lastupdatedSizeCheck() {
 
 	if (lastUsedSize == intrecordsNumber) {
@@ -301,8 +362,18 @@ function lastupdatedSizeCheck() {
 	}
 }
 var dummy20entriesData;
+
+/**
+ * The Function checks the value of the size filter,
+ * based on the value ajaxCall is made with this value as one of the parameter.
+ * @function checkSize()
+ *
+ * @return {} null
+ **/
+
 function checkSize() {
-	if (lastUsedSize > 50 || recordsNumber == "ALL") {
+    if (lastUsedSize > 50) {
+        debugger;
 		var value = recordsNumber + "-" + benchmarkID
 			ajaxCall("moreData", value);
 			console.log("ajaxCall called");
@@ -319,27 +390,35 @@ function checkSize() {
 	}
 }
 
-function processDatefilter(dummyData) {
+/**
+ * Based on user selection of WHEN filter, different functions are called by reference
+ * @function processDatefilter()
+ * 
+ * @param  {Array} : LocalData
+ * @return {} null
+ **/
+
+function processDatefilter(LocalData) {
 
 	var dates = $('#reservation').val();
 	if (dates == "") {
-		Dut(dummyData);
+		Dut(LocalData);
 	} else {
-		
-	
-		
-		
-		dateFilteredData = getFilterData(clone(dummyData), dates);
-	
-		
+		dateFilteredData = getFilterData(clone(LocalData), dates);
 		Dut(dateFilteredData);
 	}
 
 }
 
+/**
+ * The input data is filtered based upon the Duts which are selected in the WHERE filter
+ * @function Dut()
+ * 
+ * @param  {Array} : inputDateFilterdData
+ * @return {} null
+ **/
+
 function Dut(inputDateFilterdData) {
-	
-	
 	if (DutLength != 0) {
 
 		var filterDutData = [];
@@ -366,6 +445,14 @@ function Dut(inputDateFilterdData) {
 
 	}
 }
+
+/**
+ * The input data is filtered based upon the Projects that are selected in the PROJECT filter
+ * @function processProjectFilter()
+ * 
+ * @param  {Array} : inputData
+ * @return {} null
+ **/
 
 function processProjectFilter(inputData) {
 	if (ProjectLength != 0) {
@@ -396,25 +483,58 @@ function processProjectFilter(inputData) {
 	}
 }
 
+/**
+ * The input data is filtered based upon the range that is selected in the RESULT THRESHOLD filter
+ * @function processResultFilter()
+ * 
+ * @param  {Array} : inputData
+ * @return {} null
+ **/
+
 function processResultFilter(inputData){
     
 
 var threshoslValu = $('#resultDropSelect').val();
     
 		if (threshoslValu != undefined && threshoslValu != "ALL") {
-			splittedValue = threshoslValu.split("-");
-			leftValue = (splittedValue[0]).trim();
-			rightValue = (splittedValue[1]).trim();
-			leftValue = parseFloat(leftValue);
-			rightValue = parseFloat(rightValue);
-		
-            var resultFilteredData = inputData.filter(function(d,i){
-                    	mainValue = parseFloat(d.result);
-			            mainValue = Math.abs(mainValue);
-                return (mainValue >leftValue && mainValue <= rightValue)
-		
-            })
+
+          
+            switch (threshoslValu) {
+            case resultDropDownArray[0]:
+                
+                var resultFilteredData = inputData.filter(function (d, i) {
+                        mainValue = parseFloat(d.result);
+                        return (mainValue > Mean_plus_SD);
+
+                    })
+                    break;
+            case resultDropDownArray[1]:
+                
+                var resultFilteredData = inputData.filter(function (d, i) {
+                        mainValue = parseFloat(d.result);
+                        return (mainValue <= Mean_plus_SD && mainValue > dataMean);
+
+                    })
+                    break;
+            case resultDropDownArray[2]:
+                
+                var resultFilteredData = inputData.filter(function (d, i) {
+                        mainValue = parseFloat(d.result);
+                        return (mainValue <= dataMean && mainValue > Mean_minus_SD);
+
+                    })
+                    break;
+            case resultDropDownArray[3]:
+                //returnval = (mainValue < Mean_minus_SD);
+                var resultFilteredData = inputData.filter(function (d, i) {
+                        mainValue = parseFloat(d.result);
+                        return (mainValue <= Mean_minus_SD);
+
+                    })
+                    break;
+            }	
             
+
             
             placeArrays([],resultFilteredData);
 
@@ -430,6 +550,15 @@ var threshoslValu = $('#resultDropSelect').val();
 
 
 }
+
+/**
+ * The input data is filtered based upon the daterange that is selected in the WHEN filter and filterd data is returned
+ * @function getFilterData()
+ * 
+ * @param  {Array}  : inputData
+ * @param  {String} : inputDateRange
+ * @return {Array}  : result
+ **/
 
 function getFilterData(inputData, inputDateRange) {
 	
@@ -472,10 +601,15 @@ $("input[name='colorChk']").on("click", function () {
 	changeColor();
 
 })
+
+/**
+ * 
+ * @function changeColor()
+ * 
+ * @return {}  null
+ **/
+
 function changeColor() {
-
-
-
 	$(".select2-selection__choice").css("background-color", 'rgb(31, 119, 180)');
 
 	$(".select2-selection__choice").each(function () {
@@ -483,6 +617,56 @@ function changeColor() {
 		var tempTitle = $(this).attr("title");
 		var color = colorObj[tempTitle];
 		$(this).css("background-color", color);
+        $(this).css("opacity", 0.6);
 	})
 
 }
+
+
+/**
+ * 
+ * @function getRandomColor()
+ * 
+ * @return {} : color1
+ **/
+
+
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color1 = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color1 += letters[Math.floor(Math.random() * 16)];
+    }
+    return color1;
+}
+
+/**
+ * 
+ * @function generateColorArry()
+ * 
+ * @param  {Integer} : n 
+ * @return {}  null
+ **/
+
+function generateColorArry(n){
+for(i=0;i<n;i++){
+
+               var colorVal=getRandomColor();
+  if(colorArray.indexOf(color)==-1){
+  
+                colorArray.push(colorVal);
+  }
+  if(i==n-1){
+  
+   console.log(colorArray);
+  }
+  
+}
+
+}
+
+
+
+
+

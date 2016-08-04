@@ -5,7 +5,7 @@
  * Author: Joseph Huckaby - MIT licensed
  */
 
-/**
+/*
  * @summary     TableTools
  * @description Tools and buttons for DataTables
  * @version     2.2.4
@@ -442,7 +442,7 @@ window.ZeroClipboard_TableTools = ZeroClipboard_TableTools;
 
 (function($, window, document) {
 
-/** 
+/* 
  * TableTools provides flexible buttons and other tools for a DataTables enhanced table
  * @class TableTools
  * @constructor
@@ -476,11 +476,11 @@ TableTools = function( oDT, oOpts )
 	 * Public class variables
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * @namespace Settings object which contains customisable information for TableTools instance
 	 */
 	this.s = {
-		/**
+		/*
 		 * Store 'this' so the instance can be retrieved from the settings object
 		 * @property that
 		 * @type	 object
@@ -488,7 +488,7 @@ TableTools = function( oDT, oOpts )
 		 */
 		"that": this,
 
-		/** 
+		/* 
 		 * DataTables settings objects
 		 * @property dt
 		 * @type	 object
@@ -496,11 +496,11 @@ TableTools = function( oDT, oOpts )
 		 */
 		"dt": dtSettings,
 
-		/**
+		/*
 		 * @namespace Print specific information
 		 */
 		"print": {
-			/** 
+			/* 
 			 * DataTables draw 'start' point before the printing display was shown
 			 *  @property saveStart
 			 *  @type	 int
@@ -508,7 +508,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"saveStart": -1,
 
-			/** 
+			/* 
 			 * DataTables draw 'length' point before the printing display was shown
 			 *  @property saveLength
 			 *  @type	 int
@@ -516,7 +516,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"saveLength": -1,
 
-			/** 
+			/* 
 			 * Page scrolling point before the printing display was shown so it can be restored
 			 *  @property saveScroll
 			 *  @type	 int
@@ -524,7 +524,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"saveScroll": -1,
 
-			/** 
+			/* 
 			 * Wrapped function to end the print display (to maintain scope)
 			 *  @property funcEnd
 			 *  @type	 Function
@@ -533,7 +533,7 @@ TableTools = function( oDT, oOpts )
 			"funcEnd": function () {}
 		},
 
-		/**
+		/*
 		 * A unique ID is assigned to each button in each instance
 		 * @property buttonCounter
 		 *  @type	 int
@@ -541,11 +541,11 @@ TableTools = function( oDT, oOpts )
 		 */
 		"buttonCounter": 0,
 
-		/**
+		/*
 		 * @namespace Select rows specific information
 		 */
 		"select": {
-			/**
+			/*
 			 * Select type - can be 'none', 'single' or 'multi'
 			 * @property type
 			 *  @type	 string
@@ -553,7 +553,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"type": "",
 
-			/**
+			/*
 			 * Array of nodes which are currently selected
 			 *  @property selected
 			 *  @type	 array
@@ -561,7 +561,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"selected": [],
 
-			/**
+			/*
 			 * Function to run before the selection can take place. Will cancel the select if the
 			 * function returns false
 			 *  @property preRowSelect
@@ -570,7 +570,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"preRowSelect": null,
 
-			/**
+			/*
 			 * Function to run when a row is selected
 			 *  @property postSelected
 			 *  @type	 Function
@@ -578,7 +578,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"postSelected": null,
 
-			/**
+			/*
 			 * Function to run when a row is deselected
 			 *  @property postDeselected
 			 *  @type	 Function
@@ -586,7 +586,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"postDeselected": null,
 
-			/**
+			/*
 			 * Indicate if all rows are selected (needed for server-side processing)
 			 *  @property all
 			 *  @type	 boolean
@@ -594,7 +594,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"all": false,
 
-			/**
+			/*
 			 * Class name to add to selected TR nodes
 			 *  @property selectedClass
 			 *  @type	 String
@@ -603,7 +603,7 @@ TableTools = function( oDT, oOpts )
 			"selectedClass": ""
 		},
 
-		/**
+		/*
 		 * Store of the user input customisation object
 		 *  @property custom
 		 *  @type	 object
@@ -611,7 +611,7 @@ TableTools = function( oDT, oOpts )
 		 */
 		"custom": {},
 
-		/**
+		/*
 		 * SWF movie path
 		 *  @property swfPath
 		 *  @type	 string
@@ -619,7 +619,7 @@ TableTools = function( oDT, oOpts )
 		 */
 		"swfPath": "",
 
-		/**
+		/*
 		 * Default button set
 		 *  @property buttonSet
 		 *  @type	 array
@@ -627,7 +627,7 @@ TableTools = function( oDT, oOpts )
 		 */
 		"buttonSet": [],
 
-		/**
+		/*
 		 * When there is more than one TableTools instance for a DataTable, there must be a 
 		 * master which controls events (row selection etc)
 		 *  @property master
@@ -636,7 +636,7 @@ TableTools = function( oDT, oOpts )
 		 */
 		"master": false,
 
-		/**
+		/*
 		 * Tag names that are used for creating collections and buttons
 		 *  @namesapce
 		 */
@@ -644,11 +644,11 @@ TableTools = function( oDT, oOpts )
 	};
 
 
-	/**
+	/*
 	 * @namespace Common and useful DOM elements for the class instance
 	 */
 	this.dom = {
-		/**
+		/*
 		 * DIV element that is create and all TableTools buttons (and their children) put into
 		 *  @property container
 		 *  @type	 node
@@ -656,7 +656,7 @@ TableTools = function( oDT, oOpts )
 		 */
 		"container": null,
 
-		/**
+		/*
 		 * The table node to which TableTools will be applied
 		 *  @property table
 		 *  @type	 node
@@ -664,11 +664,11 @@ TableTools = function( oDT, oOpts )
 		 */
 		"table": null,
 
-		/**
+		/*
 		 * @namespace Nodes used for the print display
 		 */
 		"print": {
-			/**
+			/*
 			 * Nodes which have been removed from the display by setting them to display none
 			 *  @property hidden
 			 *  @type	 array
@@ -676,7 +676,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"hidden": [],
 
-			/**
+			/*
 			 * The information display saying telling the user about the print display
 			 *  @property message
 			 *  @type	 node
@@ -685,11 +685,11 @@ TableTools = function( oDT, oOpts )
 			"message": null
 	  },
 
-		/**
+		/*
 		 * @namespace Nodes used for a collection display. This contains the currently used collection
 		 */
 		"collection": {
-			/**
+			/*
 			 * The div wrapper containing the buttons in the collection (i.e. the menu)
 			 *  @property collection
 			 *  @type	 node
@@ -697,7 +697,7 @@ TableTools = function( oDT, oOpts )
 			 */
 			"collection": null,
 
-			/**
+			/*
 			 * Background display to provide focus and capture events
 			 *  @property background
 			 *  @type	 node
@@ -707,7 +707,7 @@ TableTools = function( oDT, oOpts )
 		}
 	};
 
-	/**
+	/*
 	 * @namespace Name space for the classes that this TableTools instance will use
 	 * @extends TableTools.classes
 	 */
@@ -722,7 +722,7 @@ TableTools = function( oDT, oOpts )
 	 * Public class methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Retreieve the settings object from an instance
 	 *  @method fnSettings
 	 *  @returns {object} TableTools settings object
@@ -752,7 +752,7 @@ TableTools.prototype = {
 	 * Public methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Retreieve the settings object from an instance
 	 *  @returns {array} List of TR nodes which are currently selected
 	 *  @param {boolean} [filtered=false] Get only selected rows which are  
@@ -795,7 +795,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Get the data source objects/arrays from DataTables for the selected rows (same as
 	 * fnGetSelected followed by fnGetData on each row from the table)
 	 *  @returns {array} Data from the TR nodes which are currently selected
@@ -818,7 +818,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Get the indexes of the selected rows
 	 *  @returns {array} List of row indexes
 	 *  @param {boolean} [filtered=false] Get only selected rows which are  
@@ -861,7 +861,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Check to see if a current row is selected or not
 	 *  @param {Node} n TR node to check if it is currently selected or not
 	 *  @returns {Boolean} true if select, false otherwise
@@ -873,7 +873,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Select all rows in the table
 	 *  @param {boolean} [filtered=false] Select only rows which are available 
 	 *    given the filtering applied to the table. By default this is false - 
@@ -888,7 +888,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Deselect all rows in the table
 	 *  @param {boolean} [filtered=false] Deselect only rows which are available 
 	 *    given the filtering applied to the table. By default this is false - 
@@ -900,7 +900,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Select row(s)
 	 *  @param {node|object|array} n The row(s) to select. Can be a single DOM
 	 *    TR node, an array of TR nodes or a jQuery object.
@@ -919,7 +919,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Deselect row(s)
 	 *  @param {node|object|array} n The row(s) to deselect. Can be a single DOM
 	 *    TR node, an array of TR nodes or a jQuery object.
@@ -930,7 +930,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Get the title of the document - useful for file names. The title is retrieved from either
 	 * the configuration object's 'title' parameter, or the HTML document title
 	 *  @param   {Object} oConfig Button configuration object
@@ -960,7 +960,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Calculate a unity array with the column width by proportion for a set of columns to be
 	 * included for a button. This is particularly useful for PDF creation, where we can use the
 	 * column widths calculated by the browser to size the columns in the PDF.
@@ -994,7 +994,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Get the information contained in a table as a string
 	 *  @param   {Object} oConfig Button configuration object
 	 *  @returns {String} Table data as a string
@@ -1009,7 +1009,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Pass text to a flash button instance, which will be used on the button's click handler
 	 *  @param   {Object} clip Flash button object
 	 *  @param   {String} text Text to set
@@ -1020,7 +1020,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Resize the flash elements of the buttons attached to this TableTools instance - this is
 	 * useful for when initialising TableTools when it is hidden (display:none) since sizes can't
 	 * be calculated at that time.
@@ -1042,7 +1042,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Check to see if any of the ZeroClipboard client's attached need to be resized
 	 */
 	"fnResizeRequired": function ()
@@ -1064,7 +1064,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Programmatically enable or disable the print view
 	 *  @param {boolean} [bView=true] Show the print view if true or not given. If false, then
 	 *    terminate the print view and return to normal.
@@ -1093,7 +1093,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Show a message to the end user which is nicely styled
 	 *  @param {string} message The HTML string to show to the user
 	 *  @param {int} time The duration the message is to be shown on screen for (mS)
@@ -1113,7 +1113,7 @@ TableTools.prototype = {
 
 
 
-	/**
+	/*
 	 * Get the container element of the instance for attaching to the DOM
 	 *   @returns {node} DOM node
 	 */
@@ -1127,7 +1127,7 @@ TableTools.prototype = {
 	 * Private methods (they are of course public in JS, but recommended as private)
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Constructor logic
 	 *  @method  _fnConstruct
 	 *  @param   {Object} oOpts Same as TableTools constructor
@@ -1174,7 +1174,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Take the user defined settings and the default settings and combine them.
 	 *  @method  _fnCustomiseSettings
 	 *  @param   {Object} oOpts Same as TableTools constructor
@@ -1222,7 +1222,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Take the user input arrays and expand them to be fully defined, and then add them to a given
 	 * DOM element
 	 *  @method  _fnButtonDefinations
@@ -1269,7 +1269,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Create and configure a TableTools button
 	 *  @method  _fnCreateButton
 	 *  @param   {Object} oConfig Button configuration object
@@ -1333,7 +1333,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Create the DOM needed for the button and apply some base properties. All buttons start here
 	 *  @method  _fnButtonBase
 	 *  @param   {o} oConfig Button configuration object
@@ -1373,7 +1373,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Get the settings object for the master instance. When more than one TableTools instance is
 	 * assigned to a DataTable, only one of them can be the 'master' (for the select rows). As such,
 	 * we will typically want to interact with that master for global properties.
@@ -1407,7 +1407,7 @@ TableTools.prototype = {
 	 * Button collection functions
 	 */
 
-	/**
+	/*
 	 * Create a collection button, when activated will present a drop down list of other buttons
 	 *  @param   {Node} nButton Button to use for the collection activation
 	 *  @param   {Object} oConfig Button configuration object
@@ -1426,7 +1426,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Show a button collection
 	 *  @param   {Node} nButton Button to use for the collection
 	 *  @param   {Object} oConfig Button configuration object
@@ -1497,7 +1497,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Hide a button collection
 	 *  @param   {Node} nButton Button to use for the collection
 	 *  @param   {Object} oConfig Button configuration object
@@ -1532,7 +1532,7 @@ TableTools.prototype = {
 	 * Row selection functions
 	 */
 
-	/**
+	/*
 	 * Add event handlers to a table to allow for row selection
 	 *  @method  _fnRowSelectConfig
 	 *  @returns void
@@ -1672,7 +1672,7 @@ TableTools.prototype = {
 		}
 	},
 
-	/**
+	/*
 	 * Select rows
 	 *  @param   {*} src Rows to select - see _fnSelectData for a description of valid inputs
 	 *  @private 
@@ -1721,7 +1721,7 @@ TableTools.prototype = {
 		TableTools._fnEventDispatch( this, 'select', anSelected, true );
 	},
 
-	/**
+	/*
 	 * Deselect rows
 	 *  @param   {*} src Rows to deselect - see _fnSelectData for a description of valid inputs
 	 *  @private 
@@ -1770,7 +1770,7 @@ TableTools.prototype = {
 		TableTools._fnEventDispatch( this, 'select', anDeselectedTrs, false );
 	},
 
-	/**
+	/*
 	 * Take a data source for row selection and convert it into aoData points for the DT
 	 *   @param {*} src Can be a single DOM TR node, an array of TR nodes (including a
 	 *     a jQuery object), a single aoData point from DataTables, an array of aoData
@@ -1827,7 +1827,7 @@ TableTools.prototype = {
 	 * Text button functions
 	 */
 
-	/**
+	/*
 	 * Configure a text based button for interaction events
 	 *  @method  _fnTextConfig
 	 *  @param   {Node} nButton Button element which is being considered
@@ -1892,7 +1892,7 @@ TableTools.prototype = {
 	 * Flash button functions
 	 */
 	
-	/**
+	/*
 	 * Check if the Flash plug-in is available
 	 *  @method  _fnHasFlash
 	 *  @returns {boolean} `true` if Flash available, `false` otherwise
@@ -1920,7 +1920,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Configure a flash based button for interaction events
 	 *  @method  _fnFlashConfig
 	 *  @param   {Node} nButton Button element which is being considered
@@ -1997,7 +1997,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Wait until the id is in the DOM before we "glue" the swf. Note that this function will call
 	 * itself (using setTimeout) until it completes successfully
 	 *  @method  _fnFlashGlue
@@ -2025,7 +2025,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Set the text for the flash clip to deal with
 	 * 
 	 * This function is required for large information sets. There is a limit on the 
@@ -2056,7 +2056,7 @@ TableTools.prototype = {
 	 * Data retrieval functions
 	 */
 
-	/**
+	/*
 	 * Convert the mixed columns variable into a boolean array the same size as the columns, which
 	 * indicates which columns we want to include
 	 *  @method  _fnColumnTargets
@@ -2129,7 +2129,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * New line character(s) depend on the platforms
 	 *  @method  method
 	 *  @param   {Object} oConfig Button configuration object - only interested in oConfig.sNewLine
@@ -2148,7 +2148,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Get data from DataTables' internals and format it for output
 	 *  @method  _fnGetDataTablesData
 	 *  @param   {Object} oConfig Button configuration object
@@ -2303,7 +2303,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Wrap data up with a boundary string
 	 *  @method  _fnBoundData
 	 *  @param   {String} sData data to bound
@@ -2326,7 +2326,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Break a string up into an array of smaller strings
 	 *  @method  _fnChunkData
 	 *  @param   {String} sData data to be broken up
@@ -2355,7 +2355,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Decode HTML entities
 	 *  @method  _fnHtmlDecode
 	 *  @param   {String} sData encoded string
@@ -2390,7 +2390,7 @@ TableTools.prototype = {
 	 * Printing functions
 	 */
 
-	/**
+	/*
 	 * Show print display
 	 *  @method  _fnPrintStart
 	 *  @param   {Event} e Event object
@@ -2485,7 +2485,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Printing is finished, resume normal display
 	 *  @method  _fnPrintEnd
 	 *  @param   {Event} e Event object
@@ -2531,7 +2531,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Take account of scrolling in DataTables by showing the full table
 	 *  @returns void
 	 *  @private 
@@ -2588,7 +2588,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Take account of scrolling in DataTables by showing the full table. Note that the redraw of
 	 * the DataTable that we do will actually deal with the majority of the hard work here
 	 *  @returns void
@@ -2614,7 +2614,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Resume the display of all TableTools hidden nodes
 	 *  @method  _fnPrintShowNodes
 	 *  @returns void
@@ -2632,7 +2632,7 @@ TableTools.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Hide nodes which are not needed in order to display the table. Note that this function is
 	 * recursive
 	 *  @method  _fnPrintHideNodes
@@ -2677,7 +2677,7 @@ TableTools.prototype = {
  * Static variables
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**
+/*
  * Store of all instances that have been created of TableTools, so one can look up other (when
  * there is need of a master)
  *  @property _aInstances
@@ -2688,7 +2688,7 @@ TableTools.prototype = {
 TableTools._aInstances = [];
 
 
-/**
+/*
  * Store of all listeners and their callback functions
  *  @property _aListeners
  *  @type	 Array
@@ -2702,7 +2702,7 @@ TableTools._aListeners = [];
  * Static methods
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**
+/*
  * Get an array of all the master instances
  *  @method  fnGetMasters
  *  @returns {Array} List of master TableTools instances
@@ -2721,7 +2721,7 @@ TableTools.fnGetMasters = function ()
 	return a;
 };
 
-/**
+/*
  * Get the master instance for a table node (or id if a string is given)
  *  @method  fnGetInstance
  *  @returns {Object} ID of table OR table node, for which we want the TableTools instance
@@ -2745,7 +2745,7 @@ TableTools.fnGetInstance = function ( node )
 };
 
 
-/**
+/*
  * Add a listener for a specific event
  *  @method  _fnEventListen
  *  @param   {Object} that Scope of the listening function (i.e. 'this' in the caller)
@@ -2765,7 +2765,7 @@ TableTools._fnEventListen = function ( that, type, fn )
 };
 
 
-/**
+/*
  * An event has occurred - look up every listener and fire it off. We check that the event we are
  * going to fire is attached to the same table (using the table node as reference) before firing
  *  @method  _fnEventDispatch
@@ -2835,7 +2835,7 @@ TableTools.buttonBase = {
 };
 
 
-/**
+/*
  * @namespace Default button configurations
  */
 TableTools.BUTTONS = {
@@ -3029,7 +3029,7 @@ TableTools.BUTTONS = {
 TableTools.buttons = TableTools.BUTTONS;
 
 
-/**
+/*
  * @namespace Classes used by TableTools - allows the styles to be override easily.
  *   Note that when TableTools initialises it will take a copy of the classes object
  *   and will use its internal copy for the remainder of its run time.
@@ -3060,7 +3060,7 @@ TableTools.classes = {
 };
 
 
-/**
+/*
  * @namespace ThemeRoller classes - built in for compatibility with DataTables' 
  *   bJQueryUI option.
  */
@@ -3075,7 +3075,7 @@ TableTools.classes_themeroller = {
 };
 
 
-/**
+/*
  * @namespace TableTools default settings for initialisation
  */
 TableTools.DEFAULTS = {
@@ -3104,7 +3104,7 @@ TableTools.DEFAULTS = {
 TableTools.defaults = TableTools.DEFAULTS;
 
 
-/**
+/*
  * Name of this class
  *  @constant CLASS
  *  @type	 String
@@ -3113,7 +3113,7 @@ TableTools.defaults = TableTools.DEFAULTS;
 TableTools.prototype.CLASS = "TableTools";
 
 
-/**
+/*
  * TableTools version
  *  @constant  VERSION
  *  @type	  String

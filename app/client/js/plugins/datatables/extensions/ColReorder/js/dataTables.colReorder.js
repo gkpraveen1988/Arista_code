@@ -2,7 +2,7 @@
  * ©2010-2014 SpryMedia Ltd - datatables.net/license
  */
 
-/**
+/*
  * @summary     ColReorder
  * @description Provide the ability to reorder columns in a DataTable
  * @version     1.1.3
@@ -24,7 +24,7 @@
 (function(window, document, undefined) {
 
 
-/**
+/*
  * Switch the key value pairing of an index array to be value key (i.e. the old value is now the
  * key). For example consider [ 2, 0, 1 ] this would be returned as [ 1, 2, 0 ].
  *  @method  fnInvertKeyValues
@@ -42,7 +42,7 @@ function fnInvertKeyValues( aIn )
 }
 
 
-/**
+/*
  * Modify an array by switching the position of two elements
  *  @method  fnArraySwitch
  *  @param   array aArray Array to consider, will be modified by reference (i.e. no return)
@@ -57,7 +57,7 @@ function fnArraySwitch( aArray, iFrom, iTo )
 }
 
 
-/**
+/*
  * Switch the positions of nodes in a parent node (note this is specifically designed for
  * table rows). Note this function considers all element nodes under the parent!
  *  @method  fnDomSwitch
@@ -93,7 +93,7 @@ function fnDomSwitch( nParent, iFrom, iTo )
 var factory = function( $, DataTable ) {
 "use strict";
 
-/**
+/*
  * Plug-in for DataTables which will reorder the internal column structure by taking the column
  * from one position (iFrom) and insert it into a given point (iTo).
  *  @method  $.fn.dataTableExt.oApi.fnColReorder
@@ -339,7 +339,7 @@ $.fn.dataTableExt.oApi.fnColReorder = function ( oSettings, iFrom, iTo )
 };
 
 
-/**
+/*
  * ColReorder provides column visibility control for DataTables
  * @class ColReorder
  * @constructor
@@ -398,11 +398,11 @@ var ColReorder = function( dt, opts )
 	 * Public class variables
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * @namespace Settings object which contains customisable information for ColReorder instance
 	 */
 	this.s = {
-		/**
+		/*
 		 * DataTables settings object
 		 *  @property dt
 		 *  @type     Object
@@ -410,7 +410,7 @@ var ColReorder = function( dt, opts )
 		 */
 		"dt": null,
 
-		/**
+		/*
 		 * Initialisation object used for this instance
 		 *  @property init
 		 *  @type     object
@@ -418,7 +418,7 @@ var ColReorder = function( dt, opts )
 		 */
 		"init": $.extend( true, {}, ColReorder.defaults, opts ),
 
-		/**
+		/*
 		 * Number of columns to fix (not allow to be reordered)
 		 *  @property fixed
 		 *  @type     int
@@ -426,7 +426,7 @@ var ColReorder = function( dt, opts )
 		 */
 		"fixed": 0,
 
-		/**
+		/*
 		 * Number of columns to fix counting from right (not allow to be reordered)
 		 *  @property fixedRight
 		 *  @type     int
@@ -434,7 +434,7 @@ var ColReorder = function( dt, opts )
 		 */
 		"fixedRight": 0,
 
-		/**
+		/*
 		 * Callback function for once the reorder has been done
 		 *  @property reorderCallback
 		 *  @type     function
@@ -442,7 +442,7 @@ var ColReorder = function( dt, opts )
 		 */
 		"reorderCallback": null,
 
-		/**
+		/*
 		 * @namespace Information used for the mouse drag
 		 */
 		"mouse": {
@@ -455,7 +455,7 @@ var ColReorder = function( dt, opts )
 			"fromIndex": -1
 		},
 
-		/**
+		/*
 		 * Information which is used for positioning the insert cusor and knowing where to do the
 		 * insert. Array of objects with the properties:
 		 *   x: x-axis position
@@ -468,11 +468,11 @@ var ColReorder = function( dt, opts )
 	};
 
 
-	/**
+	/*
 	 * @namespace Common and useful DOM elements for the class instance
 	 */
 	this.dom = {
-		/**
+		/*
 		 * Dragging element (the one the mouse is moving)
 		 *  @property drag
 		 *  @type     element
@@ -480,7 +480,7 @@ var ColReorder = function( dt, opts )
 		 */
 		"drag": null,
 
-		/**
+		/*
 		 * The insert cursor
 		 *  @property pointer
 		 *  @type     element
@@ -508,7 +508,7 @@ ColReorder.prototype = {
 	 * Public methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Reset the column ordering to the original ordering that was detected on
 	 * start up.
 	 *  @return {this} Returns `this` for chaining.
@@ -538,7 +538,7 @@ ColReorder.prototype = {
 		return this;
 	},
 
-	/**
+	/*
 	 * `Deprecated` - Get the current order of the columns, as an array.
 	 *  @return {array} Array of column identifiers
 	 *  @deprecated `fnOrder` should be used in preference to this method.
@@ -549,7 +549,7 @@ ColReorder.prototype = {
 		return this.fnOrder();
 	},
 
-	/**
+	/*
 	 * Get the current order of the columns, as an array. Note that the values
 	 * given in the array are unique identifiers for each column. Currently
 	 * these are the original ordering of the columns that was detected on
@@ -559,7 +559,7 @@ ColReorder.prototype = {
 	 *  @example
 	 *    // Get column ordering for the table
 	 *    var order = $.fn.dataTable.ColReorder( dataTable ).fnOrder();
-	 *//**
+	 *//*
 	 * Set the order of the columns, from the positions identified in the
 	 * ordering array given. Note that ColReorder takes a brute force approach
 	 * to reordering, so it is possible multiple reordering events will occur
@@ -607,7 +607,7 @@ ColReorder.prototype = {
 	 * Private methods (they are of course public in JS, but recommended as private)
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/**
+	/*
 	 * Constructor logic
 	 *  @method  _fnConstruct
 	 *  @returns void
@@ -700,7 +700,7 @@ ColReorder.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Set the column order from an array
 	 *  @method  _fnOrderColumns
 	 *  @param   array a An array of integers which dictate the column order that should be applied
@@ -747,7 +747,7 @@ ColReorder.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Because we change the indexes of columns in the table, relative to their starting point
 	 * we need to reorder the state columns to what they are at the starting point so we can
 	 * then rearrange them again on state load!
@@ -813,7 +813,7 @@ ColReorder.prototype = {
 	 * Mouse drop and drag
 	 */
 
-	/**
+	/*
 	 * Add a mouse down listener to a particluar TH element
 	 *  @method  _fnMouseListener
 	 *  @param   int i Column index
@@ -831,7 +831,7 @@ ColReorder.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Mouse down on a TH element in the table header
 	 *  @method  _fnMouseDown
 	 *  @param   event e Mouse event
@@ -873,7 +873,7 @@ ColReorder.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Deal with a mouse move event while dragging a node
 	 *  @method  _fnMouseMove
 	 *  @param   event e Mouse event
@@ -937,7 +937,7 @@ ColReorder.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Finish off the mouse drag and insert the column where needed
 	 *  @method  _fnMouseUp
 	 *  @param   event e Mouse event
@@ -979,7 +979,7 @@ ColReorder.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Calculate a cached array with the points of the column inserts, and the
 	 * 'to' points
 	 *  @method  _fnRegions
@@ -1032,7 +1032,7 @@ ColReorder.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Copy the TH element that is being drags so the user has the idea that they are actually
 	 * moving it around the page.
 	 *  @method  _fnCreateDragNode
@@ -1084,7 +1084,7 @@ ColReorder.prototype = {
 			.appendTo( 'body' );
 	},
 
-	/**
+	/*
 	 * Clean up ColReorder memory references and event handlers
 	 *  @method  _fnDestroy
 	 *  @returns void
@@ -1114,7 +1114,7 @@ ColReorder.prototype = {
 	},
 
 
-	/**
+	/*
 	 * Add a data attribute to the column headers, so we know the index of
 	 * the row to be reordered. This allows fast detection of the index, and
 	 * for this plug-in to work with FixedHeader which clones the nodes.
@@ -1137,13 +1137,13 @@ ColReorder.prototype = {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-/**
+/*
  * ColReorder default settings for initialisation
  *  @namespace
  *  @static
  */
 ColReorder.defaults = {
-	/**
+	/*
 	 * Predefined ordering for the columns that will be applied automatically
 	 * on initialisation. If not specified then the order that the columns are
 	 * found to be in the HTML is the order used.
@@ -1169,7 +1169,7 @@ ColReorder.defaults = {
 	 */
 	aiOrder: null,
 
-	/**
+	/*
 	 * Redraw the table's column ordering as the end user draws the column
 	 * (`true`) or wait until the mouse is released (`false` - default). Note
 	 * that this will perform a redraw on each reordering, which involves an
@@ -1197,7 +1197,7 @@ ColReorder.defaults = {
 	 */
 	bRealtime: false,
 
-	/**
+	/*
 	 * Indicate how many columns should be fixed in position (counting from the
 	 * left). This will typically be 1 if used, but can be as high as you like.
 	 *  @type int
@@ -1222,7 +1222,7 @@ ColReorder.defaults = {
 	 */
 	iFixedColumns: 0,
 
-	/**
+	/*
 	 * As `iFixedColumnsRight` but counting from the right.
 	 *  @type int
 	 *  @default 0
@@ -1246,7 +1246,7 @@ ColReorder.defaults = {
 	 */
 	iFixedColumnsRight: 0,
 
-	/**
+	/*
 	 * Callback function that is fired when columns are reordered
 	 *  @type function():void
 	 *  @default null
@@ -1281,7 +1281,7 @@ ColReorder.defaults = {
  * Constants
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**
+/*
  * ColReorder version
  *  @constant  version
  *  @type      String

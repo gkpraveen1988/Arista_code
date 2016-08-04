@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app\client\js\plugins\knob\jquery.knob.js - BENCHMARK DASHBOARD DOCUMENTATION</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="BENCHMARK DASHBOARD DOCUMENTATION" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: ARISTA BENCHMARK DASHBOARD</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/functionsForcronTenMinutes.js.html">functionsForcronTenMinutes.js</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/component.js.html">component.js</a></li>
+                                <li><a href="../classes/makeGrahandTable.js.html">makeGrahandTable.js</a></li>
+                                <li><a href="../classes/benchmarkDashboard_Process.js.html">benchmarkDashboard_Process.js</a></li>
+                                <li><a href="../classes/common.js.html">common.js</a></li>
+                                <li><a href="../classes/dbConfig.js.html">dbConfig.js</a></li>
+                                <li><a href="../classes/dbConnect.js.html">dbConnect.js</a></li>
+                                <li><a href="../classes/charts.js.html">charts.js</a></li>
+                                <li><a href="../classes/functionsForcronTime12.js.html">functionsForcronTime12.js</a></li>
+                                <li><a href="../classes/functionsFordbConnect.js.html">functionsFordbConnect.js</a></li>
+                                <li><a href="../classes/getAllData.js.html">getAllData.js</a></li>
+                                <li><a href="../classes/queries.js.html">queries.js</a></li>
+                                <li><a href="../classes/server.js.html">server.js</a></li>
+                                <li><a href="../classes/status.js.html">status.js</a></li>
+                                <li><a href="../classes/url.js.html">url.js</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/client.html">client</a></li>
+                                <li><a href="../modules/server.html">server</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app\client\js\plugins\knob\jquery.knob.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*!jQuery Knob*/
+/**
+ * Downward compatible, touchable dial
+ *
+ * Version: 1.2.11
+ * Requires: jQuery v1.7+
+ *
+ * Copyright (c) 2012 Anthony Terrien
+ * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
+ *
+ * Thanks to vor, eskimoblood, spiffistan, FabrizioC
+ */
+(function (factory) {
+    if (typeof exports === &#x27;object&#x27;) {
+        // CommonJS
+        module.exports = factory(require(&#x27;jquery&#x27;));
+    } else if (typeof define === &#x27;function&#x27; &amp;&amp; define.amd) {
+        // AMD. Register as an anonymous module.
+        define([&#x27;jquery&#x27;], factory);
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
+
+    /**
+     * Kontrol library
+     */
+    &quot;use strict&quot;;
+
+    /**
+     * Definition of globals and core
+     */
+    var k = {}, // kontrol
+        max = Math.max,
+        min = Math.min;
+
+    k.c = {};
+    k.c.d = $(document);
+    k.c.t = function (e) {
+        return e.originalEvent.touches.length - 1;
+    };
+
+    /**
+     * Kontrol Object
+     *
+     * Definition of an abstract UI control
+     *
+     * Each concrete component must call this one.
+     * &lt;code&gt;
+     * k.o.call(this);
+     * &lt;/code&gt;
+     */
+    k.o = function () {
+        var s = this;
+
+        this.o = null; // array of options
+        this.$ = null; // jQuery wrapped element
+        this.i = null; // mixed HTMLInputElement or array of HTMLInputElement
+        this.g = null; // deprecated 2D graphics context for &#x27;pre-rendering&#x27;
+        this.v = null; // value ; mixed array or integer
+        this.cv = null; // change value ; not commited value
+        this.x = 0; // canvas x position
+        this.y = 0; // canvas y position
+        this.w = 0; // canvas width
+        this.h = 0; // canvas height
+        this.$c = null; // jQuery canvas element
+        this.c = null; // rendered canvas context
+        this.t = 0; // touches index
+        this.isInit = false;
+        this.fgColor = null; // main color
+        this.pColor = null; // previous color
+        this.dH = null; // draw hook
+        this.cH = null; // change hook
+        this.eH = null; // cancel hook
+        this.rH = null; // release hook
+        this.scale = 1; // scale factor
+        this.relative = false;
+        this.relativeWidth = false;
+        this.relativeHeight = false;
+        this.$div = null; // component div
+
+        this.run = function () {
+            var cf = function (e, conf) {
+                var k;
+                for (k in conf) {
+                    s.o[k] = conf[k];
+                }
+                s._carve().init();
+                s._configure()
+                 ._draw();
+            };
+
+            if (this.$.data(&#x27;kontroled&#x27;)) return;
+            this.$.data(&#x27;kontroled&#x27;, true);
+
+            this.extend();
+            this.o = $.extend({
+                    // Config
+                    min: this.$.data(&#x27;min&#x27;) !== undefined ? this.$.data(&#x27;min&#x27;) : 0,
+                    max: this.$.data(&#x27;max&#x27;) !== undefined ? this.$.data(&#x27;max&#x27;) : 100,
+                    stopper: true,
+                    readOnly: this.$.data(&#x27;readonly&#x27;) || (this.$.attr(&#x27;readonly&#x27;) === &#x27;readonly&#x27;),
+
+                    // UI
+                    cursor: this.$.data(&#x27;cursor&#x27;) === true &amp;&amp; 30
+                            || this.$.data(&#x27;cursor&#x27;) || 0,
+                    thickness: this.$.data(&#x27;thickness&#x27;)
+                               &amp;&amp; Math.max(Math.min(this.$.data(&#x27;thickness&#x27;), 1), 0.01)
+                               || 0.35,
+                    lineCap: this.$.data(&#x27;linecap&#x27;) || &#x27;butt&#x27;,
+                    width: this.$.data(&#x27;width&#x27;) || 200,
+                    height: this.$.data(&#x27;height&#x27;) || 200,
+                    displayInput: this.$.data(&#x27;displayinput&#x27;) == null || this.$.data(&#x27;displayinput&#x27;),
+                    displayPrevious: this.$.data(&#x27;displayprevious&#x27;),
+                    fgColor: this.$.data(&#x27;fgcolor&#x27;) || &#x27;#87CEEB&#x27;,
+                    inputColor: this.$.data(&#x27;inputcolor&#x27;),
+                    font: this.$.data(&#x27;font&#x27;) || &#x27;Arial&#x27;,
+                    fontWeight: this.$.data(&#x27;font-weight&#x27;) || &#x27;bold&#x27;,
+                    inline: false,
+                    step: this.$.data(&#x27;step&#x27;) || 1,
+                    rotation: this.$.data(&#x27;rotation&#x27;),
+
+                    // Hooks
+                    draw: null, // function () {}
+                    change: null, // function (value) {}
+                    cancel: null, // function () {}
+                    release: null, // function (value) {}
+
+                    // Output formatting, allows to add unit: %, ms ...
+                    format: function(v) {
+                        return v;
+                    },
+                    parse: function (v) {
+                        return parseFloat(v);
+                    }
+                }, this.o
+            );
+
+            // finalize options
+            this.o.flip = this.o.rotation === &#x27;anticlockwise&#x27; || this.o.rotation === &#x27;acw&#x27;;
+            if (!this.o.inputColor) {
+                this.o.inputColor = this.o.fgColor;
+            }
+
+            // routing value
+            if (this.$.is(&#x27;fieldset&#x27;)) {
+
+                // fieldset = array of integer
+                this.v = {};
+                this.i = this.$.find(&#x27;input&#x27;);
+                this.i.each(function(k) {
+                    var $this = $(this);
+                    s.i[k] = $this;
+                    s.v[k] = s.o.parse($this.val());
+
+                    $this.bind(
+                        &#x27;change blur&#x27;,
+                        function () {
+                            var val = {};
+                            val[k] = $this.val();
+                            s.val(s._validate(val));
+                        }
+                    );
+                });
+                this.$.find(&#x27;legend&#x27;).remove();
+            } else {
+
+                // input = integer
+                this.i = this.$;
+                this.v = this.o.parse(this.$.val());
+                this.v === &#x27;&#x27; &amp;&amp; (this.v = this.o.min);
+                this.$.bind(
+                    &#x27;change blur&#x27;,
+                    function () {
+                        s.val(s._validate(s.o.parse(s.$.val())));
+                    }
+                );
+
+            }
+
+            !this.o.displayInput &amp;&amp; this.$.hide();
+
+            // adds needed DOM elements (canvas, div)
+            this.$c = $(document.createElement(&#x27;canvas&#x27;)).attr({
+                width: this.o.width,
+                height: this.o.height
+            });
+
+            // wraps all elements in a div
+            // add to DOM before Canvas init is triggered
+            this.$div = $(&#x27;&lt;div style=&quot;&#x27;
+                + (this.o.inline ? &#x27;display:inline;&#x27; : &#x27;&#x27;)
+                + &#x27;width:&#x27; + this.o.width + &#x27;px;height:&#x27; + this.o.height + &#x27;px;&#x27;
+                + &#x27;&quot;&gt;&lt;/div&gt;&#x27;);
+
+            this.$.wrap(this.$div).before(this.$c);
+            this.$div = this.$.parent();
+
+            if (typeof G_vmlCanvasManager !== &#x27;undefined&#x27;) {
+                G_vmlCanvasManager.initElement(this.$c[0]);
+            }
+
+            this.c = this.$c[0].getContext ? this.$c[0].getContext(&#x27;2d&#x27;) : null;
+
+            if (!this.c) {
+                throw {
+                    name:        &quot;CanvasNotSupportedException&quot;,
+                    message:     &quot;Canvas not supported. Please use excanvas on IE8.0.&quot;,
+                    toString:    function(){return this.name + &quot;: &quot; + this.message}
+                }
+            }
+
+            // hdpi support
+            this.scale = (window.devicePixelRatio || 1) / (
+                            this.c.webkitBackingStorePixelRatio ||
+                            this.c.mozBackingStorePixelRatio ||
+                            this.c.msBackingStorePixelRatio ||
+                            this.c.oBackingStorePixelRatio ||
+                            this.c.backingStorePixelRatio || 1
+                         );
+
+            // detects relative width / height
+            this.relativeWidth =  this.o.width % 1 !== 0
+                                  &amp;&amp; this.o.width.indexOf(&#x27;%&#x27;);
+            this.relativeHeight = this.o.height % 1 !== 0
+                                  &amp;&amp; this.o.height.indexOf(&#x27;%&#x27;);
+            this.relative = this.relativeWidth || this.relativeHeight;
+
+            // computes size and carves the component
+            this._carve();
+
+            // prepares props for transaction
+            if (this.v instanceof Object) {
+                this.cv = {};
+                this.copy(this.v, this.cv);
+            } else {
+                this.cv = this.v;
+            }
+
+            // binds configure event
+            this.$
+                .bind(&quot;configure&quot;, cf)
+                .parent()
+                .bind(&quot;configure&quot;, cf);
+
+            // finalize init
+            this._listen()
+                ._configure()
+                ._xy()
+                .init();
+
+            this.isInit = true;
+
+            this.$.val(this.o.format(this.v));
+            this._draw();
+
+            return this;
+        };
+
+        this._carve = function() {
+            if (this.relative) {
+                var w = this.relativeWidth ?
+                        this.$div.parent().width() *
+                        parseInt(this.o.width) / 100
+                        : this.$div.parent().width(),
+                    h = this.relativeHeight ?
+                        this.$div.parent().height() *
+                        parseInt(this.o.height) / 100
+                        : this.$div.parent().height();
+
+                // apply relative
+                this.w = this.h = Math.min(w, h);
+            } else {
+                this.w = this.o.width;
+                this.h = this.o.height;
+            }
+
+            // finalize div
+            this.$div.css({
+                &#x27;width&#x27;: this.w + &#x27;px&#x27;,
+                &#x27;height&#x27;: this.h + &#x27;px&#x27;
+            });
+
+            // finalize canvas with computed width
+            this.$c.attr({
+                width: this.w,
+                height: this.h
+            });
+
+            // scaling
+            if (this.scale !== 1) {
+                this.$c[0].width = this.$c[0].width * this.scale;
+                this.$c[0].height = this.$c[0].height * this.scale;
+                this.$c.width(this.w);
+                this.$c.height(this.h);
+            }
+
+            return this;
+        }
+
+        this._draw = function () {
+
+            // canvas pre-rendering
+            var d = true;
+
+            s.g = s.c;
+
+            s.clear();
+
+            s.dH &amp;&amp; (d = s.dH());
+
+            d !== false &amp;&amp; s.draw();
+        };
+
+        this._touch = function (e) {
+            var touchMove = function (e) {
+                var v = s.xy2val(
+                            e.originalEvent.touches[s.t].pageX,
+                            e.originalEvent.touches[s.t].pageY
+                        );
+
+                if (v == s.cv) return;
+
+                if (s.cH &amp;&amp; s.cH(v) === false) return;
+
+                s.change(s._validate(v));
+                s._draw();
+            };
+
+            // get touches index
+            this.t = k.c.t(e);
+
+            // First touch
+            touchMove(e);
+
+            // Touch events listeners
+            k.c.d
+                .bind(&quot;touchmove.k&quot;, touchMove)
+                .bind(
+                    &quot;touchend.k&quot;,
+                    function () {
+                        k.c.d.unbind(&#x27;touchmove.k touchend.k&#x27;);
+                        s.val(s.cv);
+                    }
+                );
+
+            return this;
+        };
+
+        this._mouse = function (e) {
+            var mouseMove = function (e) {
+                var v = s.xy2val(e.pageX, e.pageY);
+
+                if (v == s.cv) return;
+
+                if (s.cH &amp;&amp; (s.cH(v) === false)) return;
+
+                s.change(s._validate(v));
+                s._draw();
+            };
+
+            // First click
+            mouseMove(e);
+
+            // Mouse events listeners
+            k.c.d
+                .bind(&quot;mousemove.k&quot;, mouseMove)
+                .bind(
+                    // Escape key cancel current change
+                    &quot;keyup.k&quot;,
+                    function (e) {
+                        if (e.keyCode === 27) {
+                            k.c.d.unbind(&quot;mouseup.k mousemove.k keyup.k&quot;);
+
+                            if (s.eH &amp;&amp; s.eH() === false)
+                                return;
+
+                            s.cancel();
+                        }
+                    }
+                )
+                .bind(
+                    &quot;mouseup.k&quot;,
+                    function (e) {
+                        k.c.d.unbind(&#x27;mousemove.k mouseup.k keyup.k&#x27;);
+                        s.val(s.cv);
+                    }
+                );
+
+            return this;
+        };
+
+        this._xy = function () {
+            var o = this.$c.offset();
+            this.x = o.left;
+            this.y = o.top;
+
+            return this;
+        };
+
+        this._listen = function () {
+            if (!this.o.readOnly) {
+                this.$c
+                    .bind(
+                        &quot;mousedown&quot;,
+                        function (e) {
+                            e.preventDefault();
+                            s._xy()._mouse(e);
+                        }
+                    )
+                    .bind(
+                        &quot;touchstart&quot;,
+                        function (e) {
+                            e.preventDefault();
+                            s._xy()._touch(e);
+                        }
+                    );
+
+                this.listen();
+            } else {
+                this.$.attr(&#x27;readonly&#x27;, &#x27;readonly&#x27;);
+            }
+
+            if (this.relative) {
+                $(window).resize(function() {
+                    s._carve().init();
+                    s._draw();
+                });
+            }
+
+            return this;
+        };
+
+        this._configure = function () {
+
+            // Hooks
+            if (this.o.draw) this.dH = this.o.draw;
+            if (this.o.change) this.cH = this.o.change;
+            if (this.o.cancel) this.eH = this.o.cancel;
+            if (this.o.release) this.rH = this.o.release;
+
+            if (this.o.displayPrevious) {
+                this.pColor = this.h2rgba(this.o.fgColor, &quot;0.4&quot;);
+                this.fgColor = this.h2rgba(this.o.fgColor, &quot;0.6&quot;);
+            } else {
+                this.fgColor = this.o.fgColor;
+            }
+
+            return this;
+        };
+
+        this._clear = function () {
+            this.$c[0].width = this.$c[0].width;
+        };
+
+        this._validate = function (v) {
+            var val = (~~ (((v &lt; 0) ? -0.5 : 0.5) + (v/this.o.step))) * this.o.step;
+            return Math.round(val * 100) / 100;
+        };
+
+        // Abstract methods
+        this.listen = function () {}; // on start, one time
+        this.extend = function () {}; // each time configure triggered
+        this.init = function () {}; // each time configure triggered
+        this.change = function (v) {}; // on change
+        this.val = function (v) {}; // on release
+        this.xy2val = function (x, y) {}; //
+        this.draw = function () {}; // on change / on release
+        this.clear = function () { this._clear(); };
+
+        // Utils
+        this.h2rgba = function (h, a) {
+            var rgb;
+            h = h.substring(1,7)
+            rgb = [
+                parseInt(h.substring(0,2), 16),
+                parseInt(h.substring(2,4), 16),
+                parseInt(h.substring(4,6), 16)
+            ];
+
+            return &quot;rgba(&quot; + rgb[0] + &quot;,&quot; + rgb[1] + &quot;,&quot; + rgb[2] + &quot;,&quot; + a + &quot;)&quot;;
+        };
+
+        this.copy = function (f, t) {
+            for (var i in f) {
+                t[i] = f[i];
+            }
+        };
+    };
+
+
+    /**
+     * k.Dial
+     */
+    k.Dial = function () {
+        k.o.call(this);
+
+        this.startAngle = null;
+        this.xy = null;
+        this.radius = null;
+        this.lineWidth = null;
+        this.cursorExt = null;
+        this.w2 = null;
+        this.PI2 = 2*Math.PI;
+
+        this.extend = function () {
+            this.o = $.extend({
+                bgColor: this.$.data(&#x27;bgcolor&#x27;) || &#x27;#EEEEEE&#x27;,
+                angleOffset: this.$.data(&#x27;angleoffset&#x27;) || 0,
+                angleArc: this.$.data(&#x27;anglearc&#x27;) || 360,
+                inline: true
+            }, this.o);
+        };
+
+        this.val = function (v, triggerRelease) {
+            if (null != v) {
+
+                // reverse format
+                v = this.o.parse(v);
+
+                if (triggerRelease !== false
+                    &amp;&amp; v != this.v
+                    &amp;&amp; this.rH
+                    &amp;&amp; this.rH(v) === false) { return; }
+
+                this.cv = this.o.stopper ? max(min(v, this.o.max), this.o.min) : v;
+                this.v = this.cv;
+                this.$.val(this.o.format(this.v));
+                this._draw();
+            } else {
+                return this.v;
+            }
+        };
+
+        this.xy2val = function (x, y) {
+            var a, ret;
+
+            a = Math.atan2(
+                        x - (this.x + this.w2),
+                        - (y - this.y - this.w2)
+                    ) - this.angleOffset;
+
+            if (this.o.flip) {
+                a = this.angleArc - a - this.PI2;
+            }
+
+            if (this.angleArc != this.PI2 &amp;&amp; (a &lt; 0) &amp;&amp; (a &gt; -0.5)) {
+
+                // if isset angleArc option, set to min if .5 under min
+                a = 0;
+            } else if (a &lt; 0) {
+                a += this.PI2;
+            }
+
+            ret = (a * (this.o.max - this.o.min) / this.angleArc) + this.o.min;
+
+            this.o.stopper &amp;&amp; (ret = max(min(ret, this.o.max), this.o.min));
+
+            return ret;
+        };
+
+        this.listen = function () {
+
+            // bind MouseWheel
+            var s = this, mwTimerStop,
+                mwTimerRelease,
+                mw = function (e) {
+                    e.preventDefault();
+
+                    var ori = e.originalEvent,
+                        deltaX = ori.detail || ori.wheelDeltaX,
+                        deltaY = ori.detail || ori.wheelDeltaY,
+                        v = s._validate(s.o.parse(s.$.val()))
+                            + (
+                                deltaX &gt; 0 || deltaY &gt; 0
+                                ? s.o.step
+                                : deltaX &lt; 0 || deltaY &lt; 0 ? -s.o.step : 0
+                              );
+
+                    v = max(min(v, s.o.max), s.o.min);
+
+                    s.val(v, false);
+
+                    if (s.rH) {
+                        // Handle mousewheel stop
+                        clearTimeout(mwTimerStop);
+                        mwTimerStop = setTimeout(function () {
+                            s.rH(v);
+                            mwTimerStop = null;
+                        }, 100);
+
+                        // Handle mousewheel releases
+                        if (!mwTimerRelease) {
+                            mwTimerRelease = setTimeout(function () {
+                                if (mwTimerStop)
+                                    s.rH(v);
+                                mwTimerRelease = null;
+                            }, 200);
+                        }
+                    }
+                },
+                kval,
+                to,
+                m = 1,
+                kv = {
+                    37: -s.o.step,
+                    38: s.o.step,
+                    39: s.o.step,
+                    40: -s.o.step
+                };
+
+            this.$
+                .bind(
+                    &quot;keydown&quot;,
+                    function (e) {
+                        var kc = e.keyCode;
+
+                        // numpad support
+                        if (kc &gt;= 96 &amp;&amp; kc &lt;= 105) {
+                            kc = e.keyCode = kc - 48;
+                        }
+
+                        kval = parseInt(String.fromCharCode(kc));
+
+                        if (isNaN(kval)) {
+                            (kc !== 13)                     // enter
+                            &amp;&amp; kc !== 8                     // bs
+                            &amp;&amp; kc !== 9                     // tab
+                            &amp;&amp; kc !== 189                   // -
+                            &amp;&amp; (kc !== 190
+                                || s.$.val().match(/\./))   // . allowed once
+                            &amp;&amp; e.preventDefault();
+
+                            // arrows
+                            if ($.inArray(kc,[37,38,39,40]) &gt; -1) {
+                                e.preventDefault();
+
+                                var v = s.o.parse(s.$.val()) + kv[kc] * m;
+                                s.o.stopper &amp;&amp; (v = max(min(v, s.o.max), s.o.min));
+
+                                s.change(s._validate(v));
+                                s._draw();
+
+                                // long time keydown speed-up
+                                to = window.setTimeout(function () {
+                                    m *= 2;
+                                }, 30);
+                            }
+                        }
+                    }
+                )
+                .bind(
+                    &quot;keyup&quot;,
+                    function (e) {
+                        if (isNaN(kval)) {
+                            if (to) {
+                                window.clearTimeout(to);
+                                to = null;
+                                m = 1;
+                                s.val(s.$.val());
+                            }
+                        } else {
+                            // kval postcond
+                            (s.$.val() &gt; s.o.max &amp;&amp; s.$.val(s.o.max))
+                            || (s.$.val() &lt; s.o.min &amp;&amp; s.$.val(s.o.min));
+                        }
+                    }
+                );
+
+            this.$c.bind(&quot;mousewheel DOMMouseScroll&quot;, mw);
+            this.$.bind(&quot;mousewheel DOMMouseScroll&quot;, mw)
+        };
+
+        this.init = function () {
+            if (this.v &lt; this.o.min
+                || this.v &gt; this.o.max) { this.v = this.o.min; }
+
+            this.$.val(this.v);
+            this.w2 = this.w / 2;
+            this.cursorExt = this.o.cursor / 100;
+            this.xy = this.w2 * this.scale;
+            this.lineWidth = this.xy * this.o.thickness;
+            this.lineCap = this.o.lineCap;
+            this.radius = this.xy - this.lineWidth / 2;
+
+            this.o.angleOffset
+            &amp;&amp; (this.o.angleOffset = isNaN(this.o.angleOffset) ? 0 : this.o.angleOffset);
+
+            this.o.angleArc
+            &amp;&amp; (this.o.angleArc = isNaN(this.o.angleArc) ? this.PI2 : this.o.angleArc);
+
+            // deg to rad
+            this.angleOffset = this.o.angleOffset * Math.PI / 180;
+            this.angleArc = this.o.angleArc * Math.PI / 180;
+
+            // compute start and end angles
+            this.startAngle = 1.5 * Math.PI + this.angleOffset;
+            this.endAngle = 1.5 * Math.PI + this.angleOffset + this.angleArc;
+
+            var s = max(
+                String(Math.abs(this.o.max)).length,
+                String(Math.abs(this.o.min)).length,
+                2
+            ) + 2;
+
+            this.o.displayInput
+                &amp;&amp; this.i.css({
+                        &#x27;width&#x27; : ((this.w / 2 + 4) &gt;&gt; 0) + &#x27;px&#x27;,
+                        &#x27;height&#x27; : ((this.w / 3) &gt;&gt; 0) + &#x27;px&#x27;,
+                        &#x27;position&#x27; : &#x27;absolute&#x27;,
+                        &#x27;vertical-align&#x27; : &#x27;middle&#x27;,
+                        &#x27;margin-top&#x27; : ((this.w / 3) &gt;&gt; 0) + &#x27;px&#x27;,
+                        &#x27;margin-left&#x27; : &#x27;-&#x27; + ((this.w * 3 / 4 + 2) &gt;&gt; 0) + &#x27;px&#x27;,
+                        &#x27;border&#x27; : 0,
+                        &#x27;background&#x27; : &#x27;none&#x27;,
+                        &#x27;font&#x27; : this.o.fontWeight + &#x27; &#x27; + ((this.w / s) &gt;&gt; 0) + &#x27;px &#x27; + this.o.font,
+                        &#x27;text-align&#x27; : &#x27;center&#x27;,
+                        &#x27;color&#x27; : this.o.inputColor || this.o.fgColor,
+                        &#x27;padding&#x27; : &#x27;0px&#x27;,
+                        &#x27;-webkit-appearance&#x27;: &#x27;none&#x27;
+                        }) || this.i.css({
+                            &#x27;width&#x27;: &#x27;0px&#x27;,
+                            &#x27;visibility&#x27;: &#x27;hidden&#x27;
+                        });
+        };
+
+        this.change = function (v) {
+            this.cv = v;
+            this.$.val(this.o.format(v));
+        };
+
+        this.angle = function (v) {
+            return (v - this.o.min) * this.angleArc / (this.o.max - this.o.min);
+        };
+
+        this.arc = function (v) {
+          var sa, ea;
+          v = this.angle(v);
+          if (this.o.flip) {
+              sa = this.endAngle + 0.00001;
+              ea = sa - v - 0.00001;
+          } else {
+              sa = this.startAngle - 0.00001;
+              ea = sa + v + 0.00001;
+          }
+          this.o.cursor
+              &amp;&amp; (sa = ea - this.cursorExt)
+              &amp;&amp; (ea = ea + this.cursorExt);
+
+          return {
+              s: sa,
+              e: ea,
+              d: this.o.flip &amp;&amp; !this.o.cursor
+          };
+        };
+
+        this.draw = function () {
+            var c = this.g,                 // context
+                a = this.arc(this.cv),      // Arc
+                pa,                         // Previous arc
+                r = 1;
+
+            c.lineWidth = this.lineWidth;
+            c.lineCap = this.lineCap;
+
+            if (this.o.bgColor !== &quot;none&quot;) {
+                c.beginPath();
+                    c.strokeStyle = this.o.bgColor;
+                    c.arc(this.xy, this.xy, this.radius, this.endAngle - 0.00001, this.startAngle + 0.00001, true);
+                c.stroke();
+            }
+
+            if (this.o.displayPrevious) {
+                pa = this.arc(this.v);
+                c.beginPath();
+                c.strokeStyle = this.pColor;
+                c.arc(this.xy, this.xy, this.radius, pa.s, pa.e, pa.d);
+                c.stroke();
+                r = this.cv == this.v;
+            }
+
+            c.beginPath();
+            c.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+            c.arc(this.xy, this.xy, this.radius, a.s, a.e, a.d);
+            c.stroke();
+        };
+
+        this.cancel = function () {
+            this.val(this.v);
+        };
+    };
+
+    $.fn.dial = $.fn.knob = function (o) {
+        return this.each(
+            function () {
+                var d = new k.Dial();
+                d.o = o;
+                d.$ = $(this);
+                d.run();
+            }
+        ).parent();
+    };
+
+}));
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

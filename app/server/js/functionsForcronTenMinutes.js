@@ -1,3 +1,18 @@
+/**
+ * Contains all the files for server side scripting.
+ *
+ * @module server
+ */
+ /**
+ * This file contains functions which will be active every 10 minutes
+ * 
+ *
+ *
+ * @class functionsForcronTenMinutes.js
+ * @constructor
+ */
+
+
 var dbConf = require("./dbConfig.js");
 var queries = require("./queries.js");
 var common = require("./common.js");
@@ -35,6 +50,14 @@ var tryingToConnectAt,connectedAt,firedAt,fetchedAt;
 
 }*/
 
+/**
+ * This function fires the query to localData.db and 
+ * fetches all the benchmark Names from the Local_Benchmark table
+ *
+ *
+ * @function getAllBenchmarksFrom_LocalBenchmark()
+ * @return {}      : null
+**/
 
 exports.getAllBenchmarksFrom_LocalBenchmark = function() {
 
@@ -56,6 +79,15 @@ exports.getAllBenchmarksFrom_LocalBenchmark = function() {
 
 }
 
+/**
+ * fires query and fetches the timestamp of the last record fetched and
+ * calls fetchDataFromTable_Run() function with this timestamp as input parameter
+ *
+ *
+ * @function getLatestTimestamp()
+ * @return {}      : null
+**/
+
 exports.getLatestTimestamp = function() {
     var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 	var connection = new sqlite3.Database(url.rawFile);
@@ -72,6 +104,14 @@ exports.getLatestTimestamp = function() {
 	});
 
 }
+
+/**
+ * fires query to the benchmark Database and fetches the data that is updated from the last timestamp
+ *
+ *
+ * @function fetchDataFromTable_Run()
+ * @return {}      : null
+**/
 
 exports.fetchDataFromTable_Run = function() {
     tryingToConnectAt = common.DisplayCurrentUTCTime();
@@ -117,6 +157,15 @@ exports.fetchDataFromTable_Run = function() {
 
 }
 
+/**
+ * Based on the
+ *
+ *
+ * @function decisionMaking()
+ * @param {Array}  : Data
+ * @return {}      : null
+**/
+
 exports.decisionMaking = function(Data) {
     
 
@@ -148,6 +197,15 @@ exports.decisionMaking = function(Data) {
 	});
 
 }
+
+/**
+ * This function will connect to localData.db and pushes the data into the Local_Run table
+ *
+ *
+ * @function PushToTable_LocalRun()
+ * @param  {Array} : Run_data
+ * @return {}      : null
+**/
 
 exports.PushToTable_LocalRun = function(Run_data) {
 	var stm = "";
@@ -188,6 +246,14 @@ exports.PushToTable_LocalRun = function(Run_data) {
 	});
 
 }
+
+/**
+ * If any new benchmark has added in a day. then fetches its latest 50 records from Run table of benchmark Database
+ *
+ *
+ * @function fetchBenchmarksFromTable_Run()
+ * @return {}      : null
+**/
 
 exports.fetchBenchmarksFromTable_Run = function() {
 	var stm = "";
@@ -233,9 +299,16 @@ exports.fetchBenchmarksFromTable_Run = function() {
 
 }
 
+/**
+ * This function will connect to localData.db and updates the Time in timeValue table
+ * and exits the process.
+ *
+ *
+ * @function updateTimeAndExit()
+ * @return {}      : null
+**/
 
 exports.updateTimeAndExit = function(){
-	        //var file = "../DataBase/localData.db";
 			var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 			var connection = new sqlite3.Database(url.rawFile);
             var lastUpdated = (new Date()).toUTCString();

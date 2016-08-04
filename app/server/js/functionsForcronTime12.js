@@ -1,3 +1,18 @@
+/**
+ * Contains all the files for server side scripting.
+ *
+ * @module server
+ */
+ /**
+ * This file contains functions which will be active at 12:00 AM every morning
+ * 
+ *
+ *
+ * @class functionsForcronTime12.js
+ * @constructor
+ */
+
+
 var dbConf = require("./dbConfig.js");
 var queries = require("./queries.js");
 var common = require("./common.js");
@@ -6,6 +21,13 @@ var async = require("../lib/node_modules/async");
 var thisFile = require('./functionsForcronTime12.js');
 var url = require('./url.js');
 
+/**
+ * checks and deletes the records of those benchmarks which doesnot fall in the last 365 days
+ * 
+ *
+ * @function deleteBenchmarks()
+ * @return {}      : null
+**/
 
  exports.deleteBenchmarks = function() {
 	var dates = common.createDateObject();
@@ -25,6 +47,15 @@ var url = require('./url.js');
 
 }
 
+/**
+ * This function maintains the table in such a way, Anytime  latest 50 records of all the benchmarks
+ * of current day to last 365 days will be there. Data is refined everyday
+ *
+ *
+ * @function updateLocal_RunTable()
+ * @return {}      : null
+**/ 
+ 
  exports.updateLocal_RunTable = function() {
 	var file = "../DataBase/localData.db";
 	var sqlite3 = require("../lib/node_modules/sqlite3").verbose();

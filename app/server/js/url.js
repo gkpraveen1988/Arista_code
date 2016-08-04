@@ -10,7 +10,6 @@
  * @constructor
  */
 	var rootPath=exports.rootPath="./";
-	//exports.functionsJs="../js/functions.js";
 	exports.serverJs=rootPath+"server.js";
 	//exports.dbConnectJs=rootPath+"dbConnect.js";
 	exports.dbConfigJs=rootPath+"dbConfig.js";
