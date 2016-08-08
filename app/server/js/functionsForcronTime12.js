@@ -96,7 +96,7 @@ var url = require('./url.js');
 													if (error)
 														console.log(error);
 													else {
-														console.log("done with the changes");														
+														console.log("done with the changes");														                                process.exit(1);
 													}
 												})
 											}
@@ -114,6 +114,3 @@ var url = require('./url.js');
 		}
 	});
 }
-//thisFile.deleteBenchmarks();
-
-/*changes are there in sometest.js file*/

@@ -323,7 +323,9 @@ exports.updateTimeAndExit = function(){
                             console.log(error);
                         else{
                             console.log("updated checkPointTimes Table");
-                            process.exit(1);
+                            var func = require('./functionsForcronTime12.js');
+                            func.updateLocal_RunTable();
+                            //process.exit(1);
                         }
                     });
                 }
