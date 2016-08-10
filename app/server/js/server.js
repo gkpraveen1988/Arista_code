@@ -101,7 +101,7 @@ http.createServer(function (request, response) {
 					} else {
 						console.log(status.response.successful);
 						//console.log("failure");
-						response.writeHead("failure", {
+						response.writeHead(status.response.successful, {
 							'Content-Type' : contentType
 						});
 						response.end(content, 'utf-8');
