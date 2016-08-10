@@ -77,9 +77,7 @@ var url = require('./url.js');
 							else
 								stm = stm + ' select * from (select * from Local_Run where benchmark = "' + id + '" order by testTime desc limit 50)';
 
-							var fullStm = stm;
-							//console.log(fullStm + "\n");
-                            
+							var fullStm = stm;                            
 							connection.all(fullStm, function (error) {
 								if (error) {
 									console.log(error);

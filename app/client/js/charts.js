@@ -75,7 +75,6 @@ function addUniqProjectToDropDown(dropData) {
 		DropValue = DropValue + "<option>" + d + "</option>";
 	})
 
-	//DropValue=DropValue+"<option  selected="selected">ALL</option>"
 
 	$("#projectDrop").html(DropValue);
 
@@ -197,7 +196,6 @@ $('#reservation').val("");
             $("#dutForm .select2-selection__choice").each(function () {
                 dutSelected++;
             $("#dutForm .select2-selection__choice__remove").trigger("click");
-           // $("#dutForm .select2-search__field").trigger('click');
             });   
             $("#projectForm .select2-selection__choice").each(function () {
                     projectSelected++;

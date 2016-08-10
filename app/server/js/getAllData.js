@@ -82,16 +82,6 @@ var pool = dbConf.dbPool();
 					var fullStm = stm;
 
 					function fetch() {
-						//console.log("in function fetch");
-								//console.log(fullStm);
-						/*pool.getConnection(function (err, cursor) {
-							console.log("trying to connect... to DB");
-							if (err) {
-								console.log(err);
-								console.log("here is the error");
-								//fetch();								
-								//return;
-							} else {*/
 								thisFile.usserverconnection.query(fullStm, function (error, result) {
 									if (error){
 										console.log(error);
@@ -113,12 +103,6 @@ var pool = dbConf.dbPool();
 										
 									}
 								});
-							/*}
-
-						});*/
-							//Math.round(Math.random()*10000)
-						//},Math.round(Math.random()*100));
-
 					}
 					asyncArray.push(fetch);
 
@@ -128,7 +112,6 @@ var pool = dbConf.dbPool();
 					stm = stm + "(select * from benchmark.Run where benchmark = '" + benchmark + "' order by testTime desc limit 50) union all";
 				}
 			});
-			//console.log(asyncArray);
 			console.log("starting the async parallel");
 			async.parallel(asyncArray);
 		}
@@ -162,13 +145,11 @@ var pool = dbConf.dbPool();
 
 		if ((i + 1) == (Run_data.length)) {
 			stm = stm + '("' + benchmark + '","' + result + '","' + dut + '","' + project + '","' + release + '","' + client + '","' + changeNum + '","' + testTime + '")';
-			//var fullStm = queries.Local_RunTable("insert") + stm;
 			var fullStm = 'INSERT OR REPLACE INTO Local_Run (benchmark, result, dut, project, release, client, changeNum, testTime) VALUES' + stm;
 			console.log("about to push into Local_Run table");
 			var file = "../DataBase/localData.db";
 			var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 			var connection = new sqlite3.Database(url.rawFile);
-			//console.log(fullStm);
 			connection.run(fullStm, function (error) {
 				if (error)
 					console.log(error);

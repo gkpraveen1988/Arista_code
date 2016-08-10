@@ -74,7 +74,6 @@ if (!exists) {
 			stm = stm + '("' + i + '","' + id + '","' + description + '")';
 			var fullStm = queries.Info("insert","") + stm;
 			console.log("about to push into Info Table");
-			//var file = "../DataBase/localData.db";
 			var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 			var connection = new sqlite3.Database(url.rawFile);
 			connection.run(fullStm, function (err) {
@@ -160,7 +159,6 @@ if (!exists) {
 **/ 
 
  exports.fetchBenchmarksFromTable_Run = function() {
-	//var query = "select benchmark from benchmark.Run group by benchmark order by benchmark";
     var dates = common.createDateObject();
     console.log(dates);
 	func.usserverconnection.query(queries.RunTable("allBenchmarks","",dates.lastDate,dates.currentDate), function (err, Benchmark_recordset) {
@@ -172,7 +170,6 @@ if (!exists) {
 			Benchmark_recordset = JSON.stringify(Benchmark_recordset);
 			Benchmark_recordset = JSON.parse(Benchmark_recordset);
 			var Data = common.clone(Benchmark_recordset);
-            
             func.usserverconnection.destroy();
             console.log("destroyed the usserverconnection");
 			thisFile.PushToTable_LocalBenchmark(Data);
@@ -267,13 +264,10 @@ if (!exists) {
 			Value = tempValue.slice(0, DotIndex);
 			Flag = true;
 		}
-		//description = d.description;
-		//description = description.replace(/"/g, '\""');
 		if ((i+1) == (Benchmark_data.length)) {
 			stm = stm + '("' + id + '","' + Value + '","' + Flag + '")';
 			var fullStm = queries.BenchmarkTable("insert") + stm;
 			console.log("about to push into Local_Benchmark Table");
-			//var file = "../DataBase/localData.db";
 			var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 			var connection = new sqlite3.Database(url.rawFile);
 			connection.run(fullStm, function (err) {
@@ -281,7 +275,6 @@ if (!exists) {
 					console.log(err);
 				else {
 					console.log("pushed Data to Local_Benchmark Table");
-					//getIdFromLocal_Run();
                     GetAllData.ConnectToDataBase();
 				}
 

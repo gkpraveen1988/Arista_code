@@ -123,8 +123,7 @@ module.exports = {
 
 		if(input == "deleteNotDateIds")
 			query = "delete from Local_Run where benchmark in (select * from (select benchmark from Local_Run where substr(testTime,1,10) ='" + lastDate + "' group by benchmark) where benchmark NOT IN(SELECT id FROM Local_Benchmark))";        
-           
-            //console.log(query);
+
            return query;
     
     },
@@ -193,16 +192,7 @@ module.exports = {
 
 }
     
-    
- /*CREATE TEMPORARY TABLE Local_Run_temp (benchmark,result,dut,project,release,client,changeNum,testTime);
-INSERT INTO Local_Run_temp select * from (select * from Local_Run where benchmark = 'HitlessRestart.pktDriverShutToL3ReconcileComplete.None' order by testTime desc limit 50 )UNION select * from (select * from Local_Run where benchmark = 'InterfaceScaling.SubIntf.Delete.Lags-8.SubIntfs-256.deleteTime' order by testTime desc limit 50)UNION
-select * from (select * from Local_Run where benchmark = 'AclTest.PAcl.Modular.defaultConfigReloadTimeAbsolute' order by testTime desc limit 50);
-DROP TABLE Local_Run;
-CREATE TABLE Local_Run(benchmark,result,dut,project,release,client,changeNum,testTime);
-INSERT INTO Local_Run SELECT benchmark,result,dut,project,release,client,changeNum,testTime FROM Local_Run_temp;
-DROP TABLE Local_Run_temp;
-COMMIT; */     
-    
+
     
     
     

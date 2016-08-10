@@ -28,27 +28,6 @@ var thisFile = require('./functionsForcronTenMinutes.js');
 var multiplePushTorun = false;
 var connectionTimes = 0;
 var tryingToConnectAt,connectedAt,firedAt,fetchedAt;
-/*exports.checkFlagInTable = function() {
-	//var file = "../DataBase/localData.db";
-	var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
-	var connection = new sqlite3.Database(url.rawFile);
-	connection.all(queries.updateFlag("select"), function (error, result) {
-		if (error)
-			console.log(error);
-		else {
-			if (result[0].Flag == "false") {
-				console.log("Flag is false in the table. so continuing...");
-				thisFile.getAllBenchmarksFrom_LocalBenchmark();
-			} 
-			else{
-				console.log("another cronjob is running. so exiting....");
-				process.exit(1);
-            }
-
-		}
-	});
-
-}*/
 
 /**
  * This function fires the query to localData.db and 
@@ -60,8 +39,6 @@ var tryingToConnectAt,connectedAt,firedAt,fetchedAt;
 **/
 
 exports.getAllBenchmarksFrom_LocalBenchmark = function() {
-
-	//var file = "../DataBase/localData.db";
 	var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 	var connection = new sqlite3.Database(url.rawFile);
 	connection.all(queries.BenchmarkTable("allBencmarks"), function (error, benchmarks) {
@@ -158,7 +135,7 @@ exports.fetchDataFromTable_Run = function() {
 }
 
 /**
- * Based on the
+ * Based on the new benchmarks (if added any) fetches from benchmark server or updates the data 
  *
  *
  * @function decisionMaking()
@@ -224,7 +201,6 @@ exports.PushToTable_LocalRun = function(Run_data) {
 			stm = stm + '("' + benchmark + '","' + result + '","' + dut + '","' + project + '","' + release + '","' + client + '","' + changeNum + '","' + testTime + '")';
 			var fullStm = queries.Local_RunTable("insert") + stm;
 			console.log("about to push into Local_Run table");
-			//var file = "../DataBase/localData.db";
 			var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 			var connection = new sqlite3.Database(url.rawFile);
 			connection.run(fullStm, function (error) {
@@ -290,13 +266,6 @@ exports.fetchBenchmarksFromTable_Run = function() {
 
 	});
 
-   /* else{
-    console.log("there are no new benchmarks for which data to be fetched!!");
-            
-        updateFlag();
-        
-    }*/
-
 }
 
 /**
@@ -325,7 +294,6 @@ exports.updateTimeAndExit = function(){
                             console.log("updated checkPointTimes Table");
                             var func = require('./functionsForcronTime12.js');
                             func.updateLocal_RunTable();
-                            //process.exit(1);
                         }
                     });
                 }

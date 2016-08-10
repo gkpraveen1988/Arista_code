@@ -23,7 +23,6 @@ var uniqDutArry;
 var refreshClick = false;
 var uniqResultArray;
 var colorObj = {};
-//	var color = d3.scale.category20();
 var colorArray = [];
 var color= function(i){
 return colorArray[i];
@@ -160,11 +159,7 @@ function ajaxCall(input1, input2) {
 			}
 
 		} else {
-
 			refreshClick = false;
-            
-      
-
 			$('#select2-resultDropSelect-container').html("");
 			$("#select2-selectDrop2-container").html("");
             
@@ -177,12 +172,6 @@ function ajaxCall(input1, input2) {
                     myNode.removeChild(myNode.lastChild);
             }
             }
-            
-          
-            
-            
-            
-			//$('#drop2 select').empty();
 			$('#resultDropSelect').html("");
             
 			if (data[0].DropDownFlag == "false") {
@@ -199,9 +188,6 @@ function ajaxCall(input1, input2) {
 				$("#drop2 .select2-container--default .select2-selection--single").css("border", "1px solid red")
 
 			}
-            
-           
-			
 			var html = '';
 
 			$.each(data, function (i, d) {
@@ -221,7 +207,7 @@ function ajaxCall(input1, input2) {
 	.fail(function (e) {
 		console.log(e.responseText);
         
-        alert("connection erroe !!!! please reload the page.");
+        alert("connection error !!!! please reload the page.");
         
         $("#mask").hide();
 	});
@@ -282,9 +268,6 @@ function addUniqValuesToDropDown(data,dataRange) {
 		
 
 			if (refreshClick == false) {
-
-				
-				//$('#reservation').val("");
 				addUniqDutToDropDown(uniqDutArry,dataRange);
 				addUniqProjectToDropDown(uniqProjectArry);
 				addResultValuesToDropDown(uniqResultArray);
@@ -469,7 +452,6 @@ function processProjectFilter(inputData) {
 
 			if (i == ProjectLength - 1) {
 				console.log(filterData.length);
-				//placeArrays([], filterData);
                 processResultFilter(filterData);
 
 			}
@@ -477,7 +459,6 @@ function processProjectFilter(inputData) {
 		});
 
 	} else {
-		//placeArrays([], clone(inputData));
         processResultFilter(clone(inputData));
 
 	}
@@ -525,7 +506,6 @@ var threshoslValu = $('#resultDropSelect').val();
                     })
                     break;
             case resultDropDownArray[3]:
-                //returnval = (mainValue < Mean_minus_SD);
                 var resultFilteredData = inputData.filter(function (d, i) {
                         mainValue = parseFloat(d.result);
                         return (mainValue <= Mean_minus_SD);

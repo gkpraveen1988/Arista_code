@@ -32,7 +32,6 @@ var common = require("./common.js");
 http.createServer(function (request, response) {
 	console.log("server started");
 	console.log("request type is " + request.method);
-	//var filePath = url.templatePath + request.url;
 	var filePath = "../../client" + request.url;
 	var indexPage = "../../client/template/index.html";
 	console.log(filePath);
@@ -100,7 +99,6 @@ http.createServer(function (request, response) {
 						});
 					} else {
 						console.log(status.response.successful);
-						//console.log("failure");
 						response.writeHead(status.response.successful, {
 							'Content-Type' : contentType
 						});
@@ -117,9 +115,6 @@ http.createServer(function (request, response) {
 }).listen(7777);
 
 http.createServer(function (request, response) {
-    
-    
-    
     console.log(request.url);
         
     var filePath = "../../../docs" + request.url;
@@ -136,7 +131,6 @@ http.createServer(function (request, response) {
           
     
     }
-    
     
 	var extname = path.extname(filePath);
 	var contentType = 'text/html';
@@ -158,16 +152,11 @@ http.createServer(function (request, response) {
 					response.writeHead(status.response.serverProblem);
 					response.end();
 				} else {
-			
-                        
-                    
 						console.log(status.response.successful);
 						response.writeHead(status.response.successful, {
 							'Content-Type' : contentType
 						});
 						response.end(content, 'utf-8');
-					
-                    
 				}
 			});
 		} else {
@@ -203,7 +192,6 @@ console.log(value);
         recordsNumber = parseInt(recordsNumber);
         dataQuery = queries.moreData("",benchmarkName,recordsNumber);
     }
-    
     console.log(dataQuery);
     var pool = dbConf.dbPool();
 	pool.getConnection(function (err, cursor) {
@@ -219,10 +207,6 @@ console.log(value);
 				} else {
                     thisFile.giveResponse(Run_recordset, response);
                     cursor.destroy();
-/*					Run_recordset = JSON.stringify(Run_recordset);
-					Run_recordset = JSON.parse(Run_recordset);
-					var Data = common.clone(Run_recordset);
-					decisionMaking(Data);*/
 
 				}
 			});
