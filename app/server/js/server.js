@@ -114,58 +114,6 @@ http.createServer(function (request, response) {
 	});
 }).listen(7777);
 
-http.createServer(function (request, response) {
-    console.log(request.url);
-        
-    var filePath = "../../../docs" + request.url;
-	if (filePath == "../../../docs" + "/"){
-		filePath = "../../../docs/index.html"
-    }else{
-            ext=filePath.slice(filePath.length-7,filePath.length);
-        
-           if(ext=="?pjax=1"){
-           
-           filePath=filePath.slice(0,filePath.length-7);
-           console.log(filePath);
-           }
-          
-    
-    }
-    
-	var extname = path.extname(filePath);
-	var contentType = 'text/html';
-	switch (extname) {
-	case '.js':
-		contentType = 'text/javascript';
-		break;
-	case '.css':
-		contentType = 'text/css';
-		break;
-	case '.json':
-		contentType = 'application/json';
-		break;
-	}
-	fs.exists(filePath, function (exists) {
-		if (exists) {
-			fs.readFile(filePath, function (error, content) {
-				if (error) {
-					response.writeHead(status.response.serverProblem);
-					response.end();
-				} else {
-						console.log(status.response.successful);
-						response.writeHead(status.response.successful, {
-							'Content-Type' : contentType
-						});
-						response.end(content, 'utf-8');
-				}
-			});
-		} else {
-			console.log("server response");
-			response.writeHead(status.response.pageNotFound);
-			response.end();
-		}
-	});
-}).listen(3001);
 
 
 
