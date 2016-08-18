@@ -77,9 +77,9 @@ function addUniqProjectToDropDown(dropData) {
 
 
 	$("#projectDrop").html(DropValue);
-
-	
-
+    
+    
+  
 }
 
 /**
@@ -90,21 +90,30 @@ function addUniqProjectToDropDown(dropData) {
  * @param  {String} : dataRange 
  * @return {} null
  **/
-
+var uniqueSlicedDutValues;
 function addUniqDutToDropDown(dropData,dataRange) {
     
   
 	$("#dutDrop").html("");
 
 	var DropValue = "";
-
+    var groupArray = [];
 	dropData.forEach(function (d, i) {
 		DropValue = DropValue + "<option>" + d + "</option>";
+        var slicedValue = (clone(d)).replace(/[^a-z.]/g, "").trim();
+        groupArray.push(slicedValue);
 	})
-
-	
-
-	$("#dutDrop").html(DropValue);
+    uniqueSlicedDutValues = groupArray.unique();
+    $("#dutDrop").html(DropValue);
+    
+      li = "";
+    uniqueSlicedDutValues.forEach(function(d,i){
+      
+        li += "<li>"+d+"</li>"
+    });
+    html="<span style='font-size:7px;color:red'>* seperate the group using ';'</br>* For Multi Grouping, use '()'</br> example:- (li*,bh*);ga*</br></span></br>Duts available : </br><ul>"+li+"</ul>";
+  
+    $("#toolTipDiv").html(html);
 
 }
 
@@ -188,6 +197,8 @@ function getData(inputFlag, boolan) {
 	}
 	$("#mask").show();
 $('#reservation').val("");
+$('#textbox').val("");
+    
     if(refreshClick==false){
             $("#select2-sizeDrop-container").html(50);
             $("#select2-sizeDrop-container").attr("title",50);

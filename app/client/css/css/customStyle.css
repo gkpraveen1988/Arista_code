@@ -105,3 +105,37 @@
       border:2px solid #f00;
       }
     
+
+.relative {
+  position: absolute;   
+}
+
+#toolTipDiv {
+ position: absolute;
+    top: 60px;
+    left: 15px;
+    
+}
+
+div.activeToolTip 
+{
+ display:block;
+ visibility:visible;
+ background-color:white;
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 0.75em;
+ line-height: 1.50em;
+ font-weight:bold;
+ color: #000;
+ border:1px solid gray;
+ filter: progid:DXImageTransform.Microsoft.Shadow(color=white,direction=135);
+ width:auto;
+ height:auto;
+ padding: 10px;    
+ z-index:99999999999999;
+}
+div.idleToolTip 
+{
+ display:none;
+ visibility:hidden;
+}

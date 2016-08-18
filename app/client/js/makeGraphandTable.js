@@ -80,7 +80,7 @@ $("#refresh").on("click", function () {
 
 });
 var Grouptip;
-var tip;
+var tip;   var temColorObj={};
 
 /**
  * This is the main function where graphs are plotted inside svg.
@@ -122,7 +122,7 @@ function drawBars(data) {
 		left : 50
 	},
 	width = graphContainerWidth - margin.left - margin.right - 30,
-	height = graphContainerHeight - margin.top - margin.bottom - 50,
+	height = graphContainerHeight - margin.top - margin.bottom - 80,
 	offset = 10;
 
 
@@ -131,7 +131,7 @@ function drawBars(data) {
     
    // if((Object.keys(colorObj)).length==0);
     
-    
+  
 
 	radioValu = $("input[name='colorChk']:checked").val();
 
@@ -140,7 +140,7 @@ function drawBars(data) {
 		uniqProjectArry.forEach(function (d, i) {
             
             if(!colorObj[d]){
-               // colorObj[d] = d3.rgb(color(i)).brighter(2).toString();
+             
             colorObj[d] =color(i);
             }
 			
@@ -148,7 +148,52 @@ function drawBars(data) {
 		})
 
 	} else {
-		uniqDutArry.forEach(function (d, i) {
+            var opt = $("#optDrop").val();
+    if(opt == "Group"){ 
+        
+        //DutGroupArrayForColor
+        
+       temColorObj={};
+        
+        DutGroupArrayForColor.forEach(function(d,i){
+            
+            var colorIndex= (DutGroupArrayForColor.length)+i;
+            temColorObj["col"+i]= color(colorIndex);
+            
+                    var groupText="";
+                    d.forEach(function(o,j){
+                        temColorObj[o]=color(colorIndex);
+                        groupText=groupText+o+" ";
+                    })
+               temColorObj["groupText"+i] =groupText;    
+                    
+        });
+        
+        uniqDutArry.forEach(function (d, i) {
+            
+       
+            
+            var dutStart=(d.replace(/[^a-z.]/g, "")).trim();
+            
+            
+            if(temColorObj[dutStart]){
+            
+                 colorObj[d]=temColorObj[dutStart];
+            }else{
+            
+             colorObj[d]= color(i);
+            
+            }
+            
+           
+            
+           
+
+		})
+        
+   
+    }else{
+      uniqDutArry.forEach(function (d, i) {
             
             
              if(!colorObj[d]){
@@ -159,6 +204,9 @@ function drawBars(data) {
            
 
 		})
+    }
+        
+		
 
 	}
 
@@ -256,9 +304,9 @@ function drawBars(data) {
 	var svg = d3.select("#graph")
 		.append("svg")
 		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom + 80)
+		.attr("height", height + margin.top + margin.bottom + 130)
 		.append("g")
-		.attr("transform", "translate(" + margin.left + "," + (margin.top + 10) + ")");
+		.attr("transform", "translate(" + margin.left + "," + (margin.top + 50) + ")");
 
 	svg.call(tip);
 	svg.call(Grouptip);
@@ -271,12 +319,7 @@ function drawBars(data) {
 	.attr("class", "y axis")
 	.call(yAxis);
 
-	/*svg.append("g")
-	.attr("class", "grid")
-	.call(make_y_axis()
-		.tickSize(-width, 0, 0)
-		.tickFormat(""))
-*/
+	
 	svg.append("text")
 	.attr("transform", "rotate(-90)")
 	.attr("y", function () {
@@ -420,13 +463,13 @@ function drawBars(data) {
     
 	.style("fill", function (d, i) {
 
-		//"rgb(124, 181, 236)";
+
 
 		var radioValu = $("input[name='colorChk']:checked").val();
 
 		return colorObj[d[radioValu]];
 
-		//return color(d[radioValu]);
+	
 
 
 	})
@@ -496,7 +539,104 @@ function drawBars(data) {
 	.style("stroke", "blue")
 	.style("stroke-width", 3);
     drawLegends();
+  
+    
+    
+    var dutValue=$("#textbox").val();
+    
+    if(dutValue.trim()==""){
+    
+        d3.selectAll(".dutlegend").remove();
+    }else{
+    
+          radioValu = $("input[name='colorChk']:checked").val();
+
+	if (radioValu == "dut") {
+    
+     var opt = $("#optDrop").val();
+    if(opt == "Group"){
+        
+        
+        setTimeout(function(){ drawDutGroupLegend();},200)
+        
+    } 
+    }
+    
+    }
+    
+  
+   
+    
+    
 }
+
+
+
+function drawDutGroupLegend(){
+
+    
+    
+   
+     var dutGroupLegend = svg.selectAll(".dutlegend")
+                    .data(DutGroupArrayForColor)
+                    .enter().append("g")
+                    .attr("class", "dutlegend");
+ 
+     
+ var legendTextWidth1=0; 
+    
+var legendTextWidth2=0;
+    
+var previousValueLength1=0;  
+var previousValueLength2=0;    
+    
+ dutGroupLegend.append("rect")
+                             .attr("x", function(d,i){
+                                            if(i==0){
+                                                legendTextWidth1=50 ;
+                                                
+                                                previousValueLength1=d.length;
+                                            }else{
+                                                
+                                              
+                                                
+                                                legendTextWidth1=legendTextWidth1+((previousValueLength1)*25);
+                                                
+                                                previousValueLength1=d.length;
+                                            }
+                                            
+                                            return legendTextWidth1 ;                                               
+ })
+                             .attr("y", 25)
+                            .attr("width", 10)
+                            .attr("height", 10)
+                             .style("fill",function(d,i){return temColorObj["col"+i] });
+    
+    
+      dutGroupLegend.append("text")
+       .attr("x", function(d,i){
+                                            if(i==0){
+                                               
+                                                legendTextWidth2=50; 
+                                                 previousValueLength2=d.length;
+                                            }else{
+                                                
+                                                legendTextWidth2=(legendTextWidth2)+(previousValueLength2)*25;
+                                                 previousValueLength2=d.length;
+                                            }
+                                            
+                                            return legendTextWidth2+13 ;                                               
+ })
+      .attr("y", 33)
+     // .attr("dy", ".35em")
+     // .style("text-anchor", "end")
+      .style("font-weight","bold")
+      .text(function(d,i){return temColorObj["groupText"+i] })
+    
+
+}
+
+
 
 /**
  * An array which contains all the unique dates,in YYYY-MM-DD format is created out of the input data.
@@ -509,8 +649,8 @@ function drawBars(data) {
 
 
 function createDatesArray(inputData) {
-
 	data = clone(inputData);
+
 	var rawdatesArray = [];
 	var datesArray = [];
 	rawdatesArray.push((data[0].testTime).slice(0, 10));
@@ -541,6 +681,7 @@ function createDatesArray(inputData) {
 
 		//dataForAllDates (datesArray,inputData);
             console.log(datesArray);
+        
 		createNullElementsArray(datesArray, inputData);
 
 	}
@@ -558,6 +699,7 @@ function createDatesArray(inputData) {
 
 
 function createNullElementsArray(fullDatesArray, inputData) {
+    
 	var inData = clone(inputData);
 	var dArr = [];
 	inData.map(function (d, i) {

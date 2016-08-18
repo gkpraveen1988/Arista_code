@@ -82,15 +82,54 @@ $(function () {
 		prettify : false,
 		hasGrid : true
 	});
+            
+
+    
 
 });
+
+$("#optDrop").on("change",function(){
+    var opt = $("#optDrop").val();
+    if(opt == "Group"){ 
+    $("#dutFormdiv").css("display","none");
+    $("#textdiv").css("display","block");
+    }else{
+        $("#textdiv").css("display","none");
+        $("#dutFormdiv").css("display","block");
+    }
+})
+
+/*$("#textdiv").on("mouseover",function(){
+     //$("#toolTipDiv").className("activeToolTip");
+    document.getElementById('toolTipDiv').className='activeToolTip';
+})*/
+
+/*$("#textdiv").on("mouseout",function(){
+    document.getElementById('toolTipDiv').className='idleToolTip';
+    // $("#toolTipDiv").className("idleToolTip");
+})*/
+
+
+   $("#textdiv").focusin(function(){
+       document.getElementById('toolTipDiv').className='activeToolTip';
+        $("#toolTipDiv").css("display", "block");
+    });
+    $("#textdiv").focusout(function(){
+        document.getElementById('toolTipDiv').className='idleToolTip';
+        $("#toolTipDiv").css("display", "none");
+    });
+
 
 $("#filterGo").on("click", function () {
 
 	$("#mask").show();
-	startFilterProcess();
-
+    
+    validateFilter();
+	//startFilterProcess();
+   
 })
+
+
 
 /**
  * Ajax call with request type "post" is made and based on the response,
@@ -133,7 +172,7 @@ function ajaxCall(input1, input2) {
 			}, 100);
 
 		} else if ((Object.keys(data[0]))[0] == "benchmark") {
-
+            
 			BenchmarkData = clone(data);
 			if (input1 == "moreData") {
 				
@@ -143,7 +182,6 @@ function ajaxCall(input1, input2) {
 
 				processDatefilter(clone(data));
 			} else {
-
 				addUniqValuesToDropDown(clone(data),"lessData");
 			}
 
@@ -162,7 +200,7 @@ function ajaxCall(input1, input2) {
 			refreshClick = false;
 			$('#select2-resultDropSelect-container').html("");
 			$("#select2-selectDrop2-container").html("");
-            
+            $("#textbox").val("");
             
             var myNode = document.getElementById("#select2-selectDrop2-results");
             
@@ -249,7 +287,7 @@ function addUniqValuesToDropDown(data,dataRange) {
 				dutArry.push(d.dut);
 				resultArray.push(parseFloat(d.result));
 			});
-
+            
 			globalMainData = clone(data);
 
 			uniqProjectArry = projectArry.unique();
@@ -278,16 +316,96 @@ function addUniqValuesToDropDown(data,dataRange) {
 	$(".dis").attr("disabled", false);
 }
 
+
+function validateFilter(){
+
+        var opt = $("#optDrop").val();
+    if(opt == "Group"){ 
+        var stringValue = ($('#textbox').val()).toLowerCase();
+        validateDutGroupString(stringValue);
+        //return;
+    }
+    else{
+        startFilterProcess();
+    }
+
+
+}
+
+
+function checkBrackets(str){
+    var depth = 0;
+    for(var i in str){   
+        if(str[i] == '('){
+            depth ++;
+        } else if(str[i] == ')') {
+            depth --;
+        }  
+        if (depth < 0) return false;
+    }
+    if(depth > 0) return false;
+    return true;
+}
+
+
 /**
  * The Filter Process is initiated in this function based on the selection done by user.
  * @function startFilterProcess()
  *
  * @return {} null
  **/
-
+ var DutGroupArrayForColor = [];  
 function startFilterProcess() {
-	selectedProjectText = [];
+    selectedProjectText = [];
 	selectedDutText = [];
+    selectedDutGroupText = [];
+    var opt = $("#optDrop").val();
+    if(opt == "Group"){ 
+        selectedDutGroupTextval = ($('#textbox').val()).toLowerCase();
+        if(selectedDutGroupTextval != ""){
+            
+       DutGroupArrayForColor = [];  
+            
+        var tempselectedDutGroupText = selectedDutGroupTextval.split(";");
+            if(tempselectedDutGroupText[tempselectedDutGroupText.length-1]==""){
+                tempselectedDutGroupText.pop();
+            }
+        
+            tempselectedDutGroupText.forEach(function(d,i){
+                
+                var tempArray=[];
+               
+                d = d.replace(/[()]/g, '');
+                
+                innerArray = d.split(",");
+                
+               
+                innerArray.map(function(d,i){
+                    
+                    dutstart = d.replace(/[*]/g, '');
+                    tempArray.push(dutstart);
+                    
+                    
+                    selectedDutGroupText.push(d);
+                })
+                DutGroupArrayForColor.push(tempArray);
+             
+                
+            });
+            
+        }
+        
+        DutLength = selectedDutGroupText.length;
+    }else{
+        $("#dutForm .select2-selection__choice").each(function () {
+		var title = $(this).attr("title");
+		if (title != "") {
+			selectedDutText.push(title);
+		}
+	});
+	DutLength = selectedDutText.length;    
+    }
+
 
 	$("#projectForm .select2-selection__choice").each(function () {
 		var title = $(this).attr("title");
@@ -296,14 +414,7 @@ function startFilterProcess() {
 		}
 
 	});
-	$("#dutForm .select2-selection__choice").each(function () {
-		var title = $(this).attr("title");
-		if (title != "") {
-			selectedDutText.push(title);
-		}
 
-	});
-	DutLength = selectedDutText.length;
 	ProjectLength = selectedProjectText.length;
 	
 	recordsNumber = $("#select2-sizeDrop-container").attr("title");
@@ -356,7 +467,6 @@ var dummy20entriesData;
 
 function checkSize() {
     if (lastUsedSize > 50) {
-        debugger;
 		var value = recordsNumber + "-" + benchmarkID
 			ajaxCall("moreData", value);
 			console.log("ajaxCall called");
@@ -402,28 +512,16 @@ function processDatefilter(LocalData) {
  **/
 
 function Dut(inputDateFilterdData) {
-	if (DutLength != 0) {
 
-		var filterDutData = [];
-		selectedDutText.forEach(function (d, i) {
-			var temFilterDutData = inputDateFilterdData.filter(function (o, j) {
-					return o.dut == d;
-				});
-			temFilterDutData.forEach(function (o, j) {
-				filterDutData.push(o);
-
-			})
-
-			if (i == DutLength - 1) {
-				console.log(filterDutData.length);
-				
-				processProjectFilter(clone(filterDutData));
-
-			}
-
-		});
-
-	} else {
+    
+       if (DutLength != 0) {
+            var opt = $("#optDrop").val();
+            if(opt == "Group"){ 
+                filterFunction(selectedDutGroupText,inputDateFilterdData,"slice");
+            }
+            else {
+            filterFunction(selectedDutText,inputDateFilterdData,"no");}
+       }else {
 		processProjectFilter(clone(inputDateFilterdData));
 
 	}
@@ -583,7 +681,7 @@ $("input[name='colorChk']").on("click", function () {
 })
 
 /**
- * 
+ * This function is used for applying unique colors for duts/projects inside the select element.
  * @function changeColor()
  * 
  * @return {}  null
@@ -604,7 +702,7 @@ function changeColor() {
 
 
 /**
- * 
+ * This function will return a random color code/string  when executed.
  * @function getRandomColor()
  * 
  * @return {} : color1
@@ -647,6 +745,37 @@ for(i=0;i<n;i++){
 }
 
 
+function filterFunction(filterDutText,inputDateFilterdData,Flag){
+var filterDutData = [];
+filterDutText.forEach(function (d, i) {
+    var temFilterDutData = inputDateFilterdData.filter(function (o, j) {
+            if(Flag=="slice"){
+            string1 = ((o.dut).replace(/[^a-z.]/g, "")).trim();
+            string2 = ((d).replace(/[^a-z.]/g, "")).trim();
+            //return (o.dut).slice(0,2) == d.slice(0,2);}
+                return string1 == string2;}
+            else{
+            return o.dut == d;}
+        });
+    temFilterDutData.forEach(function (o, j) {
+        filterDutData.push(o);
+
+    })
+
+    if (i == DutLength - 1) {
+        console.log(filterDutData.length);
+    
+        sortedfilterDutData = filterDutData.sort(function(a, b){
+ var dateA = new Date(a.testTime), dateB = new Date(b.testTime)
+    return dateA-dateB;
+});
+        processProjectFilter(clone(sortedfilterDutData));
+        
+
+    }
+
+});
+}
 
 
 
