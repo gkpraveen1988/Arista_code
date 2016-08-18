@@ -167,35 +167,3 @@ function regexFun13(inputString){
 function mask(){
 $("#mask").hide();
 }
-
-
-
-
-/*if(checkBrackets(inputString)){
-    if(inputString.match(regex1)==null){
-        if(inputString.match(regex2)==null){
-            if(inputString.match(regex3)==null){
-                if(inputString.match(regex4)==null){
-                    if(inputString.match(regex5)==null){
-                        if(inputString.match(regex6)==null){
-                                if(inputString.match(regex8)==null){
-                                    if(inputString.match(regex9)==null){
-                                        if(inputString.match(regex10)==null){
-                                            if(inputString.match(regex11)==null){
-                                                if(inputString.match(regex7)==null){
-                                                startFilterProcess();
-                                                }else{alert("Error:- Found  ,; ");mask();}
-                                            }else{alert("Error:- Found  ,) ");mask();}
-                                        }else{alert("Error:- Found  )( ");mask();}
-                                }else{alert("Error:- Found (, ");mask();}
-                            }else{alert("Error:- Nothing entered between paranthesis");mask();}
-                    }else{alert("Error:- Found ;) ");mask();}
-                }else{alert("Error:- Found ;, ");mask();}
-            }else{alert("Error:- No , found between two dut groups");mask();}
-        }else{alert("Error:- Found (; ");mask();}
-    }else{alert("Error:- Found ), ");mask();}
-    }else{alert("Error:- Found ; between two duts in a group ");mask();}
-
-}else{
-alert("paranthesis error in expression");mask();  
-}  */
