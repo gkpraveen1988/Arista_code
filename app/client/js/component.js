@@ -99,17 +99,6 @@ $("#optDrop").on("change",function(){
     }
 })
 
-/*$("#textdiv").on("mouseover",function(){
-     //$("#toolTipDiv").className("activeToolTip");
-    document.getElementById('toolTipDiv').className='activeToolTip';
-})*/
-
-/*$("#textdiv").on("mouseout",function(){
-    document.getElementById('toolTipDiv').className='idleToolTip';
-    // $("#toolTipDiv").className("idleToolTip");
-})*/
-
-
    $("#textdiv").focusin(function(){
        document.getElementById('toolTipDiv').className='activeToolTip';
         $("#toolTipDiv").css("display", "block");
@@ -156,7 +145,7 @@ function ajaxCall(input1, input2) {
 		Fetch : input1,
 		Value : input2
 	}, function (data) {
-        
+        document.getElementById("optDrop").disabled = true;
         if (data["benchmarks"]!=undefined) {
        
             
