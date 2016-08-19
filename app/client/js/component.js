@@ -145,10 +145,10 @@ function ajaxCall(input1, input2) {
 		Fetch : input1,
 		Value : input2
 	}, function (data) {
-        document.getElementById("optDrop").disabled = true;
+        
         if (data["benchmarks"]!=undefined) {
        
-            
+            document.getElementById("optDrop").disabled = true;
             var localData = data['benchmarks'];
 			refreshClick = false;
 
