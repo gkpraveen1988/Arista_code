@@ -139,3 +139,62 @@ div.idleToolTip
  display:none;
  visibility:hidden;
 }
+
+
+#input {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    background-color: white;
+    background-color: -moz-field;
+    border: 1px solid darkgray;
+    box-shadow: 1px 1px 1px 0 lightgray inset;  
+    font: -moz-field;
+    font: -webkit-small-control;
+ 
+    padding: 2px 3px;
+    display: inline-block; 
+	margin-top:4px;
+}
+.selected_item{
+	padding:4px;
+	margin-top:2px;
+	display: inline-block;
+	background-color: rgb(31, 119, 180);
+	color:white;
+	margin-left:2px;
+	border-radius:4px;
+}
+.close{
+padding:5px;
+color: rgba(255,255,255,0.7);
+font-size:12px;
+margin-top:-3px;
+}
+.selected_element{
+padding:2px;
+}
+.selected_element{
+	float:left;
+}
+.searchBox{
+padding:5px;
+}
+.close{
+ cursor:pointer;
+    float: left;
+}
+
+.ui-autocomplete { 
+            cursor:pointer; 
+            height:120px; 
+            overflow-y:scroll;
+            
+        } 
+
+.ui-autocomplete.ui-widget {
+  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  
+}
+
+
+

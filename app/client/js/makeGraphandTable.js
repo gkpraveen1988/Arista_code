@@ -122,7 +122,7 @@ function drawBars(data) {
 		left : 50
 	},
 	width = graphContainerWidth - margin.left - margin.right - 30,
-	height = graphContainerHeight - margin.top - margin.bottom - 80,
+	height = graphContainerHeight - margin.top - margin.bottom -40,
 	offset = 10;
 
 
@@ -131,7 +131,7 @@ function drawBars(data) {
     
    // if((Object.keys(colorObj)).length==0);
     
-  
+  var dutColArry=[];
 
 	radioValu = $("input[name='colorChk']:checked").val();
 
@@ -148,7 +148,65 @@ function drawBars(data) {
 		})
 
 	} else {
-            var opt = $("#optDrop").val();
+        
+       if( $(".item").length==0) {
+           
+           
+         
+       
+        uniqDutArry.forEach(function (d, i) {
+            
+            
+             
+                colorObj[d] = color(i);
+            
+           
+            
+           
+
+		})
+       
+       
+       
+       }else{
+       
+                   $(".item").each(function(index){
+            
+            var tempArr=[];
+            
+            var value= $(this).html();
+            
+           
+            if(NumberRegex(value)){
+                  
+                   dutColArry.push(value);
+                
+                    colorObj[value]= color(index*10);
+                
+                
+                
+            }else{
+                 var splitVal=((value.replace(/[^a-z,]/g, "")).trim()).split(",");
+                
+                splitVal.forEach(function(d,i){
+                        dutColArry.push(d);
+                
+                        colorObj[d]=color(index*10);
+                
+                });
+            
+                
+            }
+            
+           
+        })
+       }
+        
+     
+        
+        
+        
+  /*          var opt = $("#optDrop").val();
     if(opt == "Group"){ 
         
         //DutGroupArrayForColor
@@ -204,7 +262,7 @@ function drawBars(data) {
            
 
 		})
-    }
+    }*/
         
 		
 
@@ -306,7 +364,7 @@ function drawBars(data) {
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom + 130)
 		.append("g")
-		.attr("transform", "translate(" + margin.left + "," + (margin.top + 50) + ")");
+		.attr("transform", "translate(" + margin.left + "," + (margin.top + 10) + ")");
 
 	svg.call(tip);
 	svg.call(Grouptip);
@@ -387,7 +445,6 @@ function drawBars(data) {
 	.style("opacity", 0)
 	.style("cursor", "pointer")
 	.on("mouseover", function (d) {
-
 		d3.select(this).style("opacity", 0.6);
 		Grouptip.show(d);
 		tip.hide()
@@ -466,9 +523,43 @@ function drawBars(data) {
 
 
 		var radioValu = $("input[name='colorChk']:checked").val();
-
-		return colorObj[d[radioValu]];
-
+        
+       if(radioValu=="dut"){
+           
+           
+           if($(".item").length==0){
+              return  colorObj[d[radioValu]];     
+           
+           }else{
+                     var val = d[radioValu];
+           
+        
+           if(dutColArry.indexOf(val)!=-1){
+               return colorObj[d[radioValu]]; 
+           }else{
+           
+               
+              
+               
+                var val=d[radioValu];
+               if(val!=null){
+                var grName=(val.replace(/[^a-z.]/g,'')).trim();
+                 return colorObj[grName];
+               }
+                
+           
+           }
+           
+           
+           }
+       
+           
+       }else{
+        return colorObj[d[radioValu]];
+       
+       }
+        
+      
 	
 
 
@@ -476,19 +567,19 @@ function drawBars(data) {
     .style("fill-opacity",0.6)
 
 	.on('mouseover', function (d, i) {
-
+        
 		//d3.select(this).style("fill", "orange");
         d3.select(this).style("stroke-width", 2)
         .style("stroke", "black");
 		tip.show(d);
 	})
 	.on('mouseout', function (d, i) {
-
-		var radioValu = $("input[name='colorChk']:checked").val();
-
+		//var radioValu = $("input[name='colorChk']:checked").val();
 		//d3.select(this).style("fill", colorObj[d[radioValu]]);
-        d3.select(this).style("fill", colorObj[d[radioValu]])
-        .style("stroke","none");     
+       // console.log(colorObj);
+       // d3.select(this).style("fill", colorObj[d[GlobalradioValue]]).style("stroke","none");     
+        
+        d3.select(this).style("stroke","none");
 		tip.hide(d)
 
 	});
@@ -542,7 +633,7 @@ function drawBars(data) {
   
     
     
-    var dutValue=$("#textbox").val();
+    var dutValue=$("#input").val();
     
     if(dutValue.trim()==""){
     

@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="../js/dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../js/plugins/datatables/dataTables.bootstrap.css">
       <link rel="stylesheet" href="../css/css/customStyle.css">
+      <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -100,18 +101,24 @@
                       </label>
                      
                             <!--<label>opt</label>-->
-                            <select class = "dis" id="optDrop" style="height: 20px;font-size: 11px;">
+                           <!-- <select class = "dis" id="optDrop" style="height: 20px;font-size: 11px;">
                               <option value="Single" selected="selected" >Single</option>
                               <option value="Group">Group</option>
-                            </select>
+                            </select>-->
                          <label>WHERE</label>
-                        <div  class="relative" id="textdiv" style = "display : none" >
+                       <!-- <div  class="relative" id="textdiv" style = "display : none" >
                         <input class = "dis" type="text"  id="textbox" style="height: 33px;"></input>     
                         </div>
-                        <div id="toolTipDiv" class="idleToolTip "></div>
+                        <div id="toolTipDiv" class="idleToolTip "></div>-->
                       <div id="dutFormdiv">
-                      <select  class="form-control select2 dis" id="dutDrop" multiple="multiple" disabled="true" data-placeholder="Select Duts(Default All)" style="width: 100%, display:block" onchange="changeColor()">
-                      </select>
+                     <!-- <select  class="form-control select2 dis" id="dutDrop" multiple="multiple" disabled="true" data-placeholder="Select Duts(Default All)" style="width: 100%, display:block" onchange="changeColor()">
+                      </select>-->
+                          
+                          
+                          <div style="width :100%;min-height:30px;background-color:white;border: 1px solid #d2d6de;border-radius: 0;font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif" class="searchBox dis">
+<div class="selected_element dis"></div>
+<div id="input" class = "dis" contenteditable></div>
+</div>
                       </div>
                     </div>
                   </div>
@@ -242,10 +249,15 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <!-- AdminLTE App -->
+      
+  
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+      
+      
       <script src="../js/regexpressions.js"></script>
     <script src="../js/dist/js/app.js"></script>
     <!-- AdminLTE for demo purposes -->
-    
+    <script src="../js/dutDropdown.js"></script>
     <script src="../js/dist/js/demo.js"></script>
     <script src="../js/charts.js"></script>
     <script src="../js/makeGraphandTable.js"></script>

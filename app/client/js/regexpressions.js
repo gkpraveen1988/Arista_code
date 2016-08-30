@@ -1,4 +1,4 @@
-var regex1 = /;[a-z.]/g;
+var regex1 = /[0-9]/g;
 var regex2 = /[)],/g;
 var regex3 = /[(];/g;
 var regex4 = /[*][a-z]/g;
@@ -27,13 +27,16 @@ function validateDutGroupString(inputString){
     var regex11Val = regexFun11(inputString);
     var regex12Val = regexFun12(inputString);
     var regex13Val = regexFun13(inputString);
-    if(regex0Val && regex1Val && regex2Val && regex3Val && regex4Val && regex5Val && regex6Val && regex7Val && regex8Val && regex9Val && regex10Val && regex11Val && regex12Val && regex13Val)
+    //&& regex1Val
+    if(regex0Val  && regex1Val && regex2Val && regex3Val && regex4Val && regex5Val && regex6Val && regex7Val && regex8Val && regex9Val && regex10Val && regex11Val && regex12Val && regex13Val)
     {
-        startFilterProcess();
+        //startFilterProcess();
+        return true;
     }else
     {
         alert(dutError);
         mask();
+        return false;
     }
    
 }
@@ -51,7 +54,7 @@ function regexFun1(inputString){
 if(inputString.match(regex1)==null){
     return true;   
 }else{
-   dutError += "* Found ; between two duts in a group \n";
+   dutError += "* "+inputString+"Not a valid selection \n";
    return false;}
 }
 
@@ -166,4 +169,25 @@ function regexFun13(inputString){
 
 function mask(){
 $("#mask").hide();
+}
+
+
+/*function NumberRegex(inputString){
+    var expression  = /[^0-9]/g;
+if(inputString.match(expression)==null){
+    return true;   
+}else{
+   return false;}
+
+}*/
+
+function NumberRegex(inputString){
+	var expression = /[0-9]/g;
+
+if(inputString.match(expression)==null){
+	return false;
+}else{
+	return true;
+}
+
 }

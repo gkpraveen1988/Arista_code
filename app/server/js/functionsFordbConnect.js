@@ -46,10 +46,8 @@ if (!exists) {
 	var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 	ldb = new sqlite3.Database(url.rawFile);
 	thisFile.createTables(ldb);
-	thisFile.ConnectToDataBase();
 } else {
-    
-	thisFile.ConnectToDataBase();
+    thisFile.DropAndCreateTables();
 }
 }
 
@@ -204,34 +202,24 @@ if (!exists) {
                         console.log(err);
                     else {
                         console.log("Info table created");
-                        ldb.run(queries.createTable("updateFlag"),function (err){
-                            if(err)
-                                console.log(err);
-                            else{
-                                console.log("updateFlag table created");
                                 ldb.run(queries.createTable("checkPointTimes"),function(err){
                                     if(err)
                                         console.log(err);
                                     else{
                                         console.log("checkPointTimes table created");
-                                        ldb.run(queries.updateFlag("insert","false"),function (err){
+                                        ldb.run(queries.createTable("timeValue"),function (err){
                                             if(err)
                                                 console.log(err);
                                             else
                                             {
-                                            console.log("updated the flag as false");
+                                            console.log("timeValue table created");
+                                                thisFile.ConnectToDataBase();
                                             }
                                         })                                        
                                     
                                     }
                                 })
-
-                            }
-                        
-                        })
                     }
-                
-                
                 });
             }
 		});
@@ -239,6 +227,47 @@ if (!exists) {
 	});
 }
 
+ /**
+ * Drops and Creates the tables Local_Benchmark,
+ *                    Local_Run,
+ *                    Info,
+ *                    timeValue,
+ *                    checkPointTimes.
+ * @function DropAndCreateTables()
+ * @return {null}
+ */ 
+ 
+ exports.DropAndCreateTables = function(){
+ 
+                 var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
+                db = new sqlite3.Database(url.rawFile);
+    			db.run(queries.Droptable("Info"), function (error) {
+                    if(error){ console.log(error); return;}else{
+				console.log("dropped the Table Info");
+				db.run(queries.Droptable("Local_Benchmark"), function (error) {
+                    if(error){ console.log(error); return;}else{
+					console.log("dropped the Table Local_Benchmark");
+					db.run(queries.Droptable("Local_Run"), function (error) {
+                        if(error){ console.log(error); return;}else{
+						console.log("dropped the Table Local_Run");
+						db.run(queries.Droptable("checkPointTimes"), function (error) {
+                            if(error){ console.log(error); return;}else{
+							console.log("dropped the Table checkPointTimes");
+							db.run(queries.Droptable("timeValue"), function () {
+                                if(error){ console.log(error); return;}else{
+								console.log("dropped the Table timeValue");
+								setTimeout(function(){
+                                        thisFile.createTables(db);
+                                },1500);
+                                }})
+                            }})
+                        }})
+                    }})
+
+                    } });
+ 
+ 
+ }
 
 /**
  * From the fetched benchmark names, first dropdown value is derived and then pushes into 

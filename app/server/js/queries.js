@@ -37,6 +37,12 @@ module.exports = {
 		
 		return query;
 
+	},	
+    
+    "Droptable" : function (tableName) {
+
+		var query = "DROP TABLE " + tableName + " ";
+		return query;
 	},
 
 	"BenchmarkTable" : function (input) {

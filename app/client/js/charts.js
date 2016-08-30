@@ -94,17 +94,17 @@ var uniqueSlicedDutValues;
 function addUniqDutToDropDown(dropData,dataRange) {
     
   
-	$("#dutDrop").html("");
+	//$("#dutDrop").html("");
 
-	var DropValue = "";
+	//var DropValue = "";
     var groupArray = [];
 	dropData.forEach(function (d, i) {
-		DropValue = DropValue + "<option>" + d + "</option>";
+		//DropValue = DropValue + "<option>" + d + "</option>";
         var slicedValue = (clone(d)).replace(/[^a-z.]/g, "").trim();
         groupArray.push(slicedValue);
 	})
     uniqueSlicedDutValues = groupArray.unique();
-    $("#dutDrop").html(DropValue);
+   /* $("#dutDrop").html(DropValue);
     
       li = "";
     uniqueSlicedDutValues.forEach(function(d,i){
@@ -114,6 +114,55 @@ function addUniqDutToDropDown(dropData,dataRange) {
     html="<span style='font-size:7px;color:red'>* seperate the group using ';'</br>* For Multi Grouping, use '()'</br> example:- (li*,bh*);ga*</br></span></br>Duts available : </br><ul>"+li+"</ul>";
   
     $("#toolTipDiv").html(html);
+    
+    
+    
+    $(".select2-selection__rendered").find( ".select2-search__field" ).change(function( event ) {
+            //event.preventDefault();
+         
+           
+    
+            var a=$(this).val();
+           
+             console.log(a);
+         
+         
+        
+         
+         
+     });  */
+    
+   availableTags = dropData;
+    tempavailableTags= availableTags.slice();
+	autocomplete(availableTags);
+    
+    
+    setTimeout(function(){
+    
+         $(".ui-menu").on("click",function(){
+       
+		inputVal=$("#input").html();
+		
+		/*addItem(inputVal);
+		removeFromOutElement(inputVal);*/
+             
+             	if(checkWithPreviousValue(inputVal))
+                {
+                    
+                addItem(inputVal);
+                removeFromOutElement(inputVal);
+                    
+                   
+                    
+                }else{
+                 $("#input").html("");
+                }
+		
+	   });
+    
+    
+    })
+        
 
 }
 

@@ -120,7 +120,7 @@ exports.DisplayCurrentTime = function () {
 	var minutes = date.getUTCMinutes() < 10 ? "0" + date.getUTCMinutes() : date.getUTCMinutes();
 	var seconds = date.getUTCSeconds() < 10 ? "0" + date.getUTCSeconds() : date.getUTCSeconds();
 	currentTime = year+"-"+month+"-"+day+"T"+hours + ":" + minutes + ":" + seconds;
-	return time;
+	return currentTime;
 }
 
 exports.refreshFlag;
