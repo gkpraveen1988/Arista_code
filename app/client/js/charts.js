@@ -63,23 +63,40 @@ var noofdatapass = 0;
  * @return {} null
  **/
 
+var uniqueSlicedProjectValues;
 function addUniqProjectToDropDown(dropData) {
 
-
-
-	$("#projectDrop").html("");
-
-	var DropValue = "";
-
+        var groupArray = [];
 	dropData.forEach(function (d, i) {
-		DropValue = DropValue + "<option>" + d + "</option>";
+        var slicedValue = (clone(d)).trim();
+        groupArray.push(slicedValue);
 	})
-
-
-	$("#projectDrop").html(DropValue);
+    uniqueSlicedProjectValues = groupArray.unique();
+    availableProjectTags = dropData;
+    tempavailableProjectTags= availableProjectTags.slice();
+	Projectautocomplete(availableProjectTags);
     
     
-  
+    setTimeout(function(){
+         $("#ui-id-2").on("click",function(){
+          
+		inputVal=$("#inputProject").html();
+             	if(ProjectcheckWithPreviousValue(inputVal))
+                {
+                ProjectaddItem(inputVal);
+                removeFromProjectElement(inputVal);
+                }else{
+                 $("#inputProject").html("");
+                }
+             
+             
+             filter();
+             
+             
+             
+	   });
+    },300)
+
 }
 
 /**
@@ -92,76 +109,44 @@ function addUniqProjectToDropDown(dropData) {
  **/
 var uniqueSlicedDutValues;
 function addUniqDutToDropDown(dropData,dataRange) {
-    
-  
-	//$("#dutDrop").html("");
-
-	//var DropValue = "";
     var groupArray = [];
 	dropData.forEach(function (d, i) {
-		//DropValue = DropValue + "<option>" + d + "</option>";
         var slicedValue = (clone(d)).replace(/[^a-z.]/g, "").trim();
         groupArray.push(slicedValue);
 	})
     uniqueSlicedDutValues = groupArray.unique();
-   /* $("#dutDrop").html(DropValue);
     
-      li = "";
-    uniqueSlicedDutValues.forEach(function(d,i){
-      
-        li += "<li>"+d+"</li>"
-    });
-    html="<span style='font-size:7px;color:red'>* seperate the group using ';'</br>* For Multi Grouping, use '()'</br> example:- (li*,bh*);ga*</br></span></br>Duts available : </br><ul>"+li+"</ul>";
-  
-    $("#toolTipDiv").html(html);
-    
-    
-    
-    $(".select2-selection__rendered").find( ".select2-search__field" ).change(function( event ) {
-            //event.preventDefault();
-         
-           
-    
-            var a=$(this).val();
-           
-             console.log(a);
-         
-         
-        
-         
-         
-     });  */
-    
-   availableTags = dropData;
-    tempavailableTags= availableTags.slice();
-	autocomplete(availableTags);
+    availableDutTags = dropData;
+    tempavailableDutTags= availableDutTags.slice();
+	Dutautocomplete(availableDutTags);
     
     
     setTimeout(function(){
     
-         $(".ui-menu").on("click",function(){
+         $("#ui-id-1").on("click",function(){
+           
        
-		inputVal=$("#input").html();
-		
-		/*addItem(inputVal);
-		removeFromOutElement(inputVal);*/
+		inputVal=$("#inputDut").html();
              
-             	if(checkWithPreviousValue(inputVal))
+             	if(DutcheckWithPreviousValue(inputVal))
                 {
                     
-                addItem(inputVal);
+                DutaddItem(inputVal);
                 removeFromOutElement(inputVal);
                     
                    
                     
                 }else{
-                 $("#input").html("");
+                 $("#inputDut").html("");
                 }
+             
+             
+             filter();
 		
 	   });
     
     
-    })
+    },300)
         
 
 }
@@ -222,6 +207,17 @@ function addResultValuesToDropDown(inputResultDropData) {
 		});
     
         $('#resultDrop select').html(html);
+    
+    
+    
+         setTimeout(function(){
+        
+         $("#resultDropSelect").change(function(){
+          
+            filter();
+       })
+        
+    },100)
 
 
 }
@@ -238,6 +234,10 @@ var DropDownFlag;
  **/
 
 function getData(inputFlag, boolan) {
+    
+    
+
+    
     lastUsedSize = 50;
 	if (boolan == true) {
 		refreshClick = false;
@@ -247,26 +247,18 @@ function getData(inputFlag, boolan) {
 	$("#mask").show();
 $('#reservation').val("");
 $('#textbox').val("");
-    
     if(refreshClick==false){
             $("#select2-sizeDrop-container").html(50);
             $("#select2-sizeDrop-container").attr("title",50);
             var projectSelected=0;
             var dutSelected=0;
-            $("#dutForm .select2-selection__choice").each(function () {
-                dutSelected++;
-            $("#dutForm .select2-selection__choice__remove").trigger("click");
-            });   
-            $("#projectForm .select2-selection__choice").each(function () {
-                    projectSelected++;
-                    $("#projectForm .select2-selection__choice__remove").trigger("click");
-            });
-            if(projectSelected!=0){
-              $("#projectForm").find(".select2-search__field").trigger('click');
-            }
-            if(dutSelected!=0){
-               $("#dutForm").find(".select2-search__field").trigger('click');
-            }
+            
+            $(".selected_element").html("");
+        
+            $(".dis").css("background-color","white");
+             $(".dis").css("opacity",1);
+            $(".dis").css("pointer-events","auto");
+        
     }
     
 	if (inputFlag == "false") {

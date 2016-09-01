@@ -11,13 +11,13 @@ var regex10 = /[)][(]/g;
 var regex11 = /,[)]/g;
 
 var dutError = "Errors:- \n";
-function validateDutGroupString(inputString){
+function validateDutGroupString(inputString,filter){
     dutError = "Errors:- \n";   
     var regex0Val = regexFun0(inputString);
     var regex1Val = regexFun1(inputString);
     var regex2Val = regexFun2(inputString);
     var regex3Val = regexFun3(inputString);
-    var regex4Val = regexFun4(inputString);
+    var regex4Val = regexFun4(inputString,filter);
     var regex5Val = regexFun5(inputString);
     var regex6Val = regexFun6(inputString);
     var regex7Val = regexFun7(inputString);
@@ -25,12 +25,10 @@ function validateDutGroupString(inputString){
     var regex9Val = regexFun9(inputString);
     var regex10Val = regexFun10(inputString);
     var regex11Val = regexFun11(inputString);
-    var regex12Val = regexFun12(inputString);
+    var regex12Val = regexFun12(inputString,filter);
     var regex13Val = regexFun13(inputString);
-    //&& regex1Val
     if(regex0Val  && regex1Val && regex2Val && regex3Val && regex4Val && regex5Val && regex6Val && regex7Val && regex8Val && regex9Val && regex10Val && regex11Val && regex12Val && regex13Val)
     {
-        //startFilterProcess();
         return true;
     }else
     {
@@ -72,12 +70,18 @@ if(inputString.match(regex3)==null){
    dutError += "* Found (;  \n";
    return false;}
 }
-function regexFun4(inputString){
+function regexFun4(inputString,filter){
+    var returntext;
+    if(filter!="Dut")
+    {returntext =  true;}else{
+    
 if(inputString.match(regex4)==null){
-    return true;   
+    returntext= true;   
 }else{
    dutError += "* No , found between two dut groups \n";
-   return false;}
+   returntext =  false;}}
+    
+    return returntext;
 }
 function regexFun5(inputString){
 if(inputString.match(regex5)==null){
@@ -133,7 +137,13 @@ if(inputString.match(regex11)==null){
    return false;}
 }
 
-function regexFun12(inputString){
+function regexFun12(inputString,filter){
+    var fullResult =[];
+    var localtext = [];
+    if(filter=="Dut"){
+    
+    
+    
     var result = inputString.replace(/[^a-z]/g, ' ');
     result = (result.replace(/  +/g, ' ')).trim();
     var selectedGroupDutArray = result.split(' ');
@@ -144,6 +154,38 @@ function regexFun12(inputString){
             returntext =  false;
         }
     })
+    
+    }else{
+        var filterdInputString = inputString.replace(/[^a-z,]/g,'');
+        var selectedGroupProjectArray = filterdInputString.split(',');
+        
+         selectedGroupProjectArray.map(function(a,j){
+    var result = uniqueSlicedProjectValues.filter(function(d,i){
+           
+            return d.search(a)!=-1;
+            
+        })
+        fullResult.push(result);
+    });
+        
+        
+        fullResult.map(function(d,i){
+                if(d.length!=0){
+                    localtext.push("true");
+                }else{
+            dutError += "* "+inputString+" is not a valid selection \n";
+            localtext.push("false");
+        }
+        
+        })
+        
+        if(localtext.indexOf("false")==-1){
+            returntext =true;
+        }else{
+            returntext = false;
+        }
+
+    }
     return returntext;
 }
 
@@ -172,15 +214,6 @@ $("#mask").hide();
 }
 
 
-/*function NumberRegex(inputString){
-    var expression  = /[^0-9]/g;
-if(inputString.match(expression)==null){
-    return true;   
-}else{
-   return false;}
-
-}*/
-
 function NumberRegex(inputString){
 	var expression = /[0-9]/g;
 
@@ -191,3 +224,32 @@ if(inputString.match(expression)==null){
 }
 
 }
+
+function starRegex(inputString){
+    var expression = /[*]/g;
+if(inputString.match(expression)==null){
+	return false;
+}else{
+	return true;
+}
+}
+
+
+function ProjectRegex(inputString){
+
+    var expression1 = /[*][a-z]/g;
+    var expression2 = /[a-z][*]/g;
+    var expression3 = /[*][a-z][*]/g;
+    
+    if(inputString.match(expression1)==null){
+        resultString = "startsWith";    
+    }else if(inputString.match(expression2)==null){
+                resultString = "endsWith";
+        }else if(inputString.match(expression3)==null){
+                resultString = "substring";
+            }
+return resultString;
+}
+
+
+

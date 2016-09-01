@@ -32,7 +32,6 @@ var url = require('./url.js');
  exports.deleteBenchmarks = function() {
 	var dates = common.createDateObject();
 	console.log(dates);
-	//var file = "../DataBase/localData.db";
 	var sqlite3 = require("../lib/node_modules/sqlite3").verbose();
 	var connection = new sqlite3.Database(url.rawFile);
 	connection.all(queries.deleteQuery("deleteNotDateIds",dates.removeDate), function (error, result) {

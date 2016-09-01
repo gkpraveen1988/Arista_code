@@ -54,46 +54,7 @@ exports.ConnectToDataBase = function () {
 	});
 }
 
-			function fetch() {
-						//console.log("in function fetch");
-								//console.log(fullStm);
-						pool.getConnection(function (err, cursor) {
-							console.log("trying to connect... to DB");
-							if (err) {
-								console.log(err);
-								console.log("here is the error");
-								fetch();								
-								return;
-							} else {     
-                                console.log("connected");
-                                cursor.query(fullStm[fullStmArrayIndex], function (error, result) {
-								//thisFile.usserverconnection.query(fullStm, function (error, result) {
-									if (error){
-										console.log(error);
 
-										}
-									else {
-										console.log("number of records for this benchmarks is "+result.length);
-										//console.log("total number of benchmarks is "+Benchmark_recordset.length);
-										//console.log("i value is "+i);
-										result = JSON.stringify(result);
-										result = JSON.parse(result);
-										var Data = common.clone(result);
-										GLOBALARRAY.push(Data);
-                                        cursor.release();
-/*										if (i == Benchmark_recordset.length || (i + 1) == Benchmark_recordset.length) {
-											var finalARRAY = [].concat.apply([], GLOBALARRAY);
-											console.log("total no. of records is " + finalARRAY.length);
-										}*/
-										thisFile.PushToTable_LocalRun(Data);
-										
-									}
-								});
-                        							}
-
-						});
-                fullStmArrayIndex += 1;
-					}
 
 
 /**

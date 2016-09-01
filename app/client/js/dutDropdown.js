@@ -1,14 +1,14 @@
-var tempavailableTags;
-var availableTags = [];
+var tempavailableDutTags;
+var availableDutTags = [];
 	
-	$("#input").keypress(function (e) {
+	$("#inputDut").keypress(function (e) {
 	
         if (e.keyCode == 13) {
-            $("#input").find("br").remove();
+            $("#inputDut").find("br").remove();
 			var avilableValues=[];
-            inputVal=$("#input").html();
+            inputVal=$("#inputDut").html();
 			
-			availableTags.forEach(function(d,i){
+			availableDutTags.forEach(function(d,i){
 					avilableValues.push(d.toLowerCase());
 			});
 			var selectValue=(inputVal.trim()).toLowerCase();
@@ -16,100 +16,82 @@ var availableTags = [];
 			
 			if(avilableValues.indexOf(selectValue)!=-1){
 			
-				
-                ////////
-                /*checkWithPreviousValue(selectValue);
-                addItem(inputVal);
-				removeFromOutElement(inputVal);*/
-				if(checkWithPreviousValue(selectValue))
+				if(DutcheckWithPreviousValue(selectValue))
                 {
-                addItem(inputVal);
+                DutaddItem(inputVal);
                 removeFromOutElement(inputVal);
                 }
 				
 				
 			}else{
 			
-				validationFuntion(selectValue);
+				DutvalidationFuntion(selectValue);
+                
+                filter();
 			}
             
         }
     });
 	
-	function validationFuntion(selectValue){
+	function DutvalidationFuntion(selectValue){
         
          
-        var result = validateDutGroupString(selectValue);
+        var result = validateDutGroupString(selectValue,"Dut");
         if(result){
-                if(checkWithPreviousValue(selectValue)){
-		        addItem(selectValue);}
+                if(DutcheckWithPreviousValue(selectValue)){
+		        DutaddItem(selectValue);}
         } else{
             setTimeout(function(){
-                $("#input").find("br").remove();
+                $("#inputDut").find("br").remove();
             },100);
        
         }
 	}
 	
-function checkWithPreviousValue(input){
+function DutcheckWithPreviousValue(input){
     
     var previous = [];
     var removeElementsArray = [];
     var exceptionResult = true;
     var errorFlag = false;
     var dutSelectionerror="Errors:- ";
-$(".item").each(function(d,i){
+$("#dutFormdiv .item").each(function(d,i){
     var value = $(this).html();
     previous.push(value);
 });
 previous.map(function(thisData,i){
 	
-	var modifiedthisData = typeofValue(thisData);
-	var modifiedInput = typeofValue(input);
+	var modifiedthisData = DutTypeofValue(thisData);
+	var modifiedInput = DutTypeofValue(input);
 	modifiedthisData.map(function(tdata,i){
 		modifiedInput.map(function(idata,i){
 			if(tdata["val"]==idata["val"] && tdata["numbered"]=="true" && idata["numbered"]=="true"){
                 if(tdata["actual"]==idata["actual"]){
-                    //removeElementsArray.push(tdata["actual"]);
                     dutSelectionerror +="* duplicate entry for "+tdata["actual"]+" \n";
                     errorFlag = true;
-                    //alert("1duplicate entry for "+tdata["actual"]);
                     exceptionResult = false;
                 }else{
                 removeElementsArray.push(idata["actual"]);}
 			}else if(tdata["val"]==idata["val"] && tdata["numbered"]=="false" && idata["numbered"]=="false"){
-                //removeElementsArray.push(tdata["actual"]);
                 dutSelectionerror +="* duplicate entry for "+tdata["val"]+" \n";
                 errorFlag = true;
-                //alert("2duplicate entry for "+tdata["val"]);
                 exceptionResult = false;
 			}else if(tdata["val"]==idata["val"] && tdata["numbered"]=="true"){
                 dutSelectionerror +="* duplicate entry for "+idata["val"]+" \n";
                 errorFlag = true;
-                //alert("3duplicate entry for "+idata["val"]);
                 removeElementsArray.push(tdata["actual"]);
                 exceptionResult = true;
 			}else if(tdata["val"]==idata["val"] && idata["numbered"]=="true"){
                 dutSelectionerror +="* duplicate entry for "+idata["val"]+" \n";
                 errorFlag = true;
-                //alert("4duplicate entry for "+idata["val"]);
-                //removeElementsArray.push(idata["actual"]);
                 exceptionResult = false;
 			}
 		})
 	})
 });
-/*    if(removeElementsArray.length!=0 && removeElementsArray[0] == input){
-        triggerCloseOnDut(removeElementsArray);
-    return false;
-    }else{
-        triggerCloseOnDut(removeElementsArray);
-        return exceptionResult;
-        
-    }*/
     if(removeElementsArray.length!=0){
     triggerCloseOnDut(removeElementsArray);
-    $("#input").find("br").remove();
+    $("#inputDut").find("br").remove();
     }
     if(errorFlag){
     alert(dutSelectionerror);}
@@ -118,9 +100,9 @@ previous.map(function(thisData,i){
     
     
 }
-    
-/////
-function typeofValue(inData){
+
+
+function DutTypeofValue(inData){
 	var booldata = NumberRegex(inData);
 	if(booldata){
 				var valueText = (clone(inData)).replace(/[^a-z]/g,"").trim();
@@ -150,89 +132,93 @@ function triggerCloseOnDut(toBeRemoved){
 toBeRemoved.map(function(e,j){
 
 
-$(".item").each(function(d,i){
+$("#dutFormdiv .item").each(function(d,i){
     var value = $(this).html();
     if(value == e){
-            //var parent= $(this).parent();
-			//var item=$(parent).find(".close").html();
 			$(this).parent().remove();
-        if(tempavailableTags.indexOf(value)==-1){
-				tempavailableTags.push(value);
+        if(tempavailableDutTags.indexOf(value)==-1){
+				tempavailableDutTags.push(value);
 			}
 			
     }
 });
 });
 
-autocomplete(tempavailableTags);
+Dutautocomplete(tempavailableDutTags);
 }
     
     
 	
-	function addItem(selectValue){
+	function DutaddItem(selectValue){
+        
+        
 		var selectedItem="<div class='selected_item'><span class='close'>x</span><span class='item'>"+selectValue.trim()+"</span></div>";
-				$(".selected_element").append(selectedItem);
-				$("#input").html("");
+				$("#dutFormdiv").find(".selected_element").append(selectedItem);
+				$("#inputDut").html("");
 				setTimeout(function(){
-					$("#input").find("br").remove();
-				},100)
-				
-		$(".close").on("click",function(){
+					$("#inputDut").find("br").remove();
+                    
+                    
+                  		
+		$("#dutFormdiv .close").on("click",function(event){
 			var parent= $(this).parent();
 			var item=$(parent).find(".item").html();
 			$(this).parent().remove();
-			
-			if(tempavailableTags.indexOf(item)==-1){
-				tempavailableTags.push(item);
+                
+            filter();
+            
+            $("#mask").show();
+            
+			if(tempavailableDutTags.indexOf(item)==-1){
+				tempavailableDutTags.push(item);
 			}
-			autocomplete(tempavailableTags);
+			Dutautocomplete(tempavailableDutTags);
+            
+            
+             $("#mask").hide();
+            
+           
 			
+            event.stopImmediatePropagation();
 			
 		
 	})
+               
+                    
+				},100)
+		
 	
 	}
 
 	function removeFromOutElement(inputVal){
-	
 		var avilableValues=[];
-		tempavailableTags.forEach(function(d,i){
+		tempavailableDutTags.forEach(function(d,i){
 					avilableValues.push(d.toLowerCase());
 		});
-		
 		var selectVal= inputVal.toLowerCase();
-        
         avilableValues.sort();
-		
 		var index=avilableValues.indexOf(selectVal);
-        
-        tempavailableTags.sort();
-		
-		tempavailableTags.splice(index,1);
-        
-        
-       
-		
-		autocomplete(tempavailableTags);
-		
-		
-		
-		
+        tempavailableDutTags.sort();
+		tempavailableDutTags.splice(index,1);
+		Dutautocomplete(tempavailableDutTags);
 	}
+
 	
-	function autocomplete(arr){
+	function Dutautocomplete(arr){
 	
 		arr.sort();
 		
-		$( "#input" ).autocomplete({
+		$( "#inputDut" ).autocomplete({
 			source: arr,
 			 minLength: 0,
             scroll: true
-        }).focus(function() {
+        }).focus(function(event) {
             $(this).autocomplete("search", "");
+             event.stopImmediatePropagation();
         })
-         .click(function() {
+         .click(function(event) {
             $(this).autocomplete("search", "");
+             event.stopImmediatePropagation();
             
         });
         

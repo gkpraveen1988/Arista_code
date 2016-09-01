@@ -63,7 +63,6 @@ module.exports = {
 		if (input == "replace")
 			query = 'REPLACE INTO Local_Benchmark (id,firstDropDownValue,DropDownFlag) VALUES ';
 
-       // console.log(query);
 		return query;
 
 	},
@@ -88,8 +87,6 @@ module.exports = {
 			query = 'select * from benchmark.Run where testTime >"' + timeValue + '"';
 		if(input == "allBenchmarks")
 			query = "select benchmark  from benchmark.Run  where substr(testTime,1,10) >='" + lastDate + "' and substr(testTime,1,10) <='" + currentDate + "' group by benchmark order by benchmark";
-
-		//console.log(query);
 		return query;
 
 	},

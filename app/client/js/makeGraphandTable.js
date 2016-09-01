@@ -113,7 +113,6 @@ function drawBars(data) {
 	var graphContainerHeight = $("#graph").height();
 
 	console.log(uniqProjectArry);
-	//var uniqDutArry;
 
 	var margin = {
 		top : 10,
@@ -125,52 +124,67 @@ function drawBars(data) {
 	height = graphContainerHeight - margin.top - margin.bottom -40,
 	offset = 10;
 
-
-	//colorObj = {};
     
-    
-   // if((Object.keys(colorObj)).length==0);
-    
-  var dutColArry=[];
+  var dutColArry=[]; var projectColArry=[];
 
 	radioValu = $("input[name='colorChk']:checked").val();
 
 	if (radioValu == "project") {
-
-		uniqProjectArry.forEach(function (d, i) {
-            
-            if(!colorObj[d]){
-             
-            colorObj[d] =color(i);
-            }
-			
-
-		})
-
-	} else {
         
-       if( $(".item").length==0) {
-           
-           
-         
-       
-        uniqDutArry.forEach(function (d, i) {
-            
-            
-             
-                colorObj[d] = color(i);
-            
-           
-            
-           
-
-		})
-       
-       
+       if(  $("#projectFormdiv").find(".item").length==0) {  
+        
+        uniqProjectArry.forEach(function (d, i) {
+             colorObj[d] = color(i);
+         })
        
        }else{
        
-                   $(".item").each(function(index){
+        $("#projectFormdiv").find(".item").each(function(index){
+            
+            var tempArr=[];
+            
+            var value= $(this).html();
+            
+           
+            if(!starRegex(value)){
+                  
+                   projectColArry.push(value);
+                
+                    colorObj[value]= color(index*10);
+                
+                
+                
+            }else{
+                 var splitVal=((value.replace(/[^a-z,]/g, "")).trim()).split(",");
+                
+               
+                
+                splitVal.forEach(function(d,i){
+                        projectColArry.push(d);
+                
+                        colorObj[d]=color(index*10);
+                
+                });
+            
+                
+            }
+            
+           
+        })
+       }  
+
+
+	} else {
+        
+       if(  $("#dutFormdiv").find(".item").length==0) {  
+        
+        uniqDutArry.forEach(function (d, i) {
+             colorObj[d] = color(i);
+         })
+       
+       }else{
+       
+        $("#dutFormdiv").find(".item").each(function(index){
             
             var tempArr=[];
             
@@ -201,71 +215,7 @@ function drawBars(data) {
            
         })
        }
-        
-     
-        
-        
-        
-  /*          var opt = $("#optDrop").val();
-    if(opt == "Group"){ 
-        
-        //DutGroupArrayForColor
-        
-       temColorObj={};
-        
-        DutGroupArrayForColor.forEach(function(d,i){
-            
-            var colorIndex= (DutGroupArrayForColor.length)+i;
-            temColorObj["col"+i]= color(colorIndex);
-            
-                    var groupText="";
-                    d.forEach(function(o,j){
-                        temColorObj[o]=color(colorIndex);
-                        groupText=groupText+o+" ";
-                    })
-               temColorObj["groupText"+i] =groupText;    
-                    
-        });
-        
-        uniqDutArry.forEach(function (d, i) {
-            
-       
-            
-            var dutStart=(d.replace(/[^a-z.]/g, "")).trim();
-            
-            
-            if(temColorObj[dutStart]){
-            
-                 colorObj[d]=temColorObj[dutStart];
-            }else{
-            
-             colorObj[d]= color(i);
-            
-            }
-            
-           
-            
-           
-
-		})
-        
-   
-    }else{
-      uniqDutArry.forEach(function (d, i) {
-            
-            
-             if(!colorObj[d]){
-                colorObj[d] = color(i);
-            
-            }
-            
-           
-
-		})
-    }*/
-        
-		
-
+ 
 	}
 
 	var resultArry = [];
@@ -352,7 +302,6 @@ function drawBars(data) {
 	xAxis = d3.svg.axis()
 		.scale(x)
 		.tickValues([])
-		//.outerTickSize(offset)
 		.orient("bottom");
 	yAxis = d3.svg.axis()
 		.scale(y)
@@ -481,7 +430,6 @@ function drawBars(data) {
 	.attr("d", function (d, i) {
 		var t = d3.select(this.parentNode).select("text").node().getBBox(),
 		ttop = [t.x + t.width / 2, t.y];
-		// console.log(d, t, ttop);
 		if (i == 0) {
 			return "M0" + ",0" + "V" + -offset;
 		} else {
@@ -527,7 +475,7 @@ function drawBars(data) {
        if(radioValu=="dut"){
            
            
-           if($(".item").length==0){
+           if($("#dutFormdiv").find(".item").length==0){
               return  colorObj[d[radioValu]];     
            
            }else{
@@ -555,7 +503,49 @@ function drawBars(data) {
        
            
        }else{
-        return colorObj[d[radioValu]];
+           
+           
+           
+              
+           if($("#projectFormdiv").find(".item").length==0){
+              return  colorObj[d[radioValu]];     
+           
+           }else{
+                 var val = d[radioValu];
+               
+
+  
+          
+               
+           if(projectColArry.indexOf(val)!=-1){
+               return colorObj[d[radioValu]]; 
+           
+           
+           }else{
+           
+               
+              
+                var key;
+                var val=d[radioValu];
+               if(val!=null){
+                   
+                   projectColArry.forEach(function(o,j){
+               
+                    var index=val.search(o);
+                    if(index!=-1){
+                       key=o; 
+                    }
+               
+                })
+                   
+                 return colorObj[key];
+               }
+                
+           
+           }
+           
+           
+           }
        
        }
         
@@ -567,17 +557,11 @@ function drawBars(data) {
     .style("fill-opacity",0.6)
 
 	.on('mouseover', function (d, i) {
-        
-		//d3.select(this).style("fill", "orange");
         d3.select(this).style("stroke-width", 2)
         .style("stroke", "black");
 		tip.show(d);
 	})
-	.on('mouseout', function (d, i) {
-		//var radioValu = $("input[name='colorChk']:checked").val();
-		//d3.select(this).style("fill", colorObj[d[radioValu]]);
-       // console.log(colorObj);
-       // d3.select(this).style("fill", colorObj[d[GlobalradioValue]]).style("stroke","none");     
+	.on('mouseout', function (d, i) {     
         
         d3.select(this).style("stroke","none");
 		tip.hide(d)
@@ -619,7 +603,6 @@ function drawBars(data) {
 	.attr("d", function (d, i) {
 		var t = d3.select(this.parentNode).select("text").node().getBBox(),
 		ttop = [t.x + t.width / 2, t.y];
-		// console.log(d, t, ttop);
 		if (i == 0) {
 			return "M0" + ",0" + "V" + -offset;
 		} else {
@@ -633,7 +616,7 @@ function drawBars(data) {
   
     
     
-    var dutValue=$("#input").val();
+    var dutValue=$("#inputDut").val();
     
     if(dutValue.trim()==""){
     
@@ -719,8 +702,6 @@ var previousValueLength2=0;
                                             return legendTextWidth2+13 ;                                               
  })
       .attr("y", 33)
-     // .attr("dy", ".35em")
-     // .style("text-anchor", "end")
       .style("font-weight","bold")
       .text(function(d,i){return temColorObj["groupText"+i] })
     
@@ -769,8 +750,6 @@ function createDatesArray(inputData) {
 			endDay = nextday;
 
 		} while (day != rawdatesArray[1])
-
-		//dataForAllDates (datesArray,inputData);
             console.log(datesArray);
         
 		createNullElementsArray(datesArray, inputData);
@@ -884,7 +863,6 @@ function drawLegends() {
                     .enter().append("g")
                     .attr("class", "legend")
                     .attr("transform", function(d, i) { return "translate(" +(( i *(-100))-width/1.4 )+ ",0)"; });
-                    //.attr("transform","translate(-950,0)");
   legend1.append("line")
       .attr("x1", width - 28)
       .attr("x2", width)
@@ -898,7 +876,6 @@ function drawLegends() {
                                         return "0,0"
                                     }
         })
-      //.style("stroke","5,5")
       .style("stroke", function(d,i){return d.color;});
   legend1.append("text")
       .attr("x", width - 44)
@@ -912,7 +889,6 @@ function drawLegends() {
                     .data(Name.slice())
                     .enter().append("g")
                     .attr("class", "legend")
-                    //.attr("transform", function(d, i) { return "translate(" + i * 5 + ",0)"; });
                     .attr("transform","translate(-750,0)");
   legend2.append("line")
       .attr("x1", width - 28)
@@ -935,7 +911,6 @@ function drawLegends() {
                     .data(Name.slice())
                     .enter().append("g")
                     .attr("class", "legend")
-                    //.attr("transform", function(d, i) { return "translate(" + i * 5 + ",0)"; });
                     .attr("transform","translate(-550,0)");
   legend3.append("line")
       .attr("x1", width - 28)
@@ -970,7 +945,6 @@ function drawLegends() {
     function drawLines(svg,x,y,width,minAxisValue){
     
      if(global_data.length!=0){ 
-    //if(Mean_minus_SD>minAxisValue)
     var deviationlines=svg.append("g")
                             .attr("class","deviationlines")
         

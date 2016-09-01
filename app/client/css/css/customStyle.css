@@ -141,20 +141,31 @@ div.idleToolTip
 }
 
 
-#input {
+#inputDut, #inputProject{
     -moz-appearance: textfield;
     -webkit-appearance: textfield;
     background-color: white;
     background-color: -moz-field;
-    border: 1px solid darkgray;
-    box-shadow: 1px 1px 1px 0 lightgray inset;  
+    border: 0px solid darkgray;
+    box-shadow: 0px 0px 0px 0 lightgray inset;  
     font: -moz-field;
     font: -webkit-small-control;
  
     padding: 2px 3px;
     display: inline-block; 
 	margin-top:4px;
+    width:100%;
 }
+
+
+#inputDut:focus {
+   outline: -webkit-focus-ring-color auto 0px;
+}
+#inputProject:focus {
+   outline: -webkit-focus-ring-color auto 0px;
+}
+
+
 .selected_item{
 	padding:4px;
 	margin-top:2px;
@@ -193,7 +204,17 @@ padding:5px;
 
 .ui-autocomplete.ui-widget {
   font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+    position: absolute;
+    margin-top: 6px !important;
   
+}
+
+.dis{
+
+  pointer-events: none;
+
+  opacity: 0.5;
+  background: #CCC;
 }
 
 

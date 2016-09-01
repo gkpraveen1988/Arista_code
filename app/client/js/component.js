@@ -84,24 +84,57 @@ $(function () {
 		hasGrid : true
 	});
      $(".select2-selection__rendered").find( ".select2-search__field" ).change(function( event ) {
-            //event.preventDefault();
-         
-           
-    
             var a=$(this).val();
            
              console.log(a);
-         
-         
+     }); 
+    
+    
         
+         $("#sizeDrop").change(function(){
+          
+             setTimeout(function(){
+                 
+                 filter();
+                 
+             },100)
+              
+       })
          
          
-     });  
+        $("#reservation").change(function(){
+            
+          
+             setTimeout(function(){
+                 
+                 filter();
+                 
+             },100)
+              
+       })
+        
+        
+        
+        $("input[name='colorChk']").on("click", function () {
+
+	
+        filter();
+
+      })
+        
+        
     
     
     
+     $("#dutFormdiv").on("click",function(){
+  
+        $("#inputDut").focus();
+    });
     
-    
+     $("#projectFormdiv").on("click",function(){
+  
+        $("#inputProject").focus();
+    });
     
     
     
@@ -109,32 +142,6 @@ $(function () {
   
 });
 
-
-    
-
-
-
-
-/*$("#optDrop").on("change",function(){
-    var opt = $("#optDrop").val();
-    if(opt == "Group"){ 
-    $("#dutFormdiv").css("display","none");
-    $("#textdiv").css("display","block");
-    }else{
-        $("#textdiv").css("display","none");
-        $("#dutFormdiv").css("display","block");
-    }
-})*/
-
-/*$("#textdiv").on("mouseover",function(){
-     //$("#toolTipDiv").className("activeToolTip");
-    document.getElementById('toolTipDiv').className='activeToolTip';
-})*/
-
-/*$("#textdiv").on("mouseout",function(){
-    document.getElementById('toolTipDiv').className='idleToolTip';
-    // $("#toolTipDiv").className("idleToolTip");
-})*/
 
 
    $("#textdiv").focusin(function(){
@@ -147,9 +154,11 @@ $(function () {
     });
 
 
-$("#filterGo").on("click", function () {
-    
-    
+
+
+function filter(){
+
+        
     GlobalradioValue = $("input[name='colorChk']:checked").val();
     
     	radioValu = $("input[name='colorChk']:checked").val();
@@ -175,23 +184,9 @@ $("#filterGo").on("click", function () {
     
 	$("#mask").show();
     startFilterProcess();
-    /*if(DutArray.length!=0){
-    var DutArray=[];
-    $(".item").each(function(d,i){
-        var value = $(this).html();
-        if(value!=null){
-        DutArray.push(value);
-        }
-    })
-    //validateFilter();
-    }
-    else{
-        
-    }
-	*/
-   
-})
 
+
+}
 
 
 /**
@@ -216,8 +211,6 @@ function ajaxCall(input1, input2) {
 	}, function (data) {
         
         if (data["benchmarks"]!=undefined) {
-       
-            //document.getElementById("optDrop").disabled = true;
             var localData = data['benchmarks'];
 			refreshClick = false;
 
@@ -264,7 +257,10 @@ function ajaxCall(input1, input2) {
 			$('#select2-resultDropSelect-container').html("");
 			$("#select2-selectDrop2-container").html("");
             $("#textbox").val("");
-            
+            $(".selected_element").html("");
+            $(".dis").css("background-color","#CCC");
+            $(".dis").css("opacity",0.5);
+            $(".dis").css("pointer-events","none");            
             var myNode = document.getElementById("#select2-selectDrop2-results");
             
             if(myNode){
@@ -364,10 +360,6 @@ function addUniqValuesToDropDown(data,dataRange) {
 		    console.log("uniqDutArry"+JSON.stringify(uniqDutArry));
 			
 			console.log("uniqResultArray"+JSON.stringify(uniqResultArray));
-            
-            
-		
-
 			if (refreshClick == false) {
 				addUniqDutToDropDown(uniqDutArry,dataRange);
 				addUniqProjectToDropDown(uniqProjectArry);
@@ -384,17 +376,9 @@ function addUniqValuesToDropDown(data,dataRange) {
 
 
 function validateFilter(){
-/*        var opt = $("#optDrop").val();
-    if(opt == "Group"){ */
         var stringValue = ($('#input').val()).toLowerCase();
         validateDutGroupString(stringValue);
-        //return;
-   /* }
-    else{*/
         startFilterProcess();
-    //}
-
-
 }
 
 
@@ -424,71 +408,22 @@ function startFilterProcess() {
     selectedProjectText = [];
 	selectedDutText = [];
     selectedDutGroupText = [];
-  //  var opt = $("#optDrop").val();
+
     
-    //opt="aaa";
- /*   if(opt == "Group"){ 
-        selectedDutGroupTextval = ($('#textbox').val()).toLowerCase();
-        if(selectedDutGroupTextval != ""){
-            
-       DutGroupArrayForColor = [];  
-            
-        var tempselectedDutGroupText = selectedDutGroupTextval.split(";");
-            if(tempselectedDutGroupText[tempselectedDutGroupText.length-1]==""){
-                tempselectedDutGroupText.pop();
-            }
-        
-            tempselectedDutGroupText.forEach(function(d,i){
-                
-                var tempArray=[];
-               
-                d = d.replace(/[()]/g, '');
-                
-                innerArray = d.split(",");
-                
-               
-                innerArray.map(function(d,i){
-                    
-                    dutstart = d.replace(/[*]/g, '');
-                    tempArray.push(dutstart);
-                    
-                    
-                    selectedDutGroupText.push(d);
-                })
-                DutGroupArrayForColor.push(tempArray);
-             
-                
-            });
-            
-        }
-        
-        DutLength = selectedDutGroupText.length;
-    }else{
-        $("#dutForm .select2-selection__choice").each(function () {
-		var title = $(this).attr("title");
-		if (title != "") {
-			selectedDutText.push(title);
-		}
-	});
-	DutLength = selectedDutText.length;    
-    }*/
-    
-    $(".item").each(function(d,i){
+    $("#dutFormdiv .item").each(function(d,i){
     var value = $(this).html();
         if(value != ""){
             selectedDutText.push(value);
         }
 });
     DutLength = selectedDutText.length;
-
-	$("#projectForm .select2-selection__choice").each(function () {
-		var title = $(this).attr("title");
-		if (title != "") {
-			selectedProjectText.push(title);
-		}
-
-	});
-
+        $("#projectFormdiv .item").each(function(d,i){
+    var value = $(this).html();
+        if(value != ""){
+            selectedProjectText.push(value);
+        }
+});
+    
 	ProjectLength = selectedProjectText.length;
 	
 	recordsNumber = $("#select2-sizeDrop-container").attr("title");
@@ -589,11 +524,6 @@ function Dut(inputDateFilterdData) {
 
         
        if (DutLength != 0) {
-            /*var opt = $("#optDrop").val();
-            if(opt == "Group"){ 
-                filterFunction(selectedDutGroupText,inputDateFilterdData,"slice");
-            }
-            else {}*/
             filterFunction(selectedDutText,inputDateFilterdData,"no");
        }else {
 		processProjectFilter(clone(inputDateFilterdData));
@@ -611,25 +541,7 @@ function Dut(inputDateFilterdData) {
 
 function processProjectFilter(inputData) {
 	if (ProjectLength != 0) {
-
-		var filterData = [];
-		selectedProjectText.forEach(function (d, i) {
-			var temFilterData = inputData.filter(function (o, j) {
-					return o.project == d;
-				});
-			temFilterData.forEach(function (o, j) {
-				filterData.push(o);
-
-			})
-
-			if (i == ProjectLength - 1) {
-				console.log(filterData.length);
-                processResultFilter(filterData);
-
-			}
-
-		});
-
+        filterProjects(selectedProjectText,inputData,"no")
 	} else {
         processResultFilter(clone(inputData));
 
@@ -730,29 +642,6 @@ function getFilterData(inputData, inputDateRange) {
 		return result;
 }
 
-/*$("input[name='colorChk']").on("click", function () {
-
-	radioValu = $("input[name='colorChk']:checked").val();
-
-	colorObj = {};
-	if (radioValu == "project") {
-
-		uniqProjectArry.forEach(function (d, i) {
-			colorObj[d] = color(i);
-
-		})
-
-	} else {
-		uniqDutArry.forEach(function (d, i) {
-			colorObj[d] = color(i);
-
-		})
-
-	}
-
-	changeColor();
-
-})*/
 
 /**
  * This function is used for applying unique colors for duts/projects inside the select element.
@@ -765,22 +654,65 @@ function changeColor() {
     
     
     radioValu = $("input[name='colorChk']:checked").val();
+    
+    
+    $(".selected_item").css("background-color", 'rgb(31, 119, 180)')
 
 	if (radioValu == "project") {
-   
-        $(".select2-selection__choice").css("background-color", 'rgb(31, 119, 180)');
-
-        $(".select2-selection__choice").each(function () {
-
-            var tempTitle = $(this).attr("title");
-            var color = colorObj[tempTitle];
-            $(this).css("background-color", color);
-            $(this).css("opacity", 0.6);
-        })
+        
+      
+         $("#projectFormdiv").find(".item").each(function(index){
+            
+             
+               
+             
+            var tempArr=[];
+            
+            var value= $(this).html();
+            
+           
+            if(!starRegex(value)){
+                  
+                   
+                
+                    colorObj[value]= color(index*10);
+                
+                    $(this).parent().css("background-color",color(index*10));
+                
+                
+                
+            }else{
+                 var splitVal=((value.replace(/[^a-z,]/g, "")).trim()).split(",");
+                
+                colorObj[splitVal]=color(index*10);
+                
+                splitVal.forEach(function(d,i){
+                        
+                
+                        colorObj[d]=color(index*10);
+                
+                });
+                
+                 $(this).parent().css("background-color",color(index*10));
+                 $(this).parent().css("opacity", 0.6);
+            
+                
+            }
+            
+           
+        });
+        
+        
    
     }else{
+        
+        
+        
+         $("#dutFormdiv").find(".item").each(function(index){
+             
+             
+             
     
-         $(".item").each(function(index){
             
             var tempArr=[];
             
@@ -893,17 +825,7 @@ filterDutText.forEach(function (d, i) {
            
                 return true;
            }
-            
-           /* splitArray.map(function(a,i){
-                //return string1 == a;
-                 if(string1 == a){
-                     return o.dut;
-                 
-                 }
-            })
-             */
-             
-             
+
         }
         });
     temFilterDutData.forEach(function (o, j) {
@@ -912,7 +834,6 @@ filterDutText.forEach(function (d, i) {
     })
 
     if (i == DutLength - 1) {
-        debugger;
         console.log(filterDutData.length);
     
         sortedfilterDutData = filterDutData.sort(function(a, b){
@@ -927,7 +848,58 @@ filterDutText.forEach(function (d, i) {
 });
 }
 
-	
-	
+
+function filterProjects(filterprojectText,inputDutFilterdData,Flag){
+var filterProjectData = [];
+filterprojectText.forEach(function (d, i) {
+    
+    var temFilterProjectData = inputDutFilterdData.filter(function (o, j) {
+        
+        if(!starRegex(d)){
+        return o.project == d;    
+        }else{
+            
+            var localValue='';
+             var string1 = (clone(o.project)).trim();
+             var splitArray = (((d).replace(/[^a-z,*]/g, "")).trim()).split(",");
+                
+            splitArray.map(function(d,i){
+                switch(ProjectRegex(d)){
+                    case "startsWith":
+                        if(string1.startsWith((d.replace(/[*]/g,"")).trim()))
+                            localValue = string1;
+                        break;
+                    case "endsWith":
+                        if(string1.endsWith((d.replace(/[*]/g,"")).trim()))
+                            localValue = string1;
+                        break;
+                    case "substring":
+                        if(string1.search((d.replace(/[*]/g,"")).trim())!=-1)                        
+                            localValue = string1;
+                        break;
+                }
+            })                
+            return localValue;
+        }
+        });
+        temFilterProjectData.forEach(function (o, j) {
+        filterProjectData.push(o);
+
+    })
+
+    if (i == ProjectLength - 1) {
+        console.log(filterProjectData.length);
+    
+        sortedfilterProjectData = filterProjectData.sort(function(a, b){
+ var dateA = new Date(a.testTime), dateB = new Date(b.testTime)
+    return dateA-dateB;
+});
+        processResultFilter(clone(sortedfilterProjectData));
+        
+
+    }
+})
+
+}
   
 
