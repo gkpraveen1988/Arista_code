@@ -70,7 +70,6 @@ function placeArrays(valuesArray, dataArray) {
 		$("#mask").hide();
 
 	}, 100);
-
 }
 $("#refresh").on("click", function () {
 
@@ -155,7 +154,7 @@ function drawBars(data) {
                 
                 
             }else{
-                 var splitVal=((value.replace(/[^a-z,]/g, "")).trim()).split(",");
+                 var splitVal=(((value.replace(/[^A-z0-9-,]/g, "")).trim()).toLowerCase()).split(",");
                 
                
                 
@@ -528,10 +527,9 @@ function drawBars(data) {
                 var key;
                 var val=d[radioValu];
                if(val!=null){
-                   
                    projectColArry.forEach(function(o,j){
                
-                    var index=val.search(o);
+                    var index=(val.toLowerCase()).search(o);
                     if(index!=-1){
                        key=o; 
                     }

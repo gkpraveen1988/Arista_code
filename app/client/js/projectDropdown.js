@@ -9,10 +9,11 @@ var availableProjectTags = [];
             inputVal=$("#inputProject").html();
 			
 			availableProjectTags.forEach(function(d,i){
-					avilableValues.push(d.toLowerCase());
+					//avilableValues.push(d.toLowerCase());
+                    avilableValues.push(d);
 			});
-			var selectValue=(inputVal.trim()).toLowerCase();
-         
+			//var selectValue=(inputVal.trim()).toLowerCase();
+         var selectValue=(inputVal.trim());
 			
 			if(avilableValues.indexOf(selectValue)!=-1){
 				if(ProjectcheckWithPreviousValue(selectValue))
@@ -32,8 +33,6 @@ var availableProjectTags = [];
     });
 	
 	function ProjectvalidationFuntion(selectValue){
-        
-         
         var result = validateDutGroupString(selectValue,"Project");
         if(result){
                 if(ProjectcheckWithPreviousValue(selectValue)){
@@ -52,18 +51,18 @@ function ProjectcheckWithPreviousValue(input){
     var exceptionResult = true;
     var errorFlag = false;
     var dutSelectionerror="Errors:- ";
+    
 $("#projectFormdiv .item").each(function(d,i){
     var value = $(this).html();
     previous.push(value);
 });
     var starred = input.match(/[*]/g);
    var localBoolResult=[];
-    
     previous.map(function(thisData,i){
 	
 	var modifiedthisData = PorjecttypeofValue(thisData); 
 	var modifiedInput = PorjecttypeofValue(input);
-       
+      debugger;
 	modifiedthisData.map(function(tdata,i){
 		modifiedInput.map(function(idata,i){
 			if(tdata["val"]==idata["val"] && tdata["starred"]=="true" && idata["starred"]=="true"){
@@ -86,17 +85,34 @@ $("#projectFormdiv .item").each(function(d,i){
 			}else if(((idata["val"].search(tdata["val"]))==-1) && tdata["starred"]=="true" && idata["starred"]=="true"){
                 
                  
-                var diffArray = availableProjectTags.filter(function(tag,i){
+               var tdataArray = availableProjectTags.filter(function(tag,i){
+                    return ((tag.toLowerCase()).search(tdata["val"])!=-1) 
+                    
+                })
+                
+                var idataArray = availableProjectTags.filter(function(d,i){
+                
+                    return ((d.toLowerCase()).search(idata["val"])!=-1)
+                })
+                
+                  var diffArray = availableProjectTags.filter(function(tag,i){
                    
                     return ((tag.search(tdata["val"])!=-1) && (tag.search(idata["val"])==-1))
                     
                 })
-                if(diffArray.length!=0){
-                localBoolResult.push("true");
-                }else{
+                  var diffArray2 = availableProjectTags.filter(function(tag,i){
+                   
+                    return ((tag.search(tdata["val"])==-1) && (tag.search(idata["val"])!=-1))
+                    
+                })       
+                
+                
+                if(diffArray.length==0 && diffArray2.length==0){
                 dutSelectionerror +="* values having "+idata["val"]+" are already selected \n";
                 errorFlag = true;
                 localBoolResult.push("false");
+                }else{
+                    localBoolResult.push("true");
                 }
             
             }
@@ -131,20 +147,20 @@ function PorjecttypeofValue(inData){
 	var booldata = starRegex(inData);
 	if(!booldata){
 				var tempObj = {},finalArray = [];
-				tempObj["val"] = inData;
+				tempObj["val"] = inData.toLowerCase();
 				tempObj["starred"]= "false";
-				tempObj["actual"] = inData;
+				tempObj["actual"] = inData.toLowerCase();;
 				finalArray.push(tempObj);
 				return finalArray;
 	}else{
-			var valueText = (clone(inData)).replace(/[^a-z,]/g,"").trim();
+			var valueText = (clone(inData)).replace(/[^A-Za-z0-9-,]/g,"").trim();
 			valueTextArray = valueText.split(',');
 			var finalArray = []
 				valueTextArray.map(function(d,i){
 					var tempObj = {};
-				tempObj["val"] = d;
+				tempObj["val"] = d.toLowerCase();
 				tempObj["starred"] = "true";
-                tempObj["actual"] = inData;
+                tempObj["actual"] = inData.toLowerCase();
 				finalArray.push(tempObj);
 				});
 				return finalArray;
@@ -157,7 +173,7 @@ toBeRemoved.map(function(e,j){
 
 $("#projectFormdiv .item").each(function(d,i){
     var value = $(this).html();
-    if(value == e){
+    if((clone(value).toLowerCase()) == e){
 			$(this).parent().remove();
         if(tempavailableProjectTags.indexOf(value)==-1){
 				tempavailableProjectTags.push(value);
@@ -202,9 +218,11 @@ Projectautocomplete(tempavailableProjectTags);
 	function removeFromProjectElement(inputVal){
 		var avilableValues=[];
 		tempavailableProjectTags.forEach(function(d,i){
-					avilableValues.push(d.toLowerCase());
+					//avilableValues.push(d.toLowerCase());
+                      avilableValues.push(d);
 		});
-		var selectVal= inputVal.toLowerCase();
+		//var selectVal= inputVal.toLowerCase();
+            var selectVal= inputVal;
         avilableValues.sort();
 		var index=avilableValues.indexOf(selectVal);
         tempavailableProjectTags.sort();

@@ -849,22 +849,23 @@ filterDutText.forEach(function (d, i) {
 }
 
 
-function filterProjects(filterprojectText,inputDutFilterdData,Flag){
+function filterProjects(filterprojectText,inputProjectFilterdData,Flag){
 var filterProjectData = [];
 filterprojectText.forEach(function (d, i) {
     
-    var temFilterProjectData = inputDutFilterdData.filter(function (o, j) {
+    var temFilterProjectData = inputProjectFilterdData.filter(function (o, j) {
         
         if(!starRegex(d)){
         return o.project == d;    
         }else{
             
             var localValue='';
-             var string1 = (clone(o.project)).trim();
-             var splitArray = (((d).replace(/[^a-z,*]/g, "")).trim()).split(",");
-                
+             var string1 = (((clone(o.project)).replace(/[^A-Za-z0-9,*]/g, "")).trim()).toLowerCase();
+             var splitArray = ((((d).replace(/[^A-Za-z0-9,*]/g, "")).trim()).toLowerCase()).split(",");
             splitArray.map(function(d,i){
+                
                 switch(ProjectRegex(d)){
+                        
                     case "startsWith":
                         if(string1.startsWith((d.replace(/[*]/g,"")).trim()))
                             localValue = string1;
@@ -873,8 +874,8 @@ filterprojectText.forEach(function (d, i) {
                         if(string1.endsWith((d.replace(/[*]/g,"")).trim()))
                             localValue = string1;
                         break;
-                    case "substring":
-                        if(string1.search((d.replace(/[*]/g,"")).trim())!=-1)                        
+                    case "substring":                  
+                        if (string1.search((d.replace(/[*]/g,"")).trim())!=-1)  
                             localValue = string1;
                         break;
                 }

@@ -14,7 +14,7 @@ var dutError = "Errors:- \n";
 function validateDutGroupString(inputString,filter){
     dutError = "Errors:- \n";   
     var regex0Val = regexFun0(inputString);
-    var regex1Val = regexFun1(inputString);
+    var regex1Val = regexFun1(inputString,filter);
     var regex2Val = regexFun2(inputString);
     var regex3Val = regexFun3(inputString);
     var regex4Val = regexFun4(inputString,filter);
@@ -48,12 +48,18 @@ if(checkBrackets(inputString)){
 }
 
 
-function regexFun1(inputString){
+function regexFun1(inputString,filter){
+    if(filter=="Dut"){
+    
 if(inputString.match(regex1)==null){
-    return true;   
+    returntext =  true;   
 }else{
    dutError += "* "+inputString+"Not a valid selection \n";
-   return false;}
+   returntext = false;}}
+    else{
+        returntext = true;
+    }
+    return returntext;
 }
 
 function regexFun2(inputString){
@@ -156,13 +162,17 @@ function regexFun12(inputString,filter){
     })
     
     }else{
-        var filterdInputString = inputString.replace(/[^a-z,]/g,'');
+        
+        var filterdInputString = (inputString.replace(/[^A-Za-z0-9,]/g,'')).toLowerCase();
         var selectedGroupProjectArray = filterdInputString.split(',');
         
          selectedGroupProjectArray.map(function(a,j){
     var result = uniqueSlicedProjectValues.filter(function(d,i){
-           
-            return d.search(a)!=-1;
+            d = d.replace(/[^A-Za-z0-9,]/g,'');
+        
+            
+            
+            return (d.toLowerCase()).search(a)!=-1;
             
         })
         fullResult.push(result);
@@ -173,6 +183,7 @@ function regexFun12(inputString,filter){
                 if(d.length!=0){
                     localtext.push("true");
                 }else{
+                    
             dutError += "* "+inputString+" is not a valid selection \n";
             localtext.push("false");
         }
@@ -236,17 +247,18 @@ if(inputString.match(expression)==null){
 
 
 function ProjectRegex(inputString){
-
-    var expression1 = /[*][a-z]/g;
-    var expression2 = /[a-z][*]/g;
-    var expression3 = /[*][a-z][*]/g;
-    
-    if(inputString.match(expression1)==null){
-        resultString = "startsWith";    
-    }else if(inputString.match(expression2)==null){
+    var resultString;
+    /*var expression1 = /[*][A-z]/g;
+    var expression2 = /[A-z][*]/g;*/
+    var expression1 = /^[A-z0-9-].*?[*]$/g
+    var expression2 = /^[*].*?[A-z0-9-]$/g
+        resultString = "substring";   
+    if(inputString.match(expression2)!=null){
                 resultString = "endsWith";
-        }else if(inputString.match(expression3)==null){
-                resultString = "substring";
+        }else if(inputString.match(expression1)!=null){
+                resultString = "startsWith";
+            }else{
+                resultString = "substring";   
             }
 return resultString;
 }

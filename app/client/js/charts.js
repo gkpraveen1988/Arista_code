@@ -78,9 +78,18 @@ function addUniqProjectToDropDown(dropData) {
     
     
     setTimeout(function(){
-         $("#ui-id-2").on("click",function(){
+         $("#ui-id-2").on("click",function(event){
           
+             
+           setTimeout(function(){
+           
+           
+           
 		inputVal=$("#inputProject").html();
+             
+             if(inputVal=="" || inputVal==" "){
+             }else{
+            
              	if(ProjectcheckWithPreviousValue(inputVal))
                 {
                 ProjectaddItem(inputVal);
@@ -91,8 +100,8 @@ function addUniqProjectToDropDown(dropData) {
              
              
              filter();
-             
-             
+             event.stopImmediatePropagation();}
+             },100);  
              
 	   });
     },300)
@@ -123,11 +132,11 @@ function addUniqDutToDropDown(dropData,dataRange) {
     
     setTimeout(function(){
     
-         $("#ui-id-1").on("click",function(){
+         $("#ui-id-1").on("click",function(event){
            
-       
+       setTimeout(function(){
 		inputVal=$("#inputDut").html();
-             
+             if(inputVal=="" || inputVal==" "){}else{
              	if(DutcheckWithPreviousValue(inputVal))
                 {
                     
@@ -142,6 +151,9 @@ function addUniqDutToDropDown(dropData,dataRange) {
              
              
              filter();
+             event.stopImmediatePropagation();
+             }
+       },100);
 		
 	   });
     
