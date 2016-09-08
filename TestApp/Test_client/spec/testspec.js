@@ -65,8 +65,8 @@
 
 		    addUniqValuesToDropDown(tempData);	
 
-			expect(uniqProjectArry).toEqual(temData_uniqProject);
-			expect(uniqDutArry).toEqual(temData_uniqDut);
+			expect(uniqProjectArry).toEqual(temData_uniqProject.sort());
+			expect(uniqDutArry).toEqual(temData_uniqDut.sort());
 			expect(uniqResultArray).toEqual(tempData_uniqResult);
 
 		});
@@ -187,6 +187,205 @@
 		});
 	});
 
+ describe("TEST FUNCTION: regexFun0(), checkBrackets() ", function () {
+                        it("REMARKS: Check for correct parenthesis expression in string ", function () {
+                           
+                                    var FirstCheck=regexFun0("(il*,cd*)");
+                            expect(FirstCheck).toEqual(true);
+                                    
+                                    var secondCheck=regexFun0("il*,cd*)");
+                            expect(secondCheck).toEqual(false);
+                                    
+                        });
+            });
+            
+            describe("TEST FUNCTION: regexFun1() ", function () {
+                        it("REMARKS: Check for valid DropDown selection ", function () {
+                           
+                                    var FirstCheck=regexFun1("bh209","Dut");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun1("bh*","Dut");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+     
+     describe("TEST FUNCTION: regexFun2() ", function () {
+                        it("REMARKS: Check for semicolon after parenthesis ", function () {
+                           
+                                    var FirstCheck=regexFun2("(bh*),(tg*)");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun2("(bh*);(tg*)");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+
+describe("TEST FUNCTION: regexFun3() ", function () {
+                        it("REMARKS: Check for right parenthesis before semicolon ", function () {
+                           
+                                    var FirstCheck=regexFun3("(;");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun3("(abc);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+	
+
+
+
+
+	
+     describe("TEST FUNCTION: regexFun5() ", function () {
+                        it("REMARKS: Check for no comma after the semicolon ", function () {
+                           
+                                    var FirstCheck=regexFun5("(bh*);,");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun5("(bh*);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+     
+
+     describe("TEST FUNCTION: regexFun6() ", function () {
+                        it("REMARKS: Check for right parenthesis before the semicolon ", function () {
+                           
+                                    var FirstCheck=regexFun6("(bh*;)");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun6("(bh*);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+     
+     describe("TEST FUNCTION: regexFun7() ", function () {
+                        it("REMARKS: Check for no comma before the semicolon ", function () {
+                           
+                                    var FirstCheck=regexFun7("(bh*),;");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun7("(bh*),(ti*);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+     
+     describe("TEST FUNCTION: regexFun8() ", function () {
+                        it("REMARKS: Check for nothing entered between the parenthesis ", function () {
+                           
+                                    var FirstCheck=regexFun8("();");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun8("(bh*);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+     
+     describe("TEST FUNCTION: regexFun9() ", function () {
+                        it("REMARKS: Check for right parenthesis before comma ", function () {
+                           
+                                    var FirstCheck=regexFun9("(,(bh*)");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun9("(tg*),(bh*);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+     
+     describe("TEST FUNCTION: regexFun10() ", function () {
+                        it("REMARKS: Check for comma between parenthesis groups ", function () {
+                           
+                                    var FirstCheck=regexFun10(")(.");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun10("(tg*),(bh*);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+     
+     describe("TEST FUNCTION: regexFun11() ", function () {
+                        it("REMARKS: Check for comma after right parenthesis ", function () {
+                           
+                                    var FirstCheck=regexFun11("(tg*,)(bh*)");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun11("(tg*),(bh*);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+     
+     describe("TEST FUNCTION: regexFun12() ", function () {
+                        it("REMARKS: Check for valid DropDown selection ", function () {
+                           
+                                    var FirstCheck=regexFun12("bh*","Dut");
+                            expect(FirstCheck).toEqual(true);
+                                    
+                                    var secondCheck=regexFun12("1256","Dut");
+                            expect(secondCheck).toEqual(false);
+                                    
+                        });
+            });
+     
+     describe("TEST FUNCTION: regexFun13() ", function () {
+                        it("REMARKS: Check for duplicate values ", function () {
+                           
+                                    var FirstCheck=regexFun13("(bh*),(bh*)");
+                            expect(FirstCheck).toEqual(false);
+                                    
+                                    var secondCheck=regexFun13("(tg*),(bh*);");
+                            expect(secondCheck).toEqual(true);
+                                    
+                        });
+            });
+	
+	
+	
+	describe("TEST FUNCTION: filterFunction() ", function () {
+		it("REMARKS: Start the dut filtration ", function () {
+		    var consoleSpy1 = spyOn(console, "log");
+			filterFunction(["bh*,in*"],arrayTobeUsedForFilter);
+			
+			
+			 afterFilterDutArray = afterFilterDutArray.sort(function(a, b){
+ var dateA = new Date(a.testTime), dateB = new Date(b.testTime)
+    return dateA-dateB;
+});
+			expect(consoleSpy1).toHaveBeenCalledWith('bh321');
+			
+			
+			
+		});
+	});
+	
+	describe("TEST FUNCTION: filterProjects() ", function () {
+		it("REMARKS: Start the project filtration for the selected dropdown ", function () {
+		    var consoleSpy1 = spyOn(console, "log");
+			filterProjects(["ga*"],arrayTobeUsedForFilter);
+			
+			
+			 
+			expect(consoleSpy1).toHaveBeenCalledWith('ga.peachtree');
+			
+			
+			
+		});
+	});
+	
+	
+	
+	
+	
 	
 
 }); 
@@ -300,18 +499,7 @@
         
     
         
-		it(" REMARKS: GO button  is present in DOM", function () {
-            var buttonGO;
-			setTimeout(function () {
-
-				buttonGO = d3.select('#filterGo')
-
-			}, 500)
-
-			jasmine.clock().tick(1000);
-			expect(buttonGO).toBeInDOM();
-            expect(buttonGO[0]).not.toEqual([null]);
-		});        
+		       
         
         
 		it(" REMARKS: y-axis present in DOM", function () {
@@ -381,7 +569,8 @@ describe("TEST CASES FOR charts.js",function(){
 			jasmine.getFixtures().load(fixtureUrl);
 			jasmine.clock().install();
 			jasmine.clock().tick(100);
-            drawBars(tempData);
+			//uniqProjectArry=temData_uniqProject;
+            //drawBars(tempData);
 		});
 
 		afterEach(function () {
@@ -391,16 +580,19 @@ describe("TEST CASES FOR charts.js",function(){
         
 		it(" REMARKS: addUniqProjectToDropDown() function", function () {
 
-
+			
 			setTimeout(function () {
 
+				
 				addUniqProjectToDropDown(temData_uniqProject);
                 
-			}, 500)
+			}, 1000)
 
-			jasmine.clock().tick(1000);
-            expect($('#projectDrop option:first-child').val()).toEqual('id.boise-th');
-            //expect($("#projectDrop").html()).toBeInDOM();
+			jasmine.clock().tick(2500);
+			
+			 //expect($('#ui-id-2').find(".ui-menu-item-wrapper:first-child").html()).toEqual('2016.aclleak.0');
+            //expect($('#ui-id-2').find('.ui-menu-item-wrapper').html()).toEqual('id.boise-th');
+            expect($("#ui-id-2")).toBeInDOM();
 
 		});  
         
@@ -414,8 +606,8 @@ describe("TEST CASES FOR charts.js",function(){
 			}, 500)
 
 			jasmine.clock().tick(1000);
-            expect($('#dutDrop option:first-child').val()).toEqual('bh321');
-            //expect($("#projectDrop").html()).toBeInDOM();
+            //expect($('#dutDrop option:first-child').val()).toEqual('bh321');
+            expect($("#ui-id-1")).toBeInDOM();
 
 		}); 
         
@@ -429,7 +621,7 @@ describe("TEST CASES FOR charts.js",function(){
 			}, 500)
 
 			jasmine.clock().tick(1000);
-            expect($('#resultDrop option:first-child').val()).toEqual('303.63 - 421.91');
+            expect($('#resultDrop option:first-child').val()).toEqual('> (Mean + σ)');
             //expect($("#projectDrop").html()).toBeInDOM();
 
 		});   
@@ -554,8 +746,9 @@ describe("test cases for makeGraphtable.js",function(){
             var consoleSpy;
             consoleSpy = spyOn(console, "log");
             dataForAllDates(nullDates,tempData1);
-            jasmine.clock().tick(100);
-        expect(consoleSpy).toHaveBeenCalledWith(ex);
+			
+            jasmine.clock().tick(250);
+            expect(consoleSpy).toHaveBeenCalledWith(ex[0]);
         })
  
         it("filltable()",function(){
@@ -578,30 +771,428 @@ describe("test cases for makeGraphtable.js",function(){
 })
 
 
-/*
-describe("AjaxCall TestCases",function(){
+describe("TEST FUNCTIONS:dutDropdown.js ", function () {
 
-		beforeEach(function () {
+ 
+	describe("TEST FUNCTION: DutTypeofValue ", function () {
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
 			jasmine.clock().install();
-			jasmine.clock().tick(100);
+			jasmine.clock().tick(300);
+            
 		});
-
+		
 		afterEach(function () {
 			jasmine.clock().uninstall();
-		});    
 
-    it("",function(){
-    var xhttp = new XMLHttpRequest();    
-    var consoleSpy = spyOn(console, "log");
-     //xhttp.send("Fetch=firstDropDownValue&value=");
-    ajaxCall("firstDropDownValue", "");
-        jasmine.clock().tick(1000);
-        expect(consoleSpy).toHaveBeenCalledWith("");
-    //xhttp.send("Fetch=firstDropDownValue&value=");
-    
-    
-    })
-    
+		});
 
-})
-*/
+
+		it("  REMARKS: returns an array of objects", function () {
+
+				
+		
+			expect(DutTypeofValue("bh326")).toEqual(expectedDutArray1);
+			expect(DutTypeofValue("tg*")).toEqual(expectedDutArray2);
+		});
+	});
+
+
+	describe("TEST FUNCTION: DutcheckWithPreviousValue ", function () {
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(300);
+			var selectValue = "in320";
+			var selectedItem="<div class='selected_item'><span class='close'>x</span><span class='item'>"+selectValue.trim()+"</span></div>";
+				$("#dutFormdiv").find(".selected_element").append(selectedItem);
+				$("#inputDut").html("");			
+            
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS: returns a boolean value", function () {
+			expect(DutcheckWithPreviousValue("in320")).toEqual(false);
+			expect(DutcheckWithPreviousValue("bh*")).toEqual(true);
+
+
+		});
+	});
+
+	describe("TEST FUNCTION: removeFromOutElement ", function () {
+		var consoleSpy;
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(1000);
+			consoleSpy = spyOn(console, "log");
+
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS:spy console", function () {
+
+
+			tempavailableDutTags=['bh321','bh322','yo620','bh323'];
+            removeFromOutElement("bh321");			
+            jasmine.clock().tick(1300);
+
+			expect(consoleSpy).toHaveBeenCalledWith("in Dutautocomplete function");
+
+		});
+	});
+
+describe("TEST FUNCTION: DutaddItem ", function () {
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(300);
+			var selectValue1 = "bh326";
+			var selectValue2 = "bh325";
+			DutaddItem(selectValue1);
+			DutaddItem(selectValue2);
+            
+		});
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+		it("  REMARKS: Dut successfully added", function () {
+			var addedDutsArray = [];
+			$("#dutFormdiv .item").each(function(d,i){
+    		var value = $(this).html();
+    		addedDutsArray.push(value);
+			});
+			expect(addedDutsArray).toEqual(expectedAddedDutsArray);
+		});
+	});
+
+describe("TEST FUNCTION: triggerCloseOnDut ", function () {
+		var consoleSpy;
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(1000);
+			consoleSpy = spyOn(console, "log");
+			tempavailableDutTags = ["tg321"];
+			triggerCloseOnDut(expectedAddedDutsArray);
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS: called Dutautocomplete function successfully", function () {			
+            jasmine.clock().tick(1300);
+
+			expect(consoleSpy).toHaveBeenCalledWith("in Dutautocomplete function");
+
+		});
+	});
+
+describe("TEST FUNCTION: DutvalidationFuntion ", function () {
+		var consoleSpy;
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(1000);
+			consoleSpy = spyOn(console, "log");
+			uniqueSlicedDutValues = ["in","tg"];
+			DutvalidationFuntion("tg*");
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS: called DutaddItem function successfully", function () {			
+            jasmine.clock().tick(1300);
+            expect(consoleSpy).toHaveBeenCalledWith("in DutaddItem function");
+
+		});
+	});
+
+
+
+describe("TEST FUNCTION: Dutautocomplete ", function () {
+		var consoleSpy;
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(1000);
+			consoleSpy = spyOn(console, "log");
+			$( "#dutFormdiv" ).autocomplete({
+			source: expectedAddedDutsArray,
+			 minLength: 0,
+            scroll: true
+        }).focus(function(event) {
+            $(this).autocomplete("search", "");
+             event.stopImmediatePropagation();
+        })
+         .click(function(event) {
+            $(this).autocomplete("search", "");
+             event.stopImmediatePropagation();
+            
+        });
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS: checking autocomplete jquery ui", function () {		
+			Dutautocomplete(expectedAddedDutsArray);
+            jasmine.clock().tick(1300);
+
+			expect(consoleSpy).toHaveBeenCalledWith("in Dutautocomplete function");
+
+		});
+	});
+
+
+});
+
+
+describe("TEST FUNCTIONS:projectDropdown.js ", function () {
+
+ 
+	describe("TEST FUNCTION: PorjecttypeofValue ", function () {
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(300);
+            
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+
+		it("  REMARKS: returns an array of objects", function () {
+
+				
+		
+			expect(PorjecttypeofValue("eos-trunk")).toEqual(expectedProjectArray1);
+			expect(PorjecttypeofValue("il*")).toEqual(expectedProjectArray2);
+		});
+	});
+
+
+	describe("TEST FUNCTION: ProjectcheckWithPreviousValue ", function () {
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(300);
+			var selectValue = "il.elgin-th-plus";
+			var selectedItem="<div class='selected_item'><span class='close'>x</span><span class='item'>"+selectValue.trim()+"</span></div>";
+				$("#projectFormdiv").find(".selected_element").append(selectedItem);
+				$("#inputProject").html("");			
+            
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS: returns a boolean value", function () {
+			expect(ProjectcheckWithPreviousValue("il.elgin-th-plus")).toEqual(false);
+			expect(ProjectcheckWithPreviousValue("id*")).toEqual(true);
+
+
+		});
+	});
+
+	describe("TEST FUNCTION: removeFromProjectElement ", function () {
+		var consoleSpy;
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(1000);
+			consoleSpy = spyOn(console, "log");
+
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS:spy console", function () {
+
+
+			tempavailableProjectTags=['bh321','bh322','yo620','bh323'];
+            removeFromProjectElement("bh321");			
+            jasmine.clock().tick(1300);
+
+			expect(consoleSpy).toHaveBeenCalledWith("in Projectautocomplete function");
+
+		});
+	});
+
+describe("TEST FUNCTION: ProjectaddItem ", function () {
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(300);
+			var selectValue1 = "il.elgin-th-plus";
+			var selectValue2 = "id.burley-th";
+			ProjectaddItem(selectValue1);
+			ProjectaddItem(selectValue2);
+            
+		});
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+		it("  REMARKS: Project successfully added", function () {
+			var addedProjectsArray = [];
+			$("#projectFormdiv .item").each(function(d,i){
+    		var value = $(this).html();
+    		addedProjectsArray.push(value);
+			});
+			expect(addedProjectsArray).toEqual(expectedAddedProjectsArray);
+		});
+	});
+
+describe("TEST FUNCTION: triggerCloseOnProject ", function () {
+		var consoleSpy;
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(1000);
+			consoleSpy = spyOn(console, "log");
+			tempavailableDutTags = ["tg321"];
+			triggerCloseOnProject(expectedAddedProjectsArray);
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS: called Projectautocomplete function successfully", function () {			
+            jasmine.clock().tick(1300);
+
+			expect(consoleSpy).toHaveBeenCalledWith("in Projectautocomplete function");
+
+		});
+	});
+
+describe("TEST FUNCTION: ProjectvalidationFuntion ", function () {
+		var consoleSpy;
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(1000);
+			consoleSpy = spyOn(console, "log");
+			uniqueSlicedProjectValues = ["il.elgin-th-plus","id.burley-th"];
+			ProjectvalidationFuntion("il*");
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS: called ProjectaddItem function successfully", function () {			
+            jasmine.clock().tick(1300);
+            expect(consoleSpy).toHaveBeenCalledWith("in ProjectaddItem function");
+
+		});
+	});
+
+
+
+describe("TEST FUNCTION: Projectautocomplete ", function () {
+		var consoleSpy;
+	 beforeEach(function () {
+			jasmine.getFixtures().fixturesPath = 'template';
+			fixtureUrl = "index_template.html";
+			jasmine.getFixtures().load(fixtureUrl);
+			jasmine.clock().install();
+			jasmine.clock().tick(1000);
+			consoleSpy = spyOn(console, "log");
+			$( "#dutFormdiv" ).autocomplete({
+			source: expectedAddedDutsArray,
+			 minLength: 0,
+            scroll: true
+        }).focus(function(event) {
+            $(this).autocomplete("search", "");
+             event.stopImmediatePropagation();
+        })
+         .click(function(event) {
+            $(this).autocomplete("search", "");
+             event.stopImmediatePropagation();
+            
+        });
+		});
+		
+		afterEach(function () {
+			jasmine.clock().uninstall();
+
+		});
+
+		
+		it("  REMARKS: checking autocomplete jquery ui", function () {		
+			Projectautocomplete(expectedAddedDutsArray);
+            jasmine.clock().tick(1300);
+
+			expect(consoleSpy).toHaveBeenCalledWith("in Projectautocomplete function");
+
+		});
+	});
+
+
+});
+
+
+

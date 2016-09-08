@@ -840,6 +840,9 @@ filterDutText.forEach(function (d, i) {
  var dateA = new Date(a.testTime), dateB = new Date(b.testTime)
     return dateA-dateB;
 });
+
+        
+		console.log(sortedfilterDutData[0].dut);
         processProjectFilter(clone(sortedfilterDutData));
         
 
@@ -895,6 +898,10 @@ filterprojectText.forEach(function (d, i) {
  var dateA = new Date(a.testTime), dateB = new Date(b.testTime)
     return dateA-dateB;
 });
+
+		
+		
+		console.log(sortedfilterProjectData[0].project);
         processResultFilter(clone(sortedfilterProjectData));
         
 

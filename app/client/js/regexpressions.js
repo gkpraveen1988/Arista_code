@@ -40,6 +40,7 @@ function validateDutGroupString(inputString,filter){
 }
 
 function regexFun0(inputString){
+	
 if(checkBrackets(inputString)){
     return true;   
 }else{
@@ -55,7 +56,9 @@ if(inputString.match(regex1)==null){
     returntext =  true;   
 }else{
    dutError += "* "+inputString+"Not a valid selection \n";
-   returntext = false;}}
+   returntext = false;}
+   
+   }
     else{
         returntext = true;
     }

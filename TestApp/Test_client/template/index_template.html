@@ -1,4 +1,4 @@
- <div class="wrapper">
+    <div class="wrapper">
       <header class="main-header">
         <a href="#" class="logo">
         <span class="logo-lg"><b>ARISTA</b></span>
@@ -36,7 +36,7 @@
             <div class="box-body" style="padding: 3px;">
               <div class="row" bgcolor="#FF0000">
                 <div class="col-md-2"  style="">
-                  <div class="form-group" id ="dateForm">
+                  <div class="form-group">
                     <label>WHEN</label>
                     <div class="input-group">
                       <div class="input-group-addon">
@@ -46,16 +46,22 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <div class="col-md-12">
                     <div class="form-group" id="dutForm">
                       <label class="colLabel">
                       <input type="radio" name="colorChk" value="dut" checked>
-                      <img src="../../../app/client/image/colorTiles.png" height="20" width="20">
+                      <img src="../image/colorTiles.png" height="20" width="20">
                       </label>
-                      <label>WHERE</label>
-                      <select  class="form-control select2 dis" id="dutDrop" multiple="multiple" disabled="true" data-placeholder="Select Duts(Default All)" style="width: 100%;" onchange="changeColor()">
-                      </select>
+                         <label>WHERE</label>
+                      <div id="dutFormdiv" class="dis">
+                          
+                          
+                          <div style="width :100%;min-height:30px;background-color:white;border: 1px solid #d2d6de;border-radius: 0;font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif" class="dis">
+<div class="selected_element"></div>
+<div id="inputDut" class = "dis" contenteditable></div>
+</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -64,14 +70,19 @@
                     <div class="form-group" id="projectForm">
                       <label class="colLabel">
                       <input type="radio" name="colorChk" value="project" checked> 
-                      <img src="../../../app/client/image/colorTiles.png" height="20" width="20">
+                      <img src="../image/colorTiles.png" height="20" width="20">
                       </label>
                       <label>PROJECT</label>
-                      <select class="form-control select2 dis" id="projectDrop" multiple="multiple" disabled="true" data-placeholder="Select Projects(Default All)" style="width: 100%;" onchange="changeColor()">
-                      </select>
+                        <div id="projectFormdiv" class="dis">
+                          <div style="width :100%;min-height:30px;background-color:white;border: 1px solid #d2d6de;border-radius: 0;font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif" class="dis">
+<div class="selected_element dis"></div>
+<div id="inputProject" class = "dis" contenteditable></div>
+</div>                
+                    </div>
                     </div>
                   </div>
                 </div>
+                  
                 <div class="col-md-2">
                   <div class="col-md-12">
                     <div class="form-group" id = "resultDrop">
@@ -82,7 +93,7 @@
                   </div>
                 </div>
                 <div class="col-md-1">
-                  <div class="form-group" id="sizeForm">
+                  <div class="form-group" >
                     <label>SIZE</label>
                     <select class="form-control select2 dis" id="sizeDrop" disabled="true" style="width: 100%;">
                       <option >20</option>
@@ -91,11 +102,10 @@
                       <option>200</option>
                       <option>500</option>
                       <option>1000</option>
-                      <option>ALL</option>
+                      <option>5000</option>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-1"><button class="btn btn-block btn-success dis" id="filterGo" disabled="true"  onclick="" style = "margin-top: 25px;">GO</button></div>
               </div>
             </div>
           </div>
@@ -148,5 +158,5 @@
       <div class="control-sidebar-bg"></div>
     </div>
     <div id="mask" >
-      <img src="../../../app/client/image/loader_blue.gif" alt="">
+      <img src="../image/loader_blue.gif" alt="">
     </div>

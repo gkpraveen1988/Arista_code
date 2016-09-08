@@ -62,7 +62,6 @@ $("#projectFormdiv .item").each(function(d,i){
 	
 	var modifiedthisData = PorjecttypeofValue(thisData); 
 	var modifiedInput = PorjecttypeofValue(input);
-      debugger;
 	modifiedthisData.map(function(tdata,i){
 		modifiedInput.map(function(idata,i){
 			if(tdata["val"]==idata["val"] && tdata["starred"]=="true" && idata["starred"]=="true"){
@@ -189,7 +188,7 @@ Projectautocomplete(tempavailableProjectTags);
     
 	
 	function ProjectaddItem(selectValue){
-        
+        console.log("in ProjectaddItem function");/* Radhey*/
 		var selectedItem="<div class='selected_item'><span class='close'>x</span><span class='item'>"+selectValue.trim()+"</span></div>";
 				$("#projectForm").find(".selected_element").append(selectedItem);
 				$("#inputProject").html("");
@@ -232,7 +231,7 @@ Projectautocomplete(tempavailableProjectTags);
 
 	
 	function Projectautocomplete(arr){
-	
+		console.log("in Projectautocomplete function");/* Radhey*/
 		arr.sort();
 		
 		$( "#inputProject" ).autocomplete({

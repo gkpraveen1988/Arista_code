@@ -834,7 +834,10 @@ function dataForAllDates(NullElementsArray, inData) {
 		}
 	});
 	setTimeout(function () {
-		console.log(inData);
+		//console.log("a");
+		//console.log(JSON.stringify(inData));
+		//debugger;
+		console.log(inData[0])
 		drawBars(inData);
 	}, 100);
 

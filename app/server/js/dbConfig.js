@@ -15,7 +15,7 @@ var DB = require("../lib/node_modules/mysql");
 var pool = DB.createPool({
         connectTimeout  : 60 * 60 * 1000,
         aquireTimeout   : 60 * 60 * 1000,    
-		host : "benchmarkdb.aristanetworks.com",
+		host : "ArjobDb",
 		database : "benchmark",
 		user : "arastra",
 		port : 3306,
