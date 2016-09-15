@@ -73,7 +73,7 @@
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <div class="col-md-12">
+                  <div class="col-md-10">
                     <div class="form-group" id="dutForm">
                       <label class="colLabel">
                       <input type="radio" name="colorChk" value="dut" checked>
@@ -90,6 +90,27 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-2">  
+                      <img src="../image/questionMark.png" height="20" width="20" id="QuestionMarkDut" style="margin-top: 33px;margin-left: -28px;">
+
+                </div> 
+              <div class="idleToolTip" id="toolTipDivDut" style="font-size:8px">
+                  <span>1) Type and select the specific dut.<br>
+                           ex:- bh210 <br>
+                        2) Select by wild card.<br>
+                           ex :- bh*  <br>
+                        3) Duts can be grouped.<br>
+                           ex :- bh*,tg*  or  bh210,tg* <br>
+                           Here all the duts of bh and tg will have same color.<br>
+                        4) Hit "enter" once Duts Group is written.<br>
+                        5) Use Comma "," in between the selections.<br>
+                        6) Multigroup selection is possible by using colon ";". <br>
+                           ex:- bh*,tg*;in*,yo*  <br>
+                           Here Duts with bh and tg will be grouped as one, <br>
+                           and Duts with in and yo will be grouped as another. <br>
+                        7) Multiple or wrong selection pops up respective Error. <br>
+                        8) Errors are shown in a popup box for reference. <br></span>
+              </div>                    
                 </div>
                 <div class="col-md-3">
                   <div class="col-md-10">
@@ -107,6 +128,32 @@
                     </div>
                     </div>
                   </div>
+                  <div class="col-md-2">  
+                      <img src="../image/questionMark.png" height="20" width="20" id="QuestionMarkProject" style="margin-top: 33px;margin-left: -28px;">
+                </div>
+                <div class="idleToolTip" id="toolTipDivProject" style="font-size:8px">
+              <span>1) Type and select the specific project.<br>
+                    ex:- eos-trunk<br>
+                    2) Select by wild card.<br>
+                    ex :- eos*<br>
+                    3) Any number of charaters can be typed to select a wild card.<br>
+                    4) 3 types of wild card selection is possible .<br>
+                        - xyz*  : It means all projects which starts with "xyz".<br>
+                        - *xyz  : It means all projects which ends with "xyz".<br>
+                        - *xyz* : It means all projects which contains "xyz". <br>
+                    5) projects can be grouped.<br>
+                        ex :- il*,eos*<br>
+                        Here, il and eos projects will have the same color.<br>
+                    6) Use Comma(",") in between the selections.<br>
+                    7) Multigroup selection is possible.<br>
+                       ex:- li* <br>
+                            eos*,id*  <br>
+                       Here Projects with li will be grouped as one,<br>
+                       and Projects with eos and id will be grouped as another.<br>
+                    8) Multiple or wrong selection pops up respective Error.<br>
+                    9) Errors are shown in a popup box for reference. <br>
+                </span>
+                </div>
                 </div>
                   
                 <div class="col-md-2">

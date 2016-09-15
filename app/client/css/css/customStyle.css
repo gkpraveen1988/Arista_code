@@ -104,16 +104,31 @@
       .colLabel > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
       border:2px solid #f00;
       }
-    
+        
+.buttonLabel > button{
+          visibility: hidden;
+      position: absolute;
+}
+.buttonLabel > button + img{
+          cursor:pointer;
+      border:2px solid transparent;
+}
 
 .relative {
   position: absolute;   
 }
 
-#toolTipDiv {
+#toolTipDivDut {
  position: absolute;
-    top: 60px;
-    left: 15px;
+    top: 40px;
+    left: 250px;
+    
+}
+
+#toolTipDivProject {
+ position: absolute;
+    top: 40px;
+    left: 250px;
     
 }
 
@@ -129,7 +144,7 @@ div.activeToolTip
  color: #000;
  border:1px solid gray;
  filter: progid:DXImageTransform.Microsoft.Shadow(color=white,direction=135);
- width:auto;
+ width:100%;
  height:auto;
  padding: 10px;    
  z-index:99999999999999;
@@ -139,6 +154,12 @@ div.idleToolTip
  display:none;
  visibility:hidden;
 }
+
+
+
+
+
+
 
 
 #inputDut, #inputProject{

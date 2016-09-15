@@ -9,10 +9,8 @@ var availableProjectTags = [];
             inputVal=$("#inputProject").html();
 			
 			availableProjectTags.forEach(function(d,i){
-					//avilableValues.push(d.toLowerCase());
                     avilableValues.push(d);
 			});
-			//var selectValue=(inputVal.trim()).toLowerCase();
          var selectValue=(inputVal.trim());
 			
 			if(avilableValues.indexOf(selectValue)!=-1){
@@ -62,6 +60,7 @@ $("#projectFormdiv .item").each(function(d,i){
 	
 	var modifiedthisData = PorjecttypeofValue(thisData); 
 	var modifiedInput = PorjecttypeofValue(input);
+      
 	modifiedthisData.map(function(tdata,i){
 		modifiedInput.map(function(idata,i){
 			if(tdata["val"]==idata["val"] && tdata["starred"]=="true" && idata["starred"]=="true"){
@@ -73,17 +72,20 @@ $("#projectFormdiv .item").each(function(d,i){
                 errorFlag = true;
                 localBoolResult.push("false");
 			}else if(((idata["actual"].search(tdata["val"]))!=-1) && tdata["starred"]=="true"){
+                if(checkThoroughly(tdata["actual"],idata["actual"])){
                 dutSelectionerror +="* duplicate entry for "+tdata["val"]+" \n";
                 errorFlag = true;
-                localBoolResult.push("false");
-			}else if(((tdata["actual"].search(idata["val"]))!=-1) && idata["starred"]=="true"){
-                dutSelectionerror +="* duplicate entry for "+idata["val"]+" \n";
-                errorFlag = true;
-                removeElementsArray.push(tdata["actual"]);
+                localBoolResult.push("false");}else{
                 localBoolResult.push("true");
+                }
+			}else if(((tdata["actual"].search(idata["val"]))!=-1) && idata["starred"]=="true"){
+                if(checkThoroughly(idata["actual"],tdata["actual"])){
+                    dutSelectionerror +="* duplicate entry for "+idata["val"]+" \n";
+                    errorFlag = true;
+                    removeElementsArray.push(tdata["actual"]);
+                    localBoolResult.push("true"); }else{                
+                    localBoolResult.push("true");}
 			}else if(((idata["val"].search(tdata["val"]))==-1) && tdata["starred"]=="true" && idata["starred"]=="true"){
-                
-                 
                var tdataArray = availableProjectTags.filter(function(tag,i){
                     return ((tag.toLowerCase()).search(tdata["val"])!=-1) 
                     
@@ -152,14 +154,14 @@ function PorjecttypeofValue(inData){
 				finalArray.push(tempObj);
 				return finalArray;
 	}else{
-			var valueText = (clone(inData)).replace(/[^A-Za-z0-9-,]/g,"").trim();
+			var valueText = (clone(inData));
 			valueTextArray = valueText.split(',');
 			var finalArray = []
 				valueTextArray.map(function(d,i){
 					var tempObj = {};
-				tempObj["val"] = d.toLowerCase();
+				tempObj["val"] = (d.replace(/[^A-Za-z0-9-,]/g,"").trim()).toLowerCase();
 				tempObj["starred"] = "true";
-                tempObj["actual"] = inData.toLowerCase();
+                tempObj["actual"] = d.toLowerCase();
 				finalArray.push(tempObj);
 				});
 				return finalArray;
@@ -188,7 +190,7 @@ Projectautocomplete(tempavailableProjectTags);
     
 	
 	function ProjectaddItem(selectValue){
-        console.log("in ProjectaddItem function");/* Radhey*/
+        
 		var selectedItem="<div class='selected_item'><span class='close'>x</span><span class='item'>"+selectValue.trim()+"</span></div>";
 				$("#projectForm").find(".selected_element").append(selectedItem);
 				$("#inputProject").html("");
@@ -217,10 +219,8 @@ Projectautocomplete(tempavailableProjectTags);
 	function removeFromProjectElement(inputVal){
 		var avilableValues=[];
 		tempavailableProjectTags.forEach(function(d,i){
-					//avilableValues.push(d.toLowerCase());
                       avilableValues.push(d);
 		});
-		//var selectVal= inputVal.toLowerCase();
             var selectVal= inputVal;
         avilableValues.sort();
 		var index=avilableValues.indexOf(selectVal);
@@ -231,7 +231,7 @@ Projectautocomplete(tempavailableProjectTags);
 
 	
 	function Projectautocomplete(arr){
-		console.log("in Projectautocomplete function");/* Radhey*/
+	
 		arr.sort();
 		
 		$( "#inputProject" ).autocomplete({
@@ -248,17 +248,32 @@ Projectautocomplete(tempavailableProjectTags);
             
             $(this).autocomplete("search", "");
              event.stopImmediatePropagation();
-			
-            
-            
-            
         });
-        
-        
-        
-        
         
 	}
 	
 	
+
+function checkThoroughly(input1,input2){
+    var boolValue = false;
+                switch(ProjectRegex(input1)){
+                        
+                    case "startsWith":
+                        if(input2.startsWith((input1.replace(/[*]/g,"")).trim()))
+                            boolValue = true;
+                        break;
+                    case "endsWith":
+                        if(input2.endsWith((input1.replace(/[*]/g,"")).trim()))
+                            boolValue = true;
+                        break;
+                    case "substring":                  
+                        if (input2.search((input1.replace(/[*]/g,"")).trim())!=-1)  
+                            boolValue = true;
+                        break;
+                }
+    
+    return boolValue;
+}
+
+
   

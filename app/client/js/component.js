@@ -121,39 +121,33 @@ $(function () {
         filter();
 
       })
-        
-        
-    
-    
-    
      $("#dutFormdiv").on("click",function(){
   
         $("#inputDut").focus();
     });
     
      $("#projectFormdiv").on("click",function(){
-  
         $("#inputProject").focus();
     });
     
     
-    
+       $("#QuestionMarkDut").hover(function(){
+        document.getElementById('toolTipDivDut').className='activeToolTip';
+        $("#toolTipDiv").css("display", "block");
+        }, function(){
+        document.getElementById('toolTipDivDut').className='idleToolTip';
+        $("#toolTipDiv").css("display", "none");
+    });  
+       $("#QuestionMarkProject").hover(function(){
+        document.getElementById('toolTipDivProject').className='activeToolTip';
+        $("#toolTipDiv").css("display", "block");
+        }, function(){
+        document.getElementById('toolTipDivProject').className='idleToolTip';
+        $("#toolTipDiv").css("display", "none");
+    });      
 
   
 });
-
-
-
-   $("#textdiv").focusin(function(){
-       document.getElementById('toolTipDiv').className='activeToolTip';
-        $("#toolTipDiv").css("display", "block");
-    });
-    $("#textdiv").focusout(function(){
-        document.getElementById('toolTipDiv').className='idleToolTip';
-        $("#toolTipDiv").css("display", "none");
-    });
-
-
 
 
 function filter(){
@@ -304,7 +298,7 @@ function ajaxCall(input1, input2) {
 	.fail(function (e) {
 		console.log(e.responseText);
         
-        alert("connection error !!!! please reload the page.");
+        //alert("connection error !!!! please reload the page.");
         
         $("#mask").hide();
 	});
@@ -746,22 +740,8 @@ function changeColor() {
             
                 
             }
-            
-           
         });
-        
-       
-        
-        
-        
-        
-        
-    
     }
-    
-    
-	
-
 }
 
 
@@ -840,9 +820,6 @@ filterDutText.forEach(function (d, i) {
  var dateA = new Date(a.testTime), dateB = new Date(b.testTime)
     return dateA-dateB;
 });
-
-        
-		console.log(sortedfilterDutData[0].dut);
         processProjectFilter(clone(sortedfilterDutData));
         
 
@@ -898,10 +875,6 @@ filterprojectText.forEach(function (d, i) {
  var dateA = new Date(a.testTime), dateB = new Date(b.testTime)
     return dateA-dateB;
 });
-
-		
-		
-		console.log(sortedfilterProjectData[0].project);
         processResultFilter(clone(sortedfilterProjectData));
         
 

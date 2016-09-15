@@ -49,6 +49,7 @@ var availableDutTags = [];
 	}
 	
 function DutcheckWithPreviousValue(input){
+    
     var previous = [];
     var removeElementsArray = [];
     var exceptionResult = true;
@@ -93,7 +94,6 @@ previous.map(function(thisData,i){
     $("#inputDut").find("br").remove();
     }
     if(errorFlag){
-    	console.log(dutSelectionerror);
     alert(dutSelectionerror);}
     
     return exceptionResult;
@@ -143,14 +143,15 @@ $("#dutFormdiv .item").each(function(d,i){
     }
 });
 });
-	
+
 Dutautocomplete(tempavailableDutTags);
 }
     
     
 	
 	function DutaddItem(selectValue){
-		console.log("in DutaddItem function");/* Radhey*/
+        
+        
 		var selectedItem="<div class='selected_item'><span class='close'>x</span><span class='item'>"+selectValue.trim()+"</span></div>";
 				$("#dutFormdiv").find(".selected_element").append(selectedItem);
 				$("#inputDut").html("");
@@ -204,8 +205,9 @@ Dutautocomplete(tempavailableDutTags);
 
 	
 	function Dutautocomplete(arr){
-		console.log("in Dutautocomplete function");/* Radhey*/
-		arr.sort();	
+	
+		arr.sort();
+		
 		$( "#inputDut" ).autocomplete({
 			source: arr,
 			 minLength: 0,

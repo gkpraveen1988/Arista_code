@@ -339,11 +339,11 @@ function drawBars(data) {
 	.text("Result");
 
 	svg.append("text")
-	.attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
+	.attr("text-anchor", "middle") 
 	.attr("transform", "translate(" + (width / 2) + "," + (height + 40) + ")")
 	.style("font-size", "14px")
 	.style("font-weight", "bold")
-	.style("fill", "blue") // centre below axis
+	.style("fill", "blue") 
 	.text(function () {
 
 		var text = "Total no. of Benchmark = " + global_data.length + ",Total no. of Days = " + chartGroups.length;
@@ -645,16 +645,11 @@ function drawBars(data) {
 
 
 function drawDutGroupLegend(){
-
-    
-    
-   
      var dutGroupLegend = svg.selectAll(".dutlegend")
                     .data(DutGroupArrayForColor)
                     .enter().append("g")
                     .attr("class", "dutlegend");
  
-     
  var legendTextWidth1=0; 
     
 var legendTextWidth2=0;
@@ -834,10 +829,7 @@ function dataForAllDates(NullElementsArray, inData) {
 		}
 	});
 	setTimeout(function () {
-		//console.log("a");
-		//console.log(JSON.stringify(inData));
-		//debugger;
-		console.log(inData[0])
+		console.log(inData);
 		drawBars(inData);
 	}, 100);
 
@@ -896,7 +888,6 @@ function drawLegends() {
       .attr("x2", width)
       .attr("y1", 10)
       .attr("y2", 10)
-      //.style("stroke-dasharray","5,5")
       .style("stroke","5,5")
       .style("stroke", "blue");
   legend2.append("text")
@@ -919,7 +910,6 @@ function drawLegends() {
       .attr("y1", 10)
       .attr("y2", 10)
       .style("stroke-dasharray","5,5")
-      //.style("stroke","5,5")
       .style("stroke", "red");
   legend3.append("text")
       .attr("x", width - 44)
