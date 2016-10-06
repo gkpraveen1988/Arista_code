@@ -7,11 +7,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cron \
  && rm -rf /var/lib/apt/lists/*
 
-ADD benchmark-cron /etc/cron.d/
+#ADD benchmark-cron /etc/cron.d/
 ADD refresh_data.sh /root
 ADD entrypoint.sh /root
 
-RUN chmod 0644 /etc/cron.d/benchmark-cron
+#RUN chmod 0644 /etc/cron.d/benchmark-cron
 RUN chmod +x /root/refresh_data.sh /root/entrypoint.sh
 
 ADD . /opt/app
