@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+if (( $(netstat -tunlp | grep 7777 | wc -l) == 0 )); then
+   cd /home/dsilla-ext/visualization/src/BenchmarkDashBoard/app/server/js
+   nohup ./runServer &
+   else
+   echo "BenchMark is running"
+fi
+

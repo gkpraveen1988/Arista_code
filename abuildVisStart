@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+if (( $(netstat -tunlp | grep -w '0.0.0.0:7000'| wc -l) == 0 )); then
+   cd /home/dsilla-ext/visualization/src/AbuildDashboard/app/server/js/
+   nohup ./runServer &
+   else
+   echo "Abuild is running"
+fi
+

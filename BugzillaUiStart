@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if (( $(netstat -tunlp | grep -e 1111 -e 2222 | wc -l) == 0 )); then
+   cd /home/dsilla-ext/visualization/src/bugzillaDashBoard
+   nohup ./runBugzillaServer &
+else
+   echo "Bugzilla is running"
+fi

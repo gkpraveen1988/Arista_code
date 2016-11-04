@@ -1,0 +1,424 @@
+
+module.js:340
+    throw err;
+          ^
+Error: Cannot find module './server.js'
+    at Function.Module._resolveFilename (module.js:338:15)
+    at Function.Module._load (module.js:280:25)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/home/dsilla-ext/visualization/src/bugzillaDashBoard/bugzillaServer.js:17:16)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Function.Module.runMain (module.js:497:10)
+server started
+request type is GET
+./previousTheme/top-nav.html
+200
+text/html
+server started
+request type is GET
+./previousTheme/bootstrap/css/bootstrap.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/dist/css/AdminLTE.min.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/dist/css/skins/all-skins.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/bootstrap/js/bootstrap.min.js
+200
+text/javascript
+server started
+request type is GET
+./previousTheme/plugins/slimScroll/jquery.slimscroll.min.js
+200
+text/javascript
+server started
+request type is GET
+./previousTheme/plugins/fastclick/fastclick.min.js
+200
+text/javascript
+server started
+request type is GET
+./previousTheme/dist/js/app.min.js
+200
+text/javascript
+server started
+request type is GET
+./previousTheme/dist/js/demo.js
+server started
+request type is GET
+./previousTheme/dist/img/user2-160x160.jpg
+200
+text/javascript
+200
+text/html
+server started
+request type is GET
+./previousTheme/dist/img/user1-128x128.jpg
+200
+text/html
+server started
+request type is GET
+./previousTheme/favicon.ico
+server response
+server started
+request type is GET
+./darkTheme/top-nav.html
+200
+text/html
+server started
+request type is GET
+./darkTheme/bootstrap/css/bootstrap.css
+200
+text/css
+server started
+request type is GET
+./darkTheme/dist/css/AdminLTE.min.css
+200
+text/css
+server started
+request type is GET
+./darkTheme/dist/css/skins/all-skins.css
+200
+text/css
+server started
+request type is GET
+./darkTheme/bootstrap/js/bootstrap.min.js
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/plugins/slimScroll/jquery.slimscroll.min.js
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/plugins/fastclick/fastclick.min.js
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/dist/js/app.min.js
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/dist/js/demo.js
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/dist/img/user2-160x160.jpg
+200
+text/html
+server started
+request type is GET
+./darkTheme/dist/img/user1-128x128.jpg
+200
+text/html
+server started
+request type is GET
+./darkTheme/favicon.ico
+server response
+server started
+request type is GET
+./previousTheme/top-nav.html
+200
+text/html
+server started
+request type is GET
+./previousTheme/bootstrap/css/bootstrap.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/dist/css/AdminLTE.min.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/dist/css/skins/all-skins.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/bootstrap/js/bootstrap.min.js
+200
+text/javascript
+server started
+request type is GET
+./previousTheme/plugins/slimScroll/jquery.slimscroll.min.js
+200
+text/javascript
+server started
+request type is GET
+./previousTheme/plugins/fastclick/fastclick.min.js
+200
+text/javascript
+server started
+request type is GET
+./previousTheme/dist/js/app.min.js
+200
+text/javascript
+server started
+request type is GET
+server started
+request type is GET
+./previousTheme/dist/js/demo.js
+./previousTheme/dist/img/user2-160x160.jpg
+200
+text/javascript
+200
+text/html
+server started
+request type is GET
+./previousTheme/dist/img/user1-128x128.jpg
+200
+text/html
+server started
+request type is GET
+./previousTheme/favicon.ico
+server response
+server started
+request type is GET
+./darkTheme/top-nav.html
+200
+text/html
+server started
+request type is GET
+./darkTheme/bootstrap/css/bootstrap.css
+200
+text/css
+server started
+request type is GET
+./darkTheme/dist/css/AdminLTE.min.css
+200
+text/css
+server started
+request type is GET
+./darkTheme/dist/css/skins/all-skins.css
+200
+text/css
+server started
+request type is GET
+./darkTheme/bootstrap/js/bootstrap.min.js
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/plugins/slimScroll/jquery.slimscroll.min.js
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/plugins/fastclick/fastclick.min.js
+server started
+request type is GET
+./darkTheme/dist/js/app.min.js
+200
+text/javascript
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/dist/js/demo.js
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/dist/img/user2-160x160.jpg
+200
+text/html
+server started
+request type is GET
+./darkTheme/dist/img/user1-128x128.jpg
+200
+text/html
+server started
+request type is GET
+./darkTheme/favicon.ico
+server response
+server started
+request type is GET
+./previousTheme/top-nav.html
+200
+text/html
+server started
+request type is GET
+./previousTheme/bootstrap/css/bootstrap.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/dist/css/AdminLTE.min.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/dist/css/skins/all-skins.css
+200
+text/css
+server started
+request type is GET
+./previousTheme/bootstrap/js/bootstrap.min.js
+200
+text/javascript
+server started
+request type is GET
+server started
+request type is GET
+./previousTheme/plugins/slimScroll/jquery.slimscroll.min.js
+server started
+request type is GET
+./previousTheme/plugins/fastclick/fastclick.min.js
+./previousTheme/dist/js/app.min.js
+200
+text/javascript
+200
+text/javascript
+200
+text/javascript
+server started
+request type is GET
+server started
+request type is GET
+./previousTheme/dist/js/demo.js
+./previousTheme/dist/img/user2-160x160.jpg
+200
+text/javascript
+200
+text/html
+server started
+request type is GET
+./previousTheme/dist/img/user1-128x128.jpg
+200
+text/html
+server started
+request type is GET
+./previousTheme/top-nav.html
+200
+text/html
+server started
+request type is GET
+./previousTheme/bootstrap/css/bootstrap.css
+200
+text/css
+server started
+request type is GET
+server started
+request type is GET
+./previousTheme/dist/css/AdminLTE.min.css
+./previousTheme/dist/css/skins/all-skins.css
+200
+text/css
+200
+text/css
+server started
+request type is GET
+./previousTheme/dist/img/user2-160x160.jpg
+200
+text/html
+server started
+request type is GET
+./previousTheme/dist/img/user1-128x128.jpg
+200
+text/html
+server started
+request type is GET
+./previousTheme/bootstrap/js/bootstrap.min.js
+server started
+request type is GET
+server started
+request type is GET
+./previousTheme/plugins/fastclick/fastclick.min.js
+./previousTheme/plugins/slimScroll/jquery.slimscroll.min.js
+200
+text/javascript
+200
+text/javascript
+200
+text/javascript
+server started
+request type is GET
+server started
+request type is GET
+./previousTheme/dist/js/app.min.js
+./previousTheme/dist/js/demo.js
+200
+text/javascript
+200
+text/javascript
+server started
+request type is GET
+./previousTheme/favicon.ico
+server response
+server started
+request type is GET
+./darkTheme/top-nav.html
+200
+text/html
+server started
+request type is GET
+./darkTheme/bootstrap/css/bootstrap.css
+200
+text/css
+server started
+request type is GET
+server started
+request type is GET
+./darkTheme/dist/css/AdminLTE.min.css
+./darkTheme/dist/css/skins/all-skins.css
+200
+text/css
+200
+text/css
+server started
+request type is GET
+./darkTheme/dist/img/user2-160x160.jpg
+200
+text/html
+server started
+request type is GET
+./darkTheme/dist/img/user1-128x128.jpg
+200
+text/html
+server started
+request type is GET
+server started
+request type is GET
+./darkTheme/bootstrap/js/bootstrap.min.js
+server started
+request type is GET
+./darkTheme/plugins/slimScroll/jquery.slimscroll.min.js
+./darkTheme/plugins/fastclick/fastclick.min.js
+200
+text/javascript
+200
+text/javascript
+200
+text/javascript
+server started
+request type is GET
+server started
+request type is GET
+./darkTheme/dist/js/app.min.js
+./darkTheme/dist/js/demo.js
+200
+text/javascript
+200
+text/javascript
+server started
+request type is GET
+./darkTheme/favicon.ico
+server response
